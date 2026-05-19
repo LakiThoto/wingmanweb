@@ -1,0 +1,66 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   tier.css — adaptive density per experience level
+   Switch: body[data-exp="beginner|experienced|pro"]
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Slot rules ──────────────────────────────────────────────────────────── */
+body:not([data-exp="beginner"])    .beginner-only    { display: none !important; }
+body:not([data-exp="experienced"]) .experienced-only { display: none !important; }
+body:not([data-exp="pro"])         .pro-only         { display: none !important; }
+body[data-exp="pro"]               .pro-hide         { display: none !important; }
+
+/* ── Compliment banner — beginner only ───────────────────────────────────── */
+body:not([data-exp="beginner"]) .compliment-banner { display: none !important; }
+
+/* ── Card inner gap per tier (WingmanCopy L5052–5083) ───────────────────── */
+body[data-exp="beginner"] .screen-card  { gap: 18px; }
+body[data-exp="experienced"] .screen-card { gap: 10px; }
+body[data-exp="pro"] .screen-card       { gap: 8px; }
+
+body[data-exp="beginner"] .alt-tile,
+body[data-exp="beginner"] .choice-tile { padding: 15px 14px; }
+
+/* ── Experienced: dim hints ──────────────────────────────────────────────── */
+body[data-exp="experienced"] .voice-hint       { opacity: 0.5; }
+body[data-exp="experienced"] .choice-tile-sub,
+body[data-exp="experienced"] .alt-tile-sub     { opacity: 0.5; }
+
+/* ── Pro: minimal chrome ─────────────────────────────────────────────────── */
+body[data-exp="pro"] .alt-tile,
+body[data-exp="pro"] .choice-tile       { padding: 13px 12px; }
+body[data-exp="pro"] .choice-tile-sub,
+body[data-exp="pro"] .alt-tile-sub     { display: none !important; }
+body[data-exp="pro"] .bus-diagram-label,
+body[data-exp="pro"] .van-map-label { display: none !important; }
+body[data-exp="pro"] .punt-navigeer-btn { display: none !important; }
+body[data-exp="pro"] .card-title        { font-size: var(--fs-xl); }
+
+/* ── CTA tier behaviour (WingmanCopy) ────────────────────────────────────── */
+
+[data-exp="beginner"] .btn-primary.btn-ready .ai-text-pill {
+  max-width: min(420px, 94vw);
+  height: auto;
+  min-height: 52px;
+  padding: 10px 22px;
+}
+
+[data-exp="beginner"] .btn-primary .ai-btn-text {
+  white-space: normal;
+  text-align: center;
+}
+
+[data-exp="pro"] .btn-primary.btn-ready:not(.btn-primary--menu-close):not(.depot-start-btn) .ai-text-pill {
+  opacity: 0;
+  max-width: 0 !important;
+  min-height: 0;
+  padding: 0 !important;
+  margin: 0;
+  overflow: hidden;
+  pointer-events: none;
+  border: none;
+  box-shadow: none;
+}
+
+[data-exp="pro"] .btn-primary.btn-ready:not(.btn-primary--menu-close):not(.depot-start-btn) .ai-icon-shape {
+  margin: 0 auto;
+}

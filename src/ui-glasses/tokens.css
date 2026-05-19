@@ -1,0 +1,263 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   tokens.css — aligned with WingmanCopy (style.css) + Meta MRBD constraints
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@8..144,400..700&display=swap');
+
+:root {
+  /* ── Brand ───────────────────────────────────────────────────────────── */
+  --orange:        #f36c21;
+  --orange-glow:   rgba(243, 108, 33, 0.30);
+  --orange-dim:    rgba(243, 108, 33, 0.10);
+  --orange-border: rgba(243, 108, 33, 0.50);
+
+  /* ── Surfaces (WingmanCopy glass) ────────────────────────────────────── */
+  --bg:            #181820;
+  --card-bg:       #1e1e2a;
+  --surface-card:  linear-gradient(to bottom, rgba(217, 217, 217, 0.12), rgba(0, 0, 0, 0.12));
+  --surface-tile:  linear-gradient(to bottom, rgba(255, 255, 255, 0.30), rgba(217, 217, 217, 0.30));
+  --surface-inset: rgba(255, 255, 255, 0.08);
+  --scrim:         rgba(0, 0, 0, 0.40);
+  --overlay-blur:  2px;
+
+  --glass-border:       rgba(156, 156, 156, 0.5);
+  --glass-border-inner: rgba(156, 156, 156, 0.5);
+  --glass-bg: var(--surface-card);
+  --glass-input-bg: var(--surface-tile);
+  --glass-blur: 28px;
+  --glass-saturate: 160%;
+
+  --tile-bg: var(--surface-tile);
+  --tile-bg-flat: rgba(255, 255, 255, 0.10);
+  --tile-bg-2:   rgba(255, 255, 255, 0.07);
+  --tile-border: rgba(156, 156, 156, 0.50);
+  --tile-blur:   12px;
+
+  --border:        rgba(156, 156, 156, 0.50);
+  --border-tile:   rgba(156, 156, 156, 0.50);
+  --border-light:  rgba(255, 255, 255, 0.15);
+  --card-border:   var(--border-light);
+  --chip-bg:       rgba(255, 255, 255, 0.08);
+  --chip-border:   rgba(156, 156, 156, 0.28);
+
+  /* ── Semantic ────────────────────────────────────────────────────────── */
+  --purple:      #6161ff;
+  --purple-dim:  rgba(97, 97, 255, 0.15);
+  --green:       #2fd87c;
+  --green-glow:  rgba(47, 216, 124, 0.26);
+  --red:         #ff5252;
+  --red-dim:     rgba(255, 82, 82, 0.12);
+  --red-border:  rgba(255, 82, 82, 0.40);
+  --danger:      #c0392b;
+
+  /* ── CTA pill gradient (Copy ai-text-pill) ───────────────────────────── */
+  --cta-gradient: linear-gradient(
+    101deg,
+    rgba(245, 105, 0, 0.85) 3.6%,
+    rgba(116, 116, 255, 0.85) 87.6%
+  );
+  --cta-gradient-yes: linear-gradient(
+    131.51deg,
+    rgba(47, 216, 124, 0.9) 9.68%,
+    rgba(36, 150, 95, 0.9) 82.67%
+  );
+  --cta-gradient-no: linear-gradient(
+    131.51deg,
+    rgba(192, 57, 43, 0.75) 9.68%,
+    rgba(120, 35, 30, 0.85) 82.67%
+  );
+  --cta-inset-shadow:
+    inset -1px 2px 4px rgba(255, 255, 255, 0.25),
+    inset 1px -2px 4px rgba(255, 255, 255, 0.4);
+  --cta-radius:     60px;
+  --cta-font-size:  24px;
+  --cta-padding-y:  17px;
+  --cta-padding-x:  clamp(24px, 10vw, 59px);
+  --cta-layer-gap:  16px;
+  --gap-stack:      10px;
+  --gap-cta:        8px;
+  --gap-card-cta:   32px;
+  --gap-card-inner: 24px;
+  --gap-icon-text:  12px;
+  --gap-meta-cluster: 20px;
+  --edge:           64px;
+
+  /* ── Content ─────────────────────────────────────────────────────────── */
+  --text:        #ffffff;
+  --text-mute:   rgba(255, 255, 255, 0.65);
+  --text-sec:    var(--text-mute);
+  --text-dim:    rgba(255, 255, 255, 0.35);
+  --text-lead:   rgba(255, 255, 255, 0.80);
+  --text-placeholder: rgba(255, 255, 255, 0.35);
+
+  /* ── Typography ──────────────────────────────────────────────────────── */
+  --font:              'Google Sans Flex', system-ui, -apple-system, sans-serif;
+  --ai-btn-font-family: var(--font);
+  --ai-btn-font-size:   0.98rem;
+  --ai-btn-font-weight: 900;
+  --ai-btn-letter-spacing: 0.01em;
+  --ai-btn-line-height: 1.2;
+
+  --fs-xs:   12px;
+  --fs-sm:   14px;
+  --fs-md:   16px;
+  --fs-lg:   20px;
+  --fs-xl:   28px;
+  --fs-2xl:  36px;
+  --fs-hero: 52px;
+
+  /* Card type scale (WingmanCopy / Figma) */
+  --text-card-title:    1.5rem;
+  --lh-card-title:      1.2;
+  --text-card-body:     0.9375rem;
+  --lh-card-body:       1.35;
+  --text-card-meta:     0.9rem;
+  --lh-card-meta:       1.2;
+  --text-card-caption:  0.8125rem;
+  --lh-card-caption:    1.45;
+
+  /* ── Radius ──────────────────────────────────────────────────────────── */
+  --r-card:  65px;
+  --r-glass: 65px;
+  --r-chip:  999px;
+  --r-tile:  28px;
+  --r-inner: 28px;
+  --r-pill:  999px;
+  --r-badge: 10px;
+  --r-btn:   28px;
+
+  /* ── Motion ──────────────────────────────────────────────────────────── */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ── Spacing ─────────────────────────────────────────────────────────── */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-7:  28px;
+  --sp-8:  32px;
+  --card-padding: 32px;
+  --card-inner-gap: 14px;
+  --pad-card: 32px;
+
+  /* ── Lab companion aliases ───────────────────────────────────────────── */
+  --line:    var(--border-light);
+  --surface: var(--card-bg);
+
+  /* ── Focus ring ──────────────────────────────────────────────────────── */
+  --focus-ring: 0 0 0 2px var(--orange);
+
+  /* ── Min tap target ──────────────────────────────────────────────────── */
+  --min-target: 64px;
+}
+
+/* Meta glasses: lighter blur + system font (no CDN dependency on lens) */
+body[data-mode="glasses"] {
+  --font: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --glass-blur: 18px;
+  --tile-blur: 8px;
+}
+
+/* MRBD: max 2 blur layers — only the outer screen-card keeps backdrop-filter */
+body[data-mode="glasses"] .tile,
+body[data-mode="glasses"] .load-address-tile,
+body[data-mode="glasses"] .alt-tile,
+body[data-mode="glasses"] .choice-tile,
+body[data-mode="glasses"] .confirm-action-btn,
+body[data-mode="glasses"] .action-btn,
+body[data-mode="glasses"] .nb-choice,
+body[data-mode="glasses"] .rc-inner-tile,
+body[data-mode="glasses"] .route-tab-bar,
+body[data-mode="glasses"] .plate-input,
+body[data-mode="glasses"] .plate-dock-pill,
+body[data-mode="glasses"] .hand-menu-panel {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root {
+    --glass-bg: linear-gradient(
+      180deg,
+      rgba(40, 40, 48, 0.92) 0%,
+      rgba(24, 24, 32, 0.95) 100%
+    );
+    --tile-bg: rgba(255, 255, 255, 0.12);
+  }
+}
+
+/* ── Reset ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  font-optical-sizing: auto;
+  font-variation-settings: 'opsz' 24;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Modes ───────────────────────────────────────────────────────────────── */
+body[data-mode="glasses"] {
+  width: 600px;
+  height: 600px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: #000;
+}
+
+body[data-mode="lab"] {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+}
+
+body[data-mode="lab"] #app {
+  width: min(600px, 100vw);
+  overflow-y: auto;
+  max-height: 92dvh;
+}
+
+/* ── Focus ───────────────────────────────────────────────────────────────── */
+.focusable:focus {
+  outline: none;
+}
+
+/* Keyboard / D-pad only — no orange ring after mouse click */
+.focusable:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+
+/* Primary CTAs use their own pill styling; skip the global ring */
+.btn-primary.focusable:focus-visible {
+  box-shadow: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen-stack.screen-enter,
+  .screen-stack.screen-exit,
+  body[data-mode="glasses"] .screen-stack.screen-enter,
+  body[data-mode="glasses"] .screen-stack.screen-exit,
+  body[data-mode="glasses"] .load-phase.phase-enter,
+  body[data-mode="glasses"] .card-phase.phase-enter,
+  .load-phase.phase-enter,
+  .card-phase.phase-enter {
+    animation: none !important;
+  }
+
+  .screen-scrim {
+    transition: none;
+  }
+}

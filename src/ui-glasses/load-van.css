@@ -1,0 +1,262 @@
+/* Load / zoek van placement — Wingman Copy find-parcel-card + Figma 1:806 */
+
+/* Figma 1:806: van diagram inner 330px + tile padding 24px×2 → 378px content column */
+:root {
+  --load-placement-inner: 330px;
+  --load-placement-tile: 378px;
+  --load-placement-card: calc(var(--load-placement-tile) + 2 * var(--pad-card));
+}
+
+.screen-card.load-card {
+  gap: 24px;
+  width: 100%;
+  max-width: min(var(--load-placement-card), calc(100vw - var(--edge) - 20px));
+  align-self: center;
+  align-items: stretch;
+  box-sizing: border-box;
+}
+
+.load-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.load-phase-van {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: var(--load-placement-tile);
+}
+
+/* Address + van tiles — Figma 1:818 / 1:835 (find-parcel-card language) */
+.load-phase-van .load-address-tile,
+.load-phase-van .load-vandiagram-tile {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.load-phase-van .lat-address {
+  max-width: 300px;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+.load-phase-van .lat-meta-value {
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+.load-phase-van .lat-meta-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.load-vandiagram-tile {
+  padding: 24px;
+  border: 2px solid rgba(156, 156, 156, 0.5);
+  border-radius: 32px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(217, 217, 217, 0.3));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.load-vandiagram-tile .van-map {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.load-vandiagram-tile .van-map-header,
+.load-vandiagram-tile .van-diagram {
+  width: 100%;
+  max-width: var(--load-placement-inner);
+}
+
+.load-vandiagram-tile .van-map-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 12px;
+}
+
+.load-vandiagram-tile .van-map-label {
+  font-family: var(--font);
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.0868em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.load-vandiagram-tile .van-map-pos {
+  font-family: var(--font);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.load-vandiagram-tile .van-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.load-vandiagram-tile .van-cargo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.load-vandiagram-tile .van-shelf-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.load-vandiagram-tile .vr-lbl {
+  width: 14px;
+  font-size: 0.86rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.35);
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.load-vandiagram-tile .van-shelf-row.row-active .vr-lbl {
+  color: #fff;
+}
+
+.load-vandiagram-tile .vr-track {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+  max-width: var(--load-placement-inner);
+}
+
+/* Figma 1:847 — fixed 48×17 slot blocks (not flex-stretch) */
+.load-vandiagram-tile .vr-blk {
+  flex: 0 0 48px;
+  width: 48px;
+  height: 17px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(156, 156, 156, 0.25);
+}
+
+.load-vandiagram-tile .vr-blk.vr-active,
+.load-mode .vr-blk.vr-active {
+  background: rgba(47, 216, 124, 0.45);
+  border-color: rgba(50, 214, 125, 0.92);
+  box-shadow: none;
+}
+
+.load-mode .vr-blk.vr-active {
+  animation: load-slot-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes load-slot-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.82; }
+}
+
+/* Compact van diagram inside locker find phase */
+.locker-mini-van .van-map {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.12), rgba(217, 217, 217, 0.06));
+  border: 2px solid rgba(156, 156, 156, 0.4);
+  border-radius: var(--r-inner);
+  padding: 14px 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.locker-mini-van .van-map-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.locker-mini-van .van-map-label {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-sec);
+}
+
+.locker-mini-van .van-map-pos {
+  font-size: 0.82rem;
+  font-weight: 900;
+  color: var(--text);
+}
+
+.locker-mini-van .van-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.locker-mini-van .van-cargo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.locker-mini-van .van-shelf-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.locker-mini-van .vr-lbl {
+  width: 14px;
+  font-size: 0.62rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.35);
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.locker-mini-van .van-shelf-row.row-active .vr-lbl {
+  color: var(--text);
+}
+
+.locker-mini-van .vr-track {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+
+.locker-mini-van .vr-blk {
+  flex: 1;
+  height: 16px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(156, 156, 156, 0.25);
+}
+
+.locker-mini-van .vr-blk.vr-active {
+  background: rgba(243, 108, 33, 0.55);
+  border-color: rgba(243, 108, 33, 0.9);
+  box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .load-mode .vr-blk.vr-active {
+    animation: none;
+  }
+}

@@ -1,0 +1,174 @@
+/* Route van vandaag — Figma 1:701 */
+
+:root {
+  --route-stack-max-w: 552px;
+}
+
+.route-screen-stack {
+  width: 100%;
+  max-width: var(--route-stack-max-w);
+  margin-left: auto;
+  margin-right: auto;
+  align-items: stretch;
+}
+
+.route-screen-stack .route-card.screen-card {
+  gap: 24px;
+  padding: 32px;
+  border-radius: 65px;
+  border-width: 3px;
+  background: linear-gradient(
+    to bottom,
+    rgba(217, 217, 217, 0.1),
+    rgba(0, 0, 0, 0.1)
+  );
+  box-sizing: border-box;
+}
+
+.route-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  margin: 0;
+  border: none;
+  background: transparent;
+}
+
+.route-chip .route-chip-label {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.184px;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.route-tab-bar .rtab-count {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 17.6px;
+}
+
+.route-tab-bar .rtab-label {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.65px;
+  text-transform: uppercase;
+}
+
+.route-stop-list {
+  max-height: min(38vh, 260px);
+}
+
+.stop-item-outer {
+  width: 100%;
+  padding: 5.5px;
+  border-radius: 32px;
+  border: 1.5px solid #9c9c9c;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(217, 217, 217, 0.3) 100%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.07) 100%);
+  box-sizing: border-box;
+}
+
+.stop-item-outer .stop-item {
+  gap: 16px;
+  padding: 12px 24px;
+  margin: 0;
+  border: none;
+  border-radius: 26px;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.stop-item-address {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.stop-item-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.stop-item-counts {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.stop-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.stop-count .meta-icon,
+.stop-count img {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.stop-item-window {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.stop-item-window .meta-icon,
+.stop-item-window img {
+  width: 25px;
+  height: 24px;
+}
+
+.route-voice-hint {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: 0.45px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.route-voice-hint .route-thumb {
+  width: 27px;
+  height: 32px;
+  flex-shrink: 0;
+  opacity: 0.65;
+  transform: scaleY(-1) rotate(180deg);
+}
+
+.route-voice-hint .route-voice-dim {
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 600;
+}
+
+.route-voice-hint .route-voice-em {
+  color: #fff;
+  font-weight: 600;
+}
+
+.route-screen-stack .route-depot-cta.depot-cta-row {
+  width: 100%;
+  max-width: var(--route-stack-max-w);
+}

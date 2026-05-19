@@ -1,0 +1,29 @@
+[
+  {
+    "id": "3SCD80340225",
+    "address": "Keesomstraat 10e",
+    "postcode": "1821 BS",
+    "city": "Alkmaar",
+    "rowInVan": "B",
+    "positionInRow": 1,
+    "window": { "from": "10:00", "to": "10:30" }
+  },
+  {
+    "id": "3SCD80340226",
+    "address": "Langestraat 76",
+    "postcode": "1811 AL",
+    "city": "Alkmaar",
+    "rowInVan": "A",
+    "positionInRow": 3,
+    "window": { "from": "10:45", "to": "11:15" }
+  },
+  {
+    "id": "3SCD80340227",
+    "address": "Voltastraat 12",
+    "postcode": "1821 BS",
+    "city": "Alkmaar",
+    "rowInVan": "C",
+    "positionInRow": 2,
+    "window": { "from": "11:30", "to": "12:00" }
+  }
+]

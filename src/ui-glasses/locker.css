@@ -1,0 +1,261 @@
+/* PostNL Punt — Figma 1:490 / Wingman Copy #screen-locker */
+
+.locker-screen.cf-branch-stack.cf-branch-figma {
+  gap: 32px;
+  width: 100%;
+  max-width: min(var(--cf-stack-width), calc(100vw - var(--edge) * 2));
+  align-items: stretch;
+  margin: 0;
+}
+
+.locker-screen .locker-branch-card.cf-branch-figma-card {
+  width: 100%;
+}
+
+.locker-screen .locker-branch-inner.cf-branch-figma-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
+  max-width: 552px;
+}
+
+.locker-screen .locker-flow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+}
+
+.locker-screen .locker-flow--nav {
+  gap: 16px;
+}
+
+/* Store tile — Figma 1:500 */
+.locker-screen .locker-store-tile--figma {
+  width: 100%;
+  max-width: 552px;
+  min-height: 102.5px;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 8px;
+  row-gap: 8px;
+  align-items: start;
+  border: 2px solid rgba(156, 156, 156, 0.5);
+  border-radius: 32px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(217, 217, 217, 0.3));
+  box-sizing: border-box;
+}
+
+.locker-screen .locker-store-tile--figma .locker-store-tile__body {
+  display: contents;
+}
+
+.locker-screen .locker-store-tile--figma .locker-store-tile__icon {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
+  width: 32px;
+  height: 32px;
+  color: #fff;
+}
+
+.locker-screen .locker-store-tile--figma .locker-store-tile__name {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  margin: 0;
+  font-family: var(--font);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.35px;
+  line-height: normal;
+  color: #fafcff;
+}
+
+.locker-screen .locker-store-tile--figma .locker-store-tile__addr {
+  grid-column: 2;
+  grid-row: 2;
+  margin: 0;
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 14.56px;
+  color: rgba(255, 255, 255, 0.48);
+}
+
+/* Stats row — Figma 1:512 */
+.locker-screen .locker-stats.cf-stats-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 552px;
+  min-height: 65px;
+  padding: 0 24px;
+  box-sizing: border-box;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+}
+
+.locker-screen .locker-stats .cf-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  flex: 0 1 auto;
+}
+
+.locker-screen .locker-stats .cf-stat-val {
+  font-family: var(--font);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.35px;
+  line-height: normal;
+  color: #fafcff;
+}
+
+.locker-screen .locker-stats .cf-stat-lbl {
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 14.56px;
+  color: rgba(255, 255, 255, 0.48);
+}
+
+.locker-screen .locker-stats .cf-stat-sep {
+  width: 1px;
+  height: 36px;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.12);
+  margin: 0;
+  align-self: center;
+}
+
+.locker-screen .locker-flow--nav .locker-notice {
+  display: none;
+}
+
+/* CTA — Figma 1:531 (AI + gradient pill) */
+.locker-screen .locker-cta-layer.cf-cta-layer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.locker-screen .cf-arrive-cta.locker-arrive-cta {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+}
+
+.locker-screen .cf-arrive-ai {
+  flex: 0 0 69px;
+  width: 69px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.locker-screen .cf-arrive-ai-img {
+  display: block;
+  width: 70px;
+  height: 69px;
+  transform: rotate(-90deg);
+}
+
+.locker-screen .cf-confirm-btn.locker-cta-btn {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+.locker-screen .cf-confirm-btn.locker-cta-btn.cf-hidden {
+  display: none !important;
+}
+
+.locker-screen .cf-confirm-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 17px 59px;
+  border-radius: 70px;
+  overflow: clip;
+  background: linear-gradient(129.13deg, rgba(245, 105, 0, 0.85) 9.68%, rgba(116, 116, 255, 0.85) 82.67%);
+  box-shadow:
+    inset -1px 2px 4px 0 rgba(255, 255, 255, 0.25),
+    inset 1px -2px 4px 0 rgba(255, 255, 255, 0.4);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.locker-screen .cf-confirm-pill--scan {
+  padding: 17px 40px;
+}
+
+.locker-screen .cf-pill-check {
+  display: block;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.locker-screen .cf-pill-scan-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.locker-screen .cf-confirm-label {
+  font-family: var(--font);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.28;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.locker-screen .cf-confirm-btn:hover .cf-confirm-pill {
+  opacity: 0.92;
+}
+
+.locker-screen .cf-confirm-btn:active .cf-confirm-pill {
+  transform: scale(0.97);
+}
+
+.locker-screen .cf-confirm-btn.focusable:focus-visible .cf-confirm-pill {
+  box-shadow:
+    inset -1px 2px 4px 0 rgba(255, 255, 255, 0.25),
+    inset 1px -2px 4px 0 rgba(255, 255, 255, 0.4),
+    var(--focus-ring);
+}
+
+/* Pro: icon-only locker CTA pill */
+body[data-exp="pro"] .locker-screen .cf-confirm-pill .cf-confirm-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+body[data-exp="pro"] .locker-screen .cf-confirm-pill {
+  padding: 17px 28px;
+}

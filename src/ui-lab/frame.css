@@ -1,0 +1,92 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   frame.css — lab-mode chrome: companion panel, scrollbar, portrait card
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Scrollbar ──────────────────────────────────────────────────────────── */
+
+body[data-mode="lab"] #app::-webkit-scrollbar {
+  width: 4px;
+}
+
+body[data-mode="lab"] #app::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body[data-mode="lab"] #app::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: var(--radius-pill);
+}
+
+/* ── Companion panel ────────────────────────────────────────────────────── */
+
+#companion {
+  position: fixed;
+  bottom: var(--sp-4);
+  right: var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+  border-radius: var(--radius-card);
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid var(--line);
+  font-size: var(--fs-xs);
+  color: var(--text-mute);
+  z-index: 8000;
+  min-width: 160px;
+}
+
+#companion h4 {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  margin-bottom: var(--sp-1);
+}
+
+#companion .companion-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+#companion .companion-btn {
+  padding: var(--sp-1) var(--sp-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+#companion .companion-btn:hover,
+#companion .companion-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+#companion .companion-state {
+  font-size: var(--fs-xs);
+  color: var(--ok);
+  font-family: monospace;
+}
+
+/* ── Mode toggle chip ───────────────────────────────────────────────────── */
+
+#companion .mode-toggle {
+  padding: var(--sp-1) var(--sp-2);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+}

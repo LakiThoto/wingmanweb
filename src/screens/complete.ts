@@ -1,0 +1,59 @@
+// Screen: complete — route finished
+// Figma 1:1868 · Copy: #screen-complete
+
+import { focusScreen, buildPrimaryCta } from './_frame';
+import { getState, transition, resetDeliveriesForDemo } from '@/core/state';
+import { speakByTier } from '@/core/audio';
+import { t } from '@/core/strings';
+
+function formatWalkedKm(stopCount: number): string {
+  const km = Math.max(0.8, stopCount * 0.4);
+  return `${km.toFixed(1).replace('.', ',')} km`;
+}
+
+function formatSuccessRate(delivered: number, total: number): string {
+  if (total <= 0) return '100%';
+  return `${Math.round((delivered / total) * 100)}%`;
+}
+
+export function mount(container: HTMLElement): () => void {
+  const { deliveries, mode } = getState();
+  const deliveredCount = deliveries.filter(d => d.delivered).length;
+  const total = deliveries.length;
+
+  speakByTier('voice.route.complete');
+
+  container.innerHTML = `
+<div class="screen-stack screen-stack--cta-gap complete-stack">
+  <div class="screen-card screen-card--complete">
+    <header class="complete-title-chip">${t('complete.title')}</header>
+    <p class="complete-sub">${t('complete.sub')}</p>
+    <div class="completion-stats" role="group" aria-label="${t('complete.title')}">
+      <div class="complete-stat-tile">
+        <span class="complete-stat-val" id="complete-stat-deliveries">${deliveredCount}</span>
+        <span class="complete-stat-lbl">${t('complete.stat.deliveries')}</span>
+      </div>
+      <div class="complete-stat-tile">
+        <span class="complete-stat-val" id="complete-stat-walked">${formatWalkedKm(total)}</span>
+        <span class="complete-stat-lbl">${t('complete.stat.walked')}</span>
+      </div>
+      <div class="complete-stat-tile">
+        <span class="complete-stat-val" id="complete-stat-success">${formatSuccessRate(deliveredCount, total)}</span>
+        <span class="complete-stat-lbl">${t('complete.stat.success')}</span>
+      </div>
+    </div>
+    <p class="complete-voice-hint voice-hint pro-hide">
+      ${t('complete.hint_lead')}<em>${t('complete.hint_em')}</em>${t('complete.hint_tail')}
+    </p>
+  </div>
+  ${mode === 'lab' ? `<div class="cta-layer">${buildPrimaryCta(t('btn.complete.restart'), { id: 'btn-complete-restart' })}</div>` : ''}
+</div>`.trim();
+
+  container.querySelector('#btn-complete-restart')?.addEventListener('click', () => {
+    resetDeliveriesForDemo();
+    transition('complete_restart');
+  });
+
+  focusScreen();
+  return () => {};
+}

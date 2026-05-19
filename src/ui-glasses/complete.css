@@ -1,0 +1,126 @@
+/* Route complete — Figma 1:1868 / Wingman Copy #screen-complete */
+
+:root {
+  --complete-inner-w: 552px;
+  --complete-card-w: calc(var(--complete-inner-w) + 2 * var(--pad-card));
+}
+
+.complete-stack.screen-stack {
+  align-items: stretch;
+  max-width: min(var(--complete-card-w), calc(100vw - var(--edge) * 2));
+}
+
+body[data-mode="glasses"] .complete-stack.screen-stack {
+  max-width: 100%;
+}
+
+.screen-card.screen-card--complete {
+  width: 100%;
+  max-width: var(--complete-card-w);
+  align-self: center;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 32px;
+  box-sizing: border-box;
+  border-radius: 65px;
+  border-width: 3px;
+  border-color: rgba(156, 156, 156, 0.5);
+  background: linear-gradient(to bottom, rgba(217, 217, 217, 0.1), rgba(0, 0, 0, 0.1));
+}
+
+.complete-title-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.184px;
+  line-height: normal;
+  text-transform: uppercase;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.screen-card--complete .complete-sub {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.completion-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  width: 100%;
+  max-width: var(--complete-inner-w);
+}
+
+.complete-stat-tile {
+  flex: 1 1 0;
+  min-width: 140px;
+  max-width: 174px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 24px;
+  border-radius: 32px;
+  border: 2px solid rgba(156, 156, 156, 0.5);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(217, 217, 217, 0.3));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: none;
+  box-sizing: border-box;
+}
+
+.complete-stat-val {
+  font-family: var(--font);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.35px;
+  line-height: normal;
+  color: #fafcff;
+  white-space: nowrap;
+}
+
+.complete-stat-lbl {
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 14.56px;
+  color: rgba(255, 255, 255, 0.48);
+  white-space: nowrap;
+}
+
+.screen-card--complete .complete-voice-hint {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: 0.45px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.screen-card--complete .complete-voice-hint em {
+  font-style: normal;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.24px;
+}
+
+body[data-exp="pro"] .screen-card--complete .complete-sub,
+body[data-exp="experienced"] .screen-card--complete .complete-sub {
+  display: none;
+}
+
+body[data-exp="pro"] .screen-card--complete .complete-voice-hint {
+  display: none;
+}

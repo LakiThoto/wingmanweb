@@ -1,0 +1,226 @@
+/* Assistant settings menu — Figma 1:979 / Wingman Copy menu-circle-grid */
+
+.hand-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--edge);
+  box-sizing: border-box;
+}
+
+.hand-menu[hidden] {
+  display: none !important;
+}
+
+.hand-menu-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--scrim);
+  backdrop-filter: blur(var(--overlay-blur));
+  -webkit-backdrop-filter: blur(var(--overlay-blur));
+}
+
+/* Figma 1:982 — inner column 345px + 32px card padding × 2 */
+:root {
+  --menu-inner-w: 345px;
+  --menu-card-w: calc(var(--menu-inner-w) + 2 * var(--pad-card));
+}
+
+.menu-stack {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+  max-width: min(var(--menu-card-w), calc(100vw - var(--edge) * 2));
+}
+
+.menu-card.screen-card {
+  gap: 24px;
+  padding: 32px;
+  width: 100%;
+  max-width: var(--menu-card-w);
+  border-radius: 65px;
+  border-width: 3px;
+  border-color: rgba(156, 156, 156, 0.5);
+  background: linear-gradient(to bottom, rgba(217, 217, 217, 0.1), rgba(0, 0, 0, 0.1));
+  box-sizing: border-box;
+  align-items: flex-start;
+}
+
+.menu-title-chip {
+  align-self: flex-start;
+  gap: 8px;
+  padding: 8px 16px;
+  background: transparent;
+  border: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.0115em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.menu-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: var(--menu-inner-w);
+  align-self: center;
+}
+
+.menu-section-label {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.105em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.menu-circle-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+}
+
+.menu-circle-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 0;
+  width: auto;
+  flex: 0 0 auto;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-family: var(--font);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.menu-circle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 62px;
+  height: 62px;
+  padding: 12px;
+  box-sizing: border-box;
+  border-radius: 110px;
+  border: 1px solid rgba(156, 156, 156, 0.5);
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(17px);
+  -webkit-backdrop-filter: blur(17px);
+  color: #fff;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.1s ease,
+    color 0.18s ease;
+}
+
+.menu-circle-tile:hover .menu-circle-btn {
+  background: rgba(255, 255, 255, 0.42);
+  border-color: rgba(200, 200, 200, 0.65);
+}
+
+.menu-circle-tile:active .menu-circle-btn {
+  transform: scale(0.94);
+}
+
+.menu-circle-tile.menu-circle-active .menu-circle-btn {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(156, 156, 156, 0.5);
+  color: #fff;
+}
+
+.menu-circle-tile.menu-circle-active .menu-circle-icon {
+  filter: brightness(0) saturate(100%);
+}
+
+.menu-circle-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.menu-circle-flag {
+  font-size: 1.5rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+}
+
+.menu-circle-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.012em;
+  text-align: center;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.menu-cta-row {
+  width: 100%;
+  max-width: var(--menu-card-w);
+  justify-content: center;
+}
+
+.menu-cta-row .depot-start-btn {
+  flex: 0 0 auto;
+  max-width: none;
+}
+
+/* Figma 1:1166 — gradient pill + white X (Copy .btn-primary--menu-close) */
+.btn-primary--menu-close.depot-start-btn .ai-text-pill,
+.btn-primary--menu-close.depot-start-btn.btn-ready .ai-text-pill {
+  background: linear-gradient(101deg, rgba(245, 105, 0, 0.85) 3.6%, rgba(116, 116, 255, 0.85) 87.6%);
+  gap: 10px;
+  padding: 17px clamp(36px, 10vw, 59px);
+  opacity: 1;
+  max-width: none;
+  transform: none;
+}
+
+.menu-close-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.menu-close-x {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+}
+
+.menu-close-pill .ai-btn-text {
+  color: #fff;
+}

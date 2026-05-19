@@ -1,0 +1,164 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   glasses-layout.css — MRBD 600×600 vaste UI-frame
+   Alle schermen: zelfde breedte, zelfde startpositie (boven midden).
+   Geen rechteronderhoek — stap wisselt inhoud op dezelfde plek.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+body[data-mode="glasses"] {
+  --glasses-viewport: 600px;
+  /* Symmetrische rand 64px links + rechts */
+  --glasses-stack-w: calc(var(--glasses-viewport) - var(--edge) * 2);
+  --glasses-stack-max-h: calc(var(--glasses-viewport) - var(--edge) * 2);
+}
+
+/* Stage: gecentreerd horizontaal, vast vanaf boven (niet flex-end) */
+body[data-mode="glasses"] .screen-stage {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--edge);
+  box-sizing: border-box;
+}
+
+body[data-mode="glasses"] .screen-mount {
+  position: relative;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  width: var(--glasses-stack-w);
+  max-width: var(--glasses-stack-w);
+  min-width: 0;
+  max-height: var(--glasses-stack-max-h);
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+body[data-mode="glasses"] .screen-mount::-webkit-scrollbar {
+  display: none;
+}
+
+/* Elke stack vult hetzelfde frame */
+body[data-mode="glasses"] .screen-mount > .screen-stack,
+body[data-mode="glasses"] .screen-mount > .screen,
+body[data-mode="glasses"] .screen-mount > .bevestigen-root,
+body[data-mode="glasses"] .screen-mount > .walk-hud-root,
+body[data-mode="glasses"] .screen-mount > .drive-phase-ui {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  align-items: stretch;
+}
+
+body[data-mode="glasses"] .screen-stack,
+body[data-mode="glasses"] .screen {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+body[data-mode="glasses"] .rc-screen-stack,
+body[data-mode="glasses"] .complete-stack.screen-stack,
+body[data-mode="glasses"] .bevestigen-root .screen-stack.cf-screen-stack,
+body[data-mode="glasses"] .locker-screen.screen-stack.cf-screen-stack,
+body[data-mode="glasses"] .locker-screen.cf-branch-stack.cf-branch-figma {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  align-items: stretch;
+}
+
+body[data-mode="glasses"] .rc-card,
+body[data-mode="glasses"] .screen-card.screen-card--complete,
+body[data-mode="glasses"] .menu-card.screen-card {
+  width: 100%;
+  max-width: 100%;
+  align-self: stretch;
+  box-sizing: border-box;
+}
+
+body[data-mode="glasses"] .bevestigen-root .cf-work-card--capture,
+body[data-mode="glasses"] .bevestigen-root .cf-work-card--rescan {
+  align-self: stretch;
+  width: 100%;
+  max-width: 100%;
+}
+
+body[data-mode="glasses"] .rc-card-body {
+  width: 100%;
+  max-width: 100%;
+}
+
+body[data-mode="glasses"] .screen-card {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* CTA’s gecentreerd in het frame (Figma 1:490 / branch arrive-cta) */
+body[data-mode="glasses"] .cta-layer,
+body[data-mode="glasses"] .rc-cta-layer,
+body[data-mode="glasses"] .bevestigen-root .cta-layer,
+body[data-mode="glasses"] .locker-screen .locker-cta-layer {
+  width: 100%;
+  justify-content: center;
+}
+
+body[data-mode="glasses"] .btn-primary {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body[data-mode="glasses"] .depot-cta-row {
+  justify-content: center;
+}
+
+/* Instellingenmenu: zelfde frame als workflow */
+body[data-mode="glasses"] .hand-menu {
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--edge);
+  box-sizing: border-box;
+}
+
+body[data-mode="glasses"] .hand-menu .menu-stack {
+  width: var(--glasses-stack-w);
+  max-width: var(--glasses-stack-w);
+  max-height: var(--glasses-stack-max-h);
+  overflow-y: auto;
+}
+
+/* Alleen fade — geen verschuiving bij schermwissel */
+body[data-mode="glasses"] .screen-stack.screen-enter {
+  animation: stack-enter-glasses 0.28s var(--ease-out-expo) both;
+}
+
+body[data-mode="glasses"] .screen-stack.screen-exit {
+  animation: stack-exit-glasses 0.22s var(--ease-out-expo) both;
+}
+
+@keyframes stack-enter-glasses {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes stack-exit-glasses {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+body[data-mode="glasses"] .load-phase.phase-enter,
+body[data-mode="glasses"] .card-phase.phase-enter {
+  animation: glasses-phase-enter 0.24s var(--ease-out-expo) both;
+}
+
+@keyframes glasses-phase-enter {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

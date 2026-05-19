@@ -1,0 +1,489 @@
+/* Niet-thuis branch screens — safeplace, locker, later, neighbor extras */
+
+.cf-hidden { display: none !important; }
+
+.nb-choice-num {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.nb-choice-dir {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.48);
+  margin-top: 3px;
+}
+
+.nb-choice-icon-wrap {
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* Veilige plek — Figma 1:436 pick */
+.sp-screen.cf-branch-stack {
+  gap: 32px;
+  align-items: stretch;
+  width: 100%;
+}
+
+.sp-screen .sp-branch-card.screen-card {
+  width: 100%;
+  padding: 32px;
+  border-radius: 65px;
+  gap: 0;
+  box-sizing: border-box;
+}
+
+.sp-screen .cf-branch-figma-inner {
+  gap: 24px;
+  width: 100%;
+  max-width: 100%;
+}
+
+.sp-address {
+  margin: 0;
+}
+
+.sp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+}
+
+.sp-tile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 24px;
+  min-height: 0;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(217, 217, 217, 0.3));
+  border: 2px solid rgba(156, 156, 156, 0.5);
+  border-radius: 32px;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font);
+  color: var(--text);
+  box-sizing: border-box;
+}
+
+.sp-tile:hover {
+  border-color: rgba(200, 200, 200, 0.65);
+}
+
+.sp-tile-active,
+.sp-tile.selected {
+  border-color: rgba(255, 255, 255, 0.65) !important;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(217, 217, 217, 0.3)) !important;
+}
+
+.sp-tile-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.sp-phase { width: 100%; }
+
+.sp-guide-lead {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.42);
+  margin: 0 0 6px;
+}
+
+.sp-guide-detail,
+.sp-place-confirm-text {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Veilige plek — Figma 1:584 confirm (matches bevestigen delivered card) */
+.sp-screen .sp-confirm-card,
+.sp-screen .sp-confirm-card.cf-delivered-card {
+  width: 100%;
+  padding: 32px;
+  border-radius: 65px;
+  box-sizing: border-box;
+}
+
+.sp-screen .sp-confirm-card .cf-delivered-body {
+  gap: 24px;
+  width: 100%;
+  max-width: 100%;
+}
+
+.sp-screen .cf-delivered-tile {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 34px;
+  border-radius: 32px;
+  border: 2px solid rgba(47, 216, 124, 0.6);
+  background: rgba(47, 216, 124, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 151px;
+}
+
+.sp-screen .cf-delivered-tile-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+}
+
+.sp-screen .cf-delivered-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.sp-screen .cf-delivered-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 19px;
+  border: 1.5px solid rgba(47, 216, 124, 0.28);
+  background: rgba(47, 216, 124, 0.14);
+  flex-shrink: 0;
+  transform: none;
+  opacity: 1;
+}
+
+.sp-screen .cf-delivered-check img {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.sp-screen .cf-delivered-status-label {
+  font-family: var(--font);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #2fd87c;
+  white-space: nowrap;
+}
+
+.sp-screen .cf-delivered-address {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #fff;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.sp-screen .cf-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.sp-screen .cf-meta-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.sp-screen .cf-meta-group--code {
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+.sp-screen .cf-meta-img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.sp-screen .cf-meta-img--deliver {
+  transform: rotate(-90deg) scaleY(-1);
+}
+
+.sp-screen .cf-pkg-count,
+.sp-screen .cf-tracking {
+  font-family: var(--font);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.sp-screen .cf-branch-address--figma {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #fff;
+}
+
+.sp-screen .sp-tile-label {
+  font-size: 24px;
+  font-weight: 600;
+  color: #fafcff;
+  letter-spacing: 0.35px;
+}
+
+.sp-screen .sp-voice-hint {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: 0.45px;
+}
+
+.sp-screen .sp-voice-hint .cf-voice-dim {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.sp-screen .sp-voice-hint .cf-voice-em {
+  color: #fff;
+  font-weight: 600;
+}
+
+.sp-screen .sp-depot-cta.depot-cta-row {
+  width: 100%;
+  justify-content: center;
+}
+
+/* PostNL punt */
+.locker-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.locker-store {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  padding: 16px 18px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.09), rgba(217, 217, 217, 0.04));
+  border: 1.5px solid rgba(156, 156, 156, 0.28);
+  border-radius: var(--r-inner);
+}
+
+.locker-store-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.locker-store-addr {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.48);
+}
+
+.locker-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 14px 8px;
+  border: 1.5px solid rgba(156, 156, 156, 0.2);
+  border-radius: var(--r-inner);
+}
+
+.locker-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  flex: 1;
+}
+
+.locker-stat-val {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.locker-stat-lbl {
+  font-size: 0.62rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.42);
+  text-transform: uppercase;
+}
+
+.locker-stat-sep {
+  width: 1px;
+  height: 28px;
+  background: rgba(156, 156, 156, 0.22);
+}
+
+.locker-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 0.77rem;
+  color: rgba(255, 255, 255, 0.48);
+  line-height: 1.55;
+}
+
+.punt-cta-layer,
+.locker-cta-layer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.locker-find-hint {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.locker-mini-van {
+  padding: 10px 0 4px;
+}
+
+.locker-place-sub {
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.52);
+  margin: 0 0 8px;
+  line-height: 1.4;
+}
+
+.locker-screen .cf-locker-confirm-card {
+  align-self: center;
+}
+
+.locker-screen .cf-locker-confirm-body {
+  align-items: center;
+  justify-content: center;
+  min-height: 96px;
+}
+
+.locker-screen .locker-confirm-text {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 0.92rem;
+  font-weight: 500;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.72);
+  text-align: center;
+}
+
+.locker-compartment-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.locker-cell {
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 10px 0;
+  border-radius: 10px;
+  border: 1.5px solid rgba(156, 156, 156, 0.35);
+  background: rgba(0, 0, 0, 0.22);
+  color: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+}
+
+.locker-cell--pick {
+  border-color: rgba(243, 108, 33, 0.65);
+  background: rgba(243, 108, 33, 0.18);
+  color: var(--text);
+}
+
+.locker-scan-status {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+/* Later */
+.later-context {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.later-context-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.later-context-addr {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.later-choices--two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.later-choice {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.08), rgba(217, 217, 217, 0.04));
+  border: 1.5px solid rgba(156, 156, 156, 0.28);
+  border-radius: var(--r-inner);
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font);
+  color: var(--text);
+}
+
+.later-choice-active,
+.later-choice.selected {
+  border-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.later-choice-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.later-choice-sub {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.48);
+  margin-top: 3px;
+}
+
+body[data-exp="experienced"] .hide-on-experienced {
+  display: none !important;
+}
+
+.cta-layer--stacked {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

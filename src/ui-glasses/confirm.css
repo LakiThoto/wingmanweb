@@ -1,0 +1,687 @@
+/* Bevestigen multi-phase — Figma 1:1674 / WingmanCopy #screen-confirm */
+
+:root {
+  --cf-stack-width: 588px;
+  --cf-grid-inner: 524px;
+  --cf-grid-card: var(--cf-stack-width);
+}
+
+/* Figma 1:1674 — outer column 588×463, gap 32 */
+.bevestigen-root .screen-stack.cf-screen-stack,
+.locker-screen.screen-stack.cf-screen-stack {
+  gap: 32px;
+  align-items: stretch;
+  width: 100%;
+  max-width: min(var(--cf-stack-width), calc(100vw - var(--edge) * 2));
+}
+
+body[data-mode="glasses"] .bevestigen-root .screen-stack.cf-screen-stack,
+body[data-mode="glasses"] .locker-screen.screen-stack.cf-screen-stack {
+  max-width: 100%;
+}
+
+.bevestigen-root .screen-card.cf-card,
+.locker-screen .screen-card.cf-card {
+  width: 100%;
+  max-width: var(--cf-grid-card);
+  gap: 0;
+  padding: 32px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  background: linear-gradient(180deg, rgba(217, 217, 217, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+  border: 3px solid rgba(156, 156, 156, 0.5);
+  border-radius: 65px;
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+}
+
+.bevestigen-root .cf-card-body,
+.locker-screen .cf-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
+}
+
+.bevestigen-root .cf-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: transparent;
+}
+
+.bevestigen-root .cf-badge--grid {
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.004);
+}
+
+.bevestigen-root .cf-badge-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.bevestigen-root .cf-badge-label {
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.184px;
+  line-height: 25px;
+  text-transform: uppercase;
+  color: #fff;
+  white-space: nowrap;
+}
+
+/* Branch screens — Figma badge (1:490 / 1:539) */
+.cf-badge--figma {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+}
+
+.cf-badge--figma .cf-badge-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.cf-badge--figma .cf-badge-label {
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.184px;
+  line-height: normal;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+/* ── Grid phase (Figma 1:1674) ── */
+
+.bevestigen-root .cf-grid-card {
+  max-width: var(--cf-grid-card);
+  align-self: center;
+}
+
+.bevestigen-root .cf-grid-card .cf-grid-card-body {
+  max-width: var(--cf-grid-inner);
+  width: 100%;
+}
+
+.bevestigen-root .cf-grid-card .confirm-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+}
+
+.bevestigen-root .cf-grid-card .confirm-action-btn,
+.bevestigen-root .cf-grid-card .confirm-action-btn.confirm-action-primary {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  width: 100%;
+  height: 80px;
+  min-height: 80px;
+  max-height: 80px;
+  padding: 24px;
+  box-sizing: border-box;
+  border-radius: 32px;
+  border: 2px solid rgba(156, 156, 156, 0.5);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(217, 217, 217, 0.3) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: none;
+  text-align: left;
+  font-family: var(--font);
+  color: #fafcff;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.1s ease;
+}
+
+.bevestigen-root .cf-grid-card .confirm-action-btn:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(217, 217, 217, 0.35) 100%);
+  border-color: rgba(200, 200, 200, 0.65);
+}
+
+.bevestigen-root .cf-grid-card .confirm-action-btn:active {
+  transform: scale(0.98);
+}
+
+.bevestigen-root .cf-grid-card .confirm-action-btn .ca-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.bevestigen-root .cf-grid-card .confirm-action-btn .ca-label {
+  font-family: var(--font);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.35px;
+  line-height: 30px;
+  color: #fafcff;
+}
+
+.bevestigen-root .cf-grid-card .confirm-action-btn:hover .ca-label {
+  color: #fafcff;
+}
+
+.bevestigen-root .cf-grid-card .cf-voice-hint--grid {
+  margin-top: 0;
+}
+
+.bevestigen-root .cf-grid-card .cf-voice-hint-text {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 25px;
+  letter-spacing: 0.24px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.bevestigen-root .cf-grid-card .cf-voice-em {
+  font-style: normal;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Thumb hint — Figma 1:1674 (no mic pill) */
+.bevestigen-root .cf-thumb-wrap {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  mix-blend-mode: color-dodge;
+}
+
+.bevestigen-root .cf-thumb-img {
+  display: block;
+  width: 27px;
+  height: 32px;
+  object-fit: contain;
+  object-position: bottom;
+  transform: scaleX(-1);
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.bevestigen-root .cf-summary-tile {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 32px;
+  border-radius: 32px;
+  border: 2px solid rgba(47, 216, 124, 0.6);
+  background: rgba(47, 216, 124, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: clip;
+}
+
+.bevestigen-root .cf-summary-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.bevestigen-root .cf-check-badge {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 19px;
+  border: 1.5px solid rgba(47, 216, 124, 0.28);
+  background: rgba(47, 216, 124, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bevestigen-root .cf-check-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.bevestigen-root .cf-address {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #fff;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.bevestigen-root .cf-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.bevestigen-root .cf-meta-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.bevestigen-root .cf-meta-group--code {
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+.bevestigen-root .cf-meta-img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.bevestigen-root .cf-meta-img--deliver {
+  transform: rotate(-90deg) scaleY(-1);
+}
+
+.bevestigen-root .cf-pkg-count,
+.bevestigen-root .cf-tracking {
+  font-family: var(--font);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.bevestigen-root .cf-voice-hint {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.bevestigen-root .cf-voice-hint-text {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 25px;
+  letter-spacing: 0.24px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.bevestigen-root .cf-voice-em {
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Confirm CTAs use global .cta-layer + .btn-primary (same as kenteken Start laden) */
+.bevestigen-root .cta-layer {
+  width: 100%;
+}
+
+.bevestigen-root .cf-delivered-cta-static {
+  pointer-events: none;
+  cursor: default;
+}
+
+.bevestigen-root .cf-grid-deco {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.bevestigen-root .cf-grid-deco-img {
+  width: 70px;
+  height: 69px;
+  transform: rotate(-90deg);
+}
+
+.bevestigen-root .cf-subflow {
+  max-width: var(--cf-grid-inner);
+  width: 100%;
+}
+
+.bevestigen-root .cf-hidden { display: none !important; }
+
+/* Photo capture — Figma 1:325 */
+.bevestigen-root .cf-work-card--capture {
+  width: min(414px, calc(100vw - var(--edge) * 2));
+  max-width: min(414px, calc(100vw - var(--edge) * 2));
+  align-self: center;
+}
+
+.bevestigen-root .cf-work-card .photo-capture-zone {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+  height: 263.5px;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #000;
+  border: 2px solid rgba(156, 156, 156, 0.28);
+}
+
+.bevestigen-root .photo-capture-zone video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.bevestigen-root .photo-capture-zone.shutter::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.85);
+  pointer-events: none;
+}
+
+/* Photo result card — Figma 1:325 / overlay 1:337 */
+.bevestigen-root .cf-photo-card {
+  width: min(414px, calc(100vw - var(--edge) * 2));
+  max-width: min(414px, calc(100vw - var(--edge) * 2));
+  align-self: center;
+}
+
+.bevestigen-root .cf-photo-card .cf-branch-inner {
+  max-width: 350px;
+  width: 100%;
+  gap: 24px;
+}
+
+.bevestigen-root .cf-photo-proof {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+  height: 263.5px;
+  border-radius: 28px;
+  overflow: clip;
+  border: 2px solid rgba(156, 156, 156, 0.28);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.bevestigen-root .cf-photo-proof img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.bevestigen-root .photo-result-zone.confirmed {
+  border-color: rgba(47, 216, 124, 0.6);
+}
+
+.bevestigen-root .cf-photo-proof-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+  background: rgba(6, 22, 14, 0);
+  transition: background 0.45s ease;
+  pointer-events: none;
+}
+
+.bevestigen-root .photo-result-zone.confirmed .cf-photo-proof-overlay {
+  background: rgba(6, 22, 14, 0.58);
+}
+
+.bevestigen-root .cf-delivered-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 19px;
+  border: 1.5px solid rgba(47, 216, 124, 0.28);
+  background: rgba(47, 216, 124, 0.14);
+  flex-shrink: 0;
+  transform: scale(0.85);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.08s, opacity 0.3s ease 0.08s;
+}
+
+.bevestigen-root .cf-delivered-check img {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.bevestigen-root .cf-photo-proof-label {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #2fd87c;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.35s ease 0.15s, transform 0.35s ease 0.15s;
+}
+
+.bevestigen-root .photo-result-zone.confirmed .cf-delivered-check,
+.bevestigen-root .photo-result-zone.confirmed .cf-photo-proof-label {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.bevestigen-root .cf-photo-proof-sub {
+  margin: 0;
+  width: 100%;
+  max-width: 350px;
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 25px;
+  letter-spacing: 0.24px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* Delivered confirmation — Figma 1:584 */
+.bevestigen-root .cf-delivered-card {
+  width: 100%;
+  max-width: var(--cf-stack-width);
+  align-self: center;
+}
+
+.bevestigen-root .cf-delivered-card .cf-branch-inner {
+  max-width: var(--cf-grid-inner);
+  width: 100%;
+  gap: 24px;
+}
+
+.bevestigen-root .cf-delivered-tile {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 34px;
+  border-radius: 32px;
+  border: 2px solid rgba(47, 216, 124, 0.6);
+  background: rgba(47, 216, 124, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 151px;
+}
+
+.bevestigen-root .cf-delivered-tile-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+}
+
+.bevestigen-root .cf-delivered-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.bevestigen-root .cf-delivered-status-label {
+  font-family: var(--font);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #2fd87c;
+  white-space: nowrap;
+}
+
+.bevestigen-root .cf-delivered-address {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #fff;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Sign */
+.bevestigen-root .sign-zone {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.bevestigen-root .sign-instruction {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.58);
+  text-align: center;
+}
+
+.bevestigen-root .sign-canvas-wrap {
+  position: relative;
+  border-radius: var(--r-inner);
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  background: rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+}
+
+.bevestigen-root .sign-canvas {
+  display: block;
+  width: 100%;
+  height: 168px;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.bevestigen-root .sign-canvas-hint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.18);
+  pointer-events: none;
+}
+
+.bevestigen-root .sign-canvas-hint.hidden { opacity: 0; }
+
+/* Rescan — Figma 1:350 (same viewfinder + beam as load/scan) */
+.bevestigen-root .cf-work-card--rescan {
+  width: min(var(--cf-grid-inner), calc(100vw - var(--edge) * 2));
+  max-width: min(var(--cf-grid-inner), calc(100vw - var(--edge) * 2));
+  align-self: center;
+}
+
+.bevestigen-root .rescan-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
+  max-width: var(--cf-grid-inner);
+}
+
+.bevestigen-root .rescan-zone .cf-rescan-badge-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.bevestigen-root .cf-rescan-preview-block {
+  gap: 16px;
+}
+
+.bevestigen-root .cf-rescan-preview-block .load-camera-frame {
+  margin-bottom: 0;
+}
+
+.bevestigen-root .rescan-status-label {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.bevestigen-root .cf-rescan-verified {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  box-sizing: border-box;
+  background: rgba(47, 216, 124, 0.07);
+  border: 1.5px solid rgba(47, 216, 124, 0.22);
+  border-radius: var(--r-inner);
+}
+
+.bevestigen-root .cf-rescan-verified-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.bevestigen-root .cf-rescan-verified-title {
+  font-family: var(--font);
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--green);
+}
+
+.bevestigen-root .cf-rescan-verified-code {
+  font-family: var(--font);
+  font-size: 0.68rem;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+body[data-exp="pro"] .bevestigen-root .cf-grid-card .cf-voice-hint--grid {
+  display: none;
+}
