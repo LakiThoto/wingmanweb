@@ -216,11 +216,7 @@ body[data-mode="lab"] {
   min-height: 100dvh;
 }
 
-body[data-mode="lab"] #app {
-  width: min(600px, 100vw);
-  overflow-y: auto;
-  max-height: 92dvh;
-}
+/* Lab #app frame — glasses-layout.css */
 
 /* ── Focus ───────────────────────────────────────────────────────────────── */
 .focusable:focus {

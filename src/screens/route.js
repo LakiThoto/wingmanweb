@@ -1,44 +1,37 @@
 // Screen: route — Route van vandaag
 // Figma 1:701
-
 import { focusScreen, buildDepotCtaRow, bindDepotCtaRow } from './_frame';
 import { iconImg } from '@/ui/icons';
 import { transition, getState, allDelivered, setScreen } from '@/core/state';
 import { t } from '@/core/strings';
-import type { Delivery } from '@/types';
-
-function formatStopAddress(d: Delivery): string {
-  return `${d.address} ${d.postcode} ${d.city}`.trim();
+function formatStopAddress(d) {
+    return `${d.address} ${d.postcode} ${d.city}`.trim();
 }
-
-function invanCount(deliveries: Delivery[]): number {
-  return deliveries.filter(d => d.loaded && !d.delivered).length;
+function invanCount(deliveries) {
+    return deliveries.filter(d => d.loaded && !d.delivered).length;
 }
-
-export function mount(container: HTMLElement): () => void {
-  if (allDelivered()) {
-    setScreen('complete');
-    return () => {};
-  }
-
-  const state = getState();
-  let activeTab: 'todo' | 'invan' | 'done' = 'todo';
-
-  function render(): void {
-    const todo = state.deliveries.filter(d => !d.delivered);
-    const done = state.deliveries.filter(d => d.delivered);
-    const inVan = invanCount(state.deliveries);
-
-    const listForTab = (): Delivery[] => {
-      if (activeTab === 'todo') return todo;
-      if (activeTab === 'done') return done;
-      return state.deliveries.filter(d => d.loaded);
-    };
-
-    const stopItems = listForTab().map((d) => {
-      const deliver = d.parcelCount ?? 1;
-      const pickup = d.pickupCount ?? 0;
-      return `
+export function mount(container) {
+    if (allDelivered()) {
+        setScreen('complete');
+        return () => { };
+    }
+    const state = getState();
+    let activeTab = 'todo';
+    function render() {
+        const todo = state.deliveries.filter(d => !d.delivered);
+        const done = state.deliveries.filter(d => d.delivered);
+        const inVan = invanCount(state.deliveries);
+        const listForTab = () => {
+            if (activeTab === 'todo')
+                return todo;
+            if (activeTab === 'done')
+                return done;
+            return state.deliveries.filter(d => d.loaded);
+        };
+        const stopItems = listForTab().map((d) => {
+            const deliver = d.parcelCount ?? 1;
+            const pickup = d.pickupCount ?? 0;
+            return `
       <div class="stop-item-outer">
         <button
           type="button"
@@ -60,13 +53,11 @@ export function mount(container: HTMLElement): () => void {
           </div>
         </button>
       </div>`;
-    }).join('') || `<p class="screen-empty-msg">Geen stops</p>`;
-
-    const cta = allDelivered()
-      ? `<p class="route-complete-msg">Route voltooid!</p>`
-      : buildDepotCtaRow(t('btn.route_start'), { id: 'btn-route-start', rowClass: 'route-depot-cta' });
-
-    container.innerHTML = `
+        }).join('') || `<p class="screen-empty-msg">Geen stops</p>`;
+        const cta = allDelivered()
+            ? `<p class="route-complete-msg">Route voltooid!</p>`
+            : buildDepotCtaRow(t('btn.route_start'), { id: 'btn-route-start', rowClass: 'route-depot-cta' });
+        container.innerHTML = `
 <div class="screen-stack screen-stack--cta-gap route-screen-stack">
   <div class="screen-card route-card">
     <header class="route-chip">
@@ -101,31 +92,25 @@ export function mount(container: HTMLElement): () => void {
 
   ${cta}
 </div>`;
-
-    attachHandlers();
-    focusScreen(container);
-  }
-
-  function attachHandlers(): void {
-    container.querySelectorAll<HTMLButtonElement>('.rtab').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const tab = btn.dataset.tab as 'todo' | 'invan' | 'done';
-        if (tab) {
-          activeTab = tab;
-          render();
-        }
-      });
-    });
-
-    const startRoute = () => transition('route_start');
-
-    container.querySelectorAll<HTMLButtonElement>('.stop-item').forEach(btn => {
-      btn.addEventListener('click', startRoute);
-    });
-
-    bindDepotCtaRow(container, startRoute, { mainSelector: '#btn-route-start' });
-  }
-
-  render();
-  return () => {};
+        attachHandlers();
+        focusScreen(container);
+    }
+    function attachHandlers() {
+        container.querySelectorAll('.rtab').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tab = btn.dataset.tab;
+                if (tab) {
+                    activeTab = tab;
+                    render();
+                }
+            });
+        });
+        const startRoute = () => transition('route_start');
+        container.querySelectorAll('.stop-item').forEach(btn => {
+            btn.addEventListener('click', startRoute);
+        });
+        bindDepotCtaRow(container, startRoute, { mainSelector: '#btn-route-start' });
+    }
+    render();
+    return () => { };
 }

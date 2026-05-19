@@ -4,6 +4,11 @@
   --cf-stack-width: 588px;
   --cf-grid-inner: 524px;
   --cf-grid-card: var(--cf-stack-width);
+  --cf-photo-proof-w: 350px;
+  --cf-photo-proof-h: 263.5px;
+  --cf-photo-proof-inner-h: 259.5px;
+  --cf-photo-card-w: calc(var(--cf-photo-proof-w) + 2 * var(--pad-card));
+  --cf-grid-tile-h: 80px;
 }
 
 /* Figma 1:1674 — outer column 588×463, gap 32 */
@@ -103,21 +108,34 @@ body[data-mode="glasses"] .locker-screen.screen-stack.cf-screen-stack {
   color: #fff;
 }
 
-/* ── Grid phase (Figma 1:1674) ── */
+/* ── Grid phase (Figma 1:1674 — card 588×361, inner 524px, tiles 254×80) ── */
 
 .bevestigen-root .cf-grid-card {
+  width: 100%;
   max-width: var(--cf-grid-card);
   align-self: center;
+  box-sizing: border-box;
 }
 
 .bevestigen-root .cf-grid-card .cf-grid-card-body {
   max-width: var(--cf-grid-inner);
   width: 100%;
+  align-items: flex-start;
 }
 
-.bevestigen-root .cf-grid-card .confirm-actions-grid {
+/* Figma 1:1683 — 2×2 grid + voice hint, 16px apart */
+.bevestigen-root .cf-grid-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+}
+
+.bevestigen-root .cf-grid-card .confirm-actions-grid,
+.bevestigen-root .cf-grid-card .cf-shortcut-grid.confirm-actions-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
   width: 100%;
 }
@@ -131,9 +149,9 @@ body[data-mode="glasses"] .locker-screen.screen-stack.cf-screen-stack {
   gap: 8px;
   min-width: 0;
   width: 100%;
-  height: 80px;
-  min-height: 80px;
-  max-height: 80px;
+  height: var(--cf-grid-tile-h);
+  min-height: var(--cf-grid-tile-h);
+  max-height: var(--cf-grid-tile-h);
   padding: 24px;
   box-sizing: border-box;
   border-radius: 32px;
@@ -146,6 +164,7 @@ body[data-mode="glasses"] .locker-screen.screen-stack.cf-screen-stack {
   font-family: var(--font);
   color: #fafcff;
   cursor: pointer;
+  overflow: hidden;
   transition: background 0.18s ease, border-color 0.18s ease, transform 0.1s ease;
 }
 
@@ -165,21 +184,33 @@ body[data-mode="glasses"] .locker-screen.screen-stack.cf-screen-stack {
   object-fit: contain;
 }
 
-.bevestigen-root .cf-grid-card .confirm-action-btn .ca-label {
+.bevestigen-root .cf-grid-card .confirm-action-btn .ca-label,
+.bevestigen-root .cf-grid-card .confirm-action-btn .cf-shortcut-tile__label {
+  flex: 1;
+  min-width: 0;
   font-family: var(--font);
-  font-size: 24px;
+  font-size: clamp(17px, 4.1vw, 24px);
   font-weight: 600;
   letter-spacing: 0.35px;
-  line-height: 30px;
+  line-height: 1.2;
   color: #fafcff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .bevestigen-root .cf-grid-card .confirm-action-btn:hover .ca-label {
   color: #fafcff;
 }
 
+/* Figma 1:1712 — thumb + hint row, 12px gap */
 .bevestigen-root .cf-grid-card .cf-voice-hint--grid {
-  margin-top: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  width: 100%;
 }
 
 .bevestigen-root .cf-grid-card .cf-voice-hint-text {
@@ -188,9 +219,9 @@ body[data-mode="glasses"] .locker-screen.screen-stack.cf-screen-stack {
   min-width: 0;
   font-family: var(--font);
   font-size: 20px;
-  font-weight: 600;
-  line-height: 25px;
-  letter-spacing: 0.24px;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: 0.45px;
   color: rgba(255, 255, 255, 0.65);
 }
 
@@ -198,6 +229,24 @@ body[data-mode="glasses"] .locker-screen.screen-stack.cf-screen-stack {
   font-style: normal;
   font-weight: 600;
   color: #fff;
+}
+
+/* MRBD 472px — fit Figma grid in glasses frame */
+body[data-mode="glasses"] .bevestigen-root .cf-grid-card,
+body[data-mode="lab"] #app .bevestigen-root .cf-grid-card {
+  max-width: 100%;
+  align-self: stretch;
+}
+
+body[data-mode="glasses"] .bevestigen-root .cf-grid-card .cf-grid-card-body,
+body[data-mode="lab"] #app .bevestigen-root .cf-grid-card .cf-grid-card-body {
+  max-width: 100%;
+}
+
+body[data-mode="glasses"] .bevestigen-root .cf-grid-card .confirm-action-btn,
+body[data-mode="lab"] #app .bevestigen-root .cf-grid-card .confirm-action-btn {
+  padding: 16px;
+  gap: 8px;
 }
 
 /* Thumb hint — Figma 1:1674 (no mic pill) */
@@ -400,33 +449,41 @@ body[data-mode="glasses"] .locker-screen.screen-stack.cf-screen-stack {
   pointer-events: none;
 }
 
-/* Photo result card — Figma 1:325 / overlay 1:337 */
+/* Photo result card — Figma 1:325 (card 414px) / proof 1:335 / overlay 1:337 */
 .bevestigen-root .cf-photo-card {
-  width: min(414px, calc(100vw - var(--edge) * 2));
-  max-width: min(414px, calc(100vw - var(--edge) * 2));
+  width: 100%;
+  max-width: var(--cf-photo-card-w);
   align-self: center;
+  box-sizing: border-box;
 }
 
-.bevestigen-root .cf-photo-card .cf-branch-inner {
-  max-width: 350px;
+.bevestigen-root .cf-photo-card .cf-branch-inner,
+.bevestigen-root .cf-photo-card .cf-photo-result-body {
   width: 100%;
+  max-width: var(--cf-photo-proof-w);
   gap: 24px;
+  align-items: flex-start;
 }
 
 .bevestigen-root .cf-photo-proof {
   position: relative;
   width: 100%;
-  max-width: 350px;
-  height: 263.5px;
+  max-width: var(--cf-photo-proof-w);
+  height: var(--cf-photo-proof-h);
   border-radius: 28px;
   overflow: clip;
-  border: 2px solid rgba(156, 156, 156, 0.28);
+  border: none;
   background: rgba(255, 255, 255, 0.05);
+  box-sizing: border-box;
 }
 
 .bevestigen-root .cf-photo-proof img {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: calc(100% - 4px);
+  height: var(--cf-photo-proof-inner-h);
+  border-radius: 26px;
   object-fit: cover;
   display: block;
 }
@@ -437,16 +494,21 @@ body[data-mode="glasses"] .locker-screen.screen-stack.cf-screen-stack {
 
 .bevestigen-root .cf-photo-proof-overlay {
   position: absolute;
-  inset: 0;
+  left: 2px;
+  top: 2px;
+  width: calc(100% - 4px);
+  height: var(--cf-photo-proof-inner-h);
+  border-radius: 26px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  padding: 20px;
+  padding: 0;
   background: rgba(6, 22, 14, 0);
   transition: background 0.45s ease;
   pointer-events: none;
+  box-sizing: border-box;
 }
 
 .bevestigen-root .photo-result-zone.confirmed .cf-photo-proof-overlay {
@@ -479,8 +541,9 @@ body[data-mode="glasses"] .locker-screen.screen-stack.cf-screen-stack {
   font-family: var(--font);
   font-size: 20px;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 16.896px;
   color: #2fd87c;
+  white-space: nowrap;
   opacity: 0;
   transform: translateY(6px);
   transition: opacity 0.35s ease 0.15s, transform 0.35s ease 0.15s;
@@ -492,17 +555,11 @@ body[data-mode="glasses"] .locker-screen.screen-stack.cf-screen-stack {
   transform: translateY(0) scale(1);
 }
 
-.bevestigen-root .cf-photo-proof-sub {
-  margin: 0;
+.bevestigen-root .cf-confirm-depot-cta.depot-cta-row {
   width: 100%;
-  max-width: 350px;
-  font-family: var(--font);
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 25px;
-  letter-spacing: 0.24px;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.65);
+  max-width: var(--cf-photo-card-w);
+  justify-content: center;
+  align-self: center;
 }
 
 /* Delivered confirmation — Figma 1:584 */

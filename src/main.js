@@ -93,7 +93,11 @@ function mountScreen(id, app) {
     });
 }
 // ── Boot ───────────────────────────────────────────────────────────────────
+function removeLegacyComplimentBanner() {
+    document.querySelectorAll('.compliment-banner').forEach(el => el.remove());
+}
 async function boot() {
+    removeLegacyComplimentBanner();
     const mode = detectMode();
     document.body.dataset.mode = mode;
     // Load deliveries

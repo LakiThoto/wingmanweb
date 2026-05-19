@@ -1,6 +1,6 @@
 // Screen: later — Later bezorgen
 // Figma: B 1:280 · E 1:2153 · P 1:5147
-import { focusScreen, buildPrimaryCta } from './_frame';
+import { focusScreen, buildDepotCtaRow, bindDepotCtaRow } from './_frame';
 import { iconImg, loadVoiceMicPill } from '@/ui/icons';
 import { getActiveDelivery } from '@/core/state';
 import { skipStopLaterToday, completeLaterTomorrow } from '@/core/delivery-complete';
@@ -48,9 +48,7 @@ export function mount(container) {
     </div>
   </div>
 
-  <div class="cta-layer">
-    ${buildPrimaryCta(t('btn.later_bevestigen'), { id: 'btn-later-bevestigen', className: 'pro-hide' })}
-  </div>
+  ${buildDepotCtaRow(t('btn.later_bevestigen'), { id: 'btn-later-bevestigen', rowClass: 'later-depot-cta pro-hide' })}
 </div>`;
         container.querySelector('#btn-today')?.addEventListener('click', () => {
             selected = 'today';
@@ -60,12 +58,12 @@ export function mount(container) {
             selected = 'tomorrow';
             render();
         });
-        container.querySelector('#btn-later-bevestigen')?.addEventListener('click', () => {
+        bindDepotCtaRow(container, () => {
             if (selected === 'today')
                 skipStopLaterToday();
             else
                 completeLaterTomorrow();
-        });
+        }, { mainSelector: '#btn-later-bevestigen' });
         focusScreen();
     }
     render();

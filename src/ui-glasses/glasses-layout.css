@@ -1,26 +1,37 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    glasses-layout.css — MRBD 600×600 vaste UI-frame
-   Alle schermen: zelfde breedte, zelfde startpositie (boven midden).
-   Geen rechteronderhoek — stap wisselt inhoud op dezelfde plek.
+   Alle schermen: zelfde breedte, onderaan uitgelijnd (bottom anchor).
    ═══════════════════════════════════════════════════════════════════════════ */
 
-body[data-mode="glasses"] {
+body[data-mode="glasses"],
+body[data-mode="lab"] {
   --glasses-viewport: 600px;
   /* Symmetrische rand 64px links + rechts */
   --glasses-stack-w: calc(var(--glasses-viewport) - var(--edge) * 2);
   --glasses-stack-max-h: calc(var(--glasses-viewport) - var(--edge) * 2);
 }
 
-/* Stage: gecentreerd horizontaal, vast vanaf boven — geen padding */
+/* Lab preview: fixed 600×600 frame (matches glasses) */
+body[data-mode="lab"] #app {
+  position: relative;
+  width: var(--glasses-viewport);
+  height: var(--glasses-viewport);
+  max-width: min(var(--glasses-viewport), 100vw);
+  max-height: min(var(--glasses-viewport), 100dvh);
+  overflow: hidden;
+}
+
+/* Stage: bottom + horizontal centre — geen padding */
 body[data-mode="glasses"] .screen-stage,
 body[data-mode="lab"] #app .screen-stage {
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: center;
   box-sizing: border-box;
 }
 
-body[data-mode="glasses"] .screen-mount {
+body[data-mode="glasses"] .screen-mount,
+body[data-mode="lab"] #app .screen-mount {
   position: relative;
   top: auto;
   right: auto;
@@ -29,50 +40,68 @@ body[data-mode="glasses"] .screen-mount {
   width: var(--glasses-stack-w);
   max-width: var(--glasses-stack-w);
   min-width: 0;
-  max-height: var(--glasses-stack-max-h);
+  margin: 0 auto;
   overflow-x: hidden;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  justify-content: flex-start;
+  justify-content: flex-end;
+  flex-shrink: 0;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
 
-body[data-mode="glasses"] .screen-mount::-webkit-scrollbar {
+body[data-mode="glasses"] .screen-mount::-webkit-scrollbar,
+body[data-mode="lab"] #app .screen-mount::-webkit-scrollbar {
   display: none;
 }
 
-/* Elke stack vult hetzelfde frame */
+/* Elke stack vult hetzelfde frame, CTA onderaan */
 body[data-mode="glasses"] .screen-mount > .screen-stack,
 body[data-mode="glasses"] .screen-mount > .screen,
 body[data-mode="glasses"] .screen-mount > .bevestigen-root,
 body[data-mode="glasses"] .screen-mount > .walk-hud-root,
-body[data-mode="glasses"] .screen-mount > .drive-phase-ui {
+body[data-mode="glasses"] .screen-mount > .drive-phase-ui,
+body[data-mode="lab"] #app .screen-mount > .screen-stack,
+body[data-mode="lab"] #app .screen-mount > .screen,
+body[data-mode="lab"] #app .screen-mount > .bevestigen-root,
+body[data-mode="lab"] #app .screen-mount > .walk-hud-root,
+body[data-mode="lab"] #app .screen-mount > .drive-phase-ui {
   width: 100%;
   max-width: 100%;
   min-width: 0;
   margin: 0;
   align-items: stretch;
+  justify-content: flex-end;
+  flex-shrink: 0;
 }
 
 body[data-mode="glasses"] .screen-stack,
-body[data-mode="glasses"] .screen {
+body[data-mode="glasses"] .screen,
+body[data-mode="lab"] #app .screen-stack,
+body[data-mode="lab"] #app .screen {
   width: 100%;
   max-width: 100%;
   margin: 0;
+  justify-content: flex-end;
 }
 
 body[data-mode="glasses"] .rc-screen-stack,
 body[data-mode="glasses"] .complete-stack.screen-stack,
 body[data-mode="glasses"] .bevestigen-root .screen-stack.cf-screen-stack,
 body[data-mode="glasses"] .locker-screen.screen-stack.cf-screen-stack,
-body[data-mode="glasses"] .locker-screen.cf-branch-stack.cf-branch-figma {
+body[data-mode="glasses"] .locker-screen.cf-branch-stack.cf-branch-figma,
+body[data-mode="lab"] #app .rc-screen-stack,
+body[data-mode="lab"] #app .complete-stack.screen-stack,
+body[data-mode="lab"] #app .bevestigen-root .screen-stack.cf-screen-stack,
+body[data-mode="lab"] #app .locker-screen.screen-stack.cf-screen-stack,
+body[data-mode="lab"] #app .locker-screen.cf-branch-stack.cf-branch-figma {
   width: 100%;
   max-width: 100%;
   min-width: 0;
   align-items: stretch;
+  justify-content: flex-end;
 }
 
 body[data-mode="glasses"] .rc-card,
@@ -89,6 +118,14 @@ body[data-mode="glasses"] .bevestigen-root .cf-work-card--rescan {
   align-self: stretch;
   width: 100%;
   max-width: 100%;
+}
+
+/* Figma 1:325 — photo result card 414px, not full 472px stack */
+body[data-mode="glasses"] .bevestigen-root .cf-photo-card,
+body[data-mode="lab"] #app .bevestigen-root .cf-photo-card {
+  width: 100%;
+  max-width: var(--cf-photo-card-w, 414px);
+  align-self: center;
 }
 
 body[data-mode="glasses"] .rc-card-body {

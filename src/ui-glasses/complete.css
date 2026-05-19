@@ -1,23 +1,21 @@
 /* Route complete — Figma 1:1868 / Wingman Copy #screen-complete */
 
 :root {
-  --complete-inner-w: 552px;
-  --complete-card-w: calc(var(--complete-inner-w) + 2 * var(--pad-card));
+  /* Figma 1:1875 — stats row 552px; three tiles 173px + 16px gaps */
+  --complete-stats-gap: 16px;
+  --complete-stat-w: 173px;
 }
 
 .complete-stack.screen-stack {
   align-items: stretch;
-  max-width: min(var(--complete-card-w), calc(100vw - var(--edge) * 2));
-}
-
-body[data-mode="glasses"] .complete-stack.screen-stack {
+  width: 100%;
   max-width: 100%;
 }
 
 .screen-card.screen-card--complete {
   width: 100%;
-  max-width: var(--complete-card-w);
-  align-self: center;
+  max-width: 100%;
+  align-self: stretch;
   align-items: flex-start;
   gap: 24px;
   padding: 32px;
@@ -51,26 +49,29 @@ body[data-mode="glasses"] .complete-stack.screen-stack {
   font-weight: 600;
   line-height: 1.2;
   color: #fff;
-  white-space: nowrap;
+  max-width: 100%;
 }
 
+/* Figma 1:1875 — three stat shortcuts in one row */
 .completion-stats {
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: var(--complete-stats-gap);
   width: 100%;
-  max-width: var(--complete-inner-w);
 }
 
 .complete-stat-tile {
   flex: 1 1 0;
-  min-width: 140px;
-  max-width: 174px;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: flex-start;
   gap: 8px;
-  padding: 24px;
+  padding: 18px 14px;
+  min-height: 101px;
   border-radius: 32px;
   border: 2px solid rgba(156, 156, 156, 0.5);
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(217, 217, 217, 0.3));
@@ -80,23 +81,34 @@ body[data-mode="glasses"] .complete-stack.screen-stack {
   box-sizing: border-box;
 }
 
+/* Wider viewports: match Figma tile width (173–174px) */
+@media (min-width: 560px) {
+  .completion-stats {
+    max-width: calc(3 * var(--complete-stat-w) + 2 * var(--complete-stats-gap));
+  }
+
+  .complete-stat-tile {
+    flex: 0 0 var(--complete-stat-w);
+    max-width: var(--complete-stat-w);
+    padding: 24px;
+  }
+}
+
 .complete-stat-val {
   font-family: var(--font);
-  font-size: 24px;
+  font-size: clamp(18px, 4.2vw, 24px);
   font-weight: 600;
   letter-spacing: 0.35px;
   line-height: normal;
   color: #fafcff;
-  white-space: nowrap;
 }
 
 .complete-stat-lbl {
   font-family: var(--font);
-  font-size: 20px;
+  font-size: clamp(15px, 3.5vw, 20px);
   font-weight: 500;
-  line-height: 14.56px;
+  line-height: 1.2;
   color: rgba(255, 255, 255, 0.48);
-  white-space: nowrap;
 }
 
 .screen-card--complete .complete-voice-hint {
@@ -114,6 +126,18 @@ body[data-mode="glasses"] .complete-stack.screen-stack {
   font-weight: 600;
   color: #fff;
   letter-spacing: 0.24px;
+}
+
+/* MRBD 472px stack — keep three stats on one row (Figma 1:1875) */
+body[data-mode="glasses"] .completion-stats,
+body[data-mode="lab"] #app .completion-stats {
+  gap: 12px;
+}
+
+body[data-mode="glasses"] .complete-stat-tile,
+body[data-mode="lab"] #app .complete-stat-tile {
+  padding: 16px 10px;
+  min-height: 96px;
 }
 
 body[data-exp="pro"] .screen-card--complete .complete-sub,

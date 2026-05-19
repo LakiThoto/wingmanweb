@@ -45,9 +45,9 @@ export function buildDepotCtaRow(label: string, opts: DepotCtaOptions = {}): str
 
   return `
 <div class="cta-layer depot-cta-row${extraRowClass}">
-  <button type="button" class="focusable depot-cta-ai depot-cta-ai-btn"${aiIdAttr} tabindex="0"${hiddenAttr} aria-label="${aria}">
+  <button type="button" class="focusable depot-cta-ai"${aiIdAttr} tabindex="0"${hiddenAttr} aria-label="${aria}">
     <span class="ai-icon-shape">
-      <img src="/assets/depot-cta-ai.svg" class="depot-cta-ai-img" alt="" width="70" height="69" decoding="async" />
+      <img src="/assets/ai-icon.png" class="ai-triangle" alt="" width="52" height="52" decoding="async" />
     </span>
   </button>
   <button type="button" class="focusable btn-primary depot-start-btn${extraBtnClass}"${idAttr} tabindex="0"${hiddenAttr} aria-label="${aria}">
@@ -65,7 +65,7 @@ export function bindDepotCtaRow(
   opts?: { mainSelector?: string; aiSelector?: string },
 ): void {
   const mainSel = opts?.mainSelector ?? '.depot-start-btn';
-  const aiSel = opts?.aiSelector ?? '.depot-cta-ai-btn';
+  const aiSel = opts?.aiSelector ?? 'button.depot-cta-ai';
   root.querySelector<HTMLButtonElement>(mainSel)?.addEventListener('click', handler);
   root.querySelector<HTMLButtonElement>(aiSel)?.addEventListener('click', handler);
 }

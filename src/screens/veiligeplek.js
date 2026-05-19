@@ -1,6 +1,6 @@
 // Screen: veiligeplek — Veilige plek (pick location → confirm)
 // Figma pick 1:436 · confirm 1:584
-import { focusScreen, buildDepotCtaRow, bindDepotCtaRow } from './_frame';
+import { focusScreen, buildDepotCtaRow, bindDepotCtaRow, buildConfirmDeliveryTile } from './_frame';
 import { playPhaseEnter } from '@/core/screen-transition';
 import { setSafeplaceChoice, getActiveDelivery } from '@/core/state';
 import { completeDelivery } from '@/core/delivery-complete';
@@ -20,27 +20,13 @@ function buildSpConfirmCard(address, pkgCount, tracking) {
       <img src="/assets/confirm/tile-check.svg" width="20" height="20" alt="" class="cf-badge-icon" aria-hidden="true" />
       <span class="cf-badge-label">${t('bevestigen.title')}</span>
     </header>
-    <div class="cf-delivered-tile">
-      <div class="cf-delivered-tile-top">
-        <div class="cf-delivered-status">
-          <div class="cf-delivered-check" aria-hidden="true">
-            <img src="/assets/confirm/tile-check.svg" width="20" height="20" alt="" />
-          </div>
-          <span class="cf-delivered-status-label">${t('bevestigen.success')}</span>
-        </div>
-        <p class="cf-delivered-address">${address}</p>
-      </div>
-      <div class="cf-meta-row">
-        <div class="cf-meta-group">
-          <img src="/assets/confirm/parcel-arrow.svg" width="24" height="24" alt="" class="cf-meta-img cf-meta-img--deliver" aria-hidden="true" />
-          <span class="cf-pkg-count">${pkgCount}</span>
-        </div>
-        <div class="cf-meta-group cf-meta-group--code">
-          <img src="/assets/confirm/barcode.svg" width="24" height="24" alt="" class="cf-meta-img" aria-hidden="true" />
-          <span class="cf-tracking">${tracking}</span>
-        </div>
-      </div>
-    </div>
+    ${buildConfirmDeliveryTile({
+        address,
+        pkgCount,
+        tracking,
+        variant: 'delivered',
+        statusLabel: t('bevestigen.success'),
+    })}
   </div>
 </div>`;
 }
@@ -53,17 +39,19 @@ function buildSpPickCard(addr, selectedKey) {
       <span class="cf-badge-label">${t('veiligeplek.title')}</span>
     </header>
     <p class="cf-branch-address cf-branch-address--figma sp-address">${addr}</p>
-    <div class="sp-grid sp-tiles-figma">
-      ${PLACES.map(p => `
+    <div class="sp-pick-block">
+      <div class="sp-grid sp-tiles-figma" data-focus-axis="horizontal">
+        ${PLACES.map(p => `
         <button type="button" class="focusable sp-tile cf-shortcut-tile${selectedKey === p.key ? ' sp-tile-active' : ''}" data-key="${p.key}" data-val="${p.val}" tabindex="0">
           ${iconImg(p.icon, 'sp-tile-icon cf-shortcut-tile__icon', 32)}
           <span class="sp-tile-label cf-shortcut-tile__label">${t(p.key)}</span>
         </button>
-      `).join('')}
+        `).join('')}
+      </div>
+      <p class="cf-voice-hint-text cf-voice-hint-text--figma sp-voice-hint">
+        <span class="cf-voice-dim">${t('veiligeplek.voice_prefix')}</span><span class="cf-voice-em">${t('veiligeplek.voice_em')}</span>
+      </p>
     </div>
-    <p class="cf-voice-hint-text cf-voice-hint-text--figma sp-voice-hint">
-      <span class="cf-voice-dim">${t('veiligeplek.voice_prefix')}</span><span class="cf-voice-em">${t('veiligeplek.voice_em')}</span>
-    </p>
   </div>
 </div>`;
 }

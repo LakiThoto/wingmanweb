@@ -1,7 +1,7 @@
 // Screen: buren — Afgeven bij de buren
 // Figma: B 1:539 · E 1:2365 · P 1:5357
 
-import { focusScreen, buildPrimaryCta } from './_frame';
+import { focusScreen, buildDepotCtaRow, bindDepotCtaRow } from './_frame';
 import { setNeighborChoice, getState } from '@/core/state';
 import { completeDelivery } from '@/core/delivery-complete';
 import { t } from '@/core/strings';
@@ -44,9 +44,7 @@ export function mount(container: HTMLElement): () => void {
       Zeg <strong>"Links"</strong> of <strong>"Rechts"</strong>
     </div>
   </div>
-  <div class="cta-layer">
-    ${buildPrimaryCta(t('btn.neighbor.confirm'), { id: 'btn-buren-bevestigen' })}
-  </div>
+  ${buildDepotCtaRow(t('btn.neighbor.confirm'), { id: 'btn-buren-bevestigen', rowClass: 'buren-depot-cta' })}
 </div>`;
 
     attachHandlers(selected);
@@ -62,10 +60,10 @@ export function mount(container: HTMLElement): () => void {
       setNeighborChoice('right');
       render('right');
     });
-    container.querySelector('#btn-buren-bevestigen')?.addEventListener('click', () => {
+    bindDepotCtaRow(container, () => {
       setNeighborChoice(selected);
       completeDelivery({ method: 'neighbor' });
-    });
+    }, { mainSelector: '#btn-buren-bevestigen' });
   }
 
   render('left');

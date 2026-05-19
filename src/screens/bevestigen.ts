@@ -50,7 +50,6 @@ function photoResultMarkup(hidden: boolean): string {
             <p class="cf-photo-proof-label">${t('confirm.photo.confirmed')}</p>
           </div>
         </div>
-        <p class="cf-photo-proof-sub">${t('confirm.photo.sub')}</p>
       </div>
     </div>`;
 }
@@ -279,31 +278,35 @@ export function mount(container: HTMLElement): () => void {
   <div class="screen-stack cf-screen-stack">
     <div class="screen-card cf-card cf-grid-card${isGrid ? '' : ' cf-hidden'}">
       <div class="cf-card-body cf-grid-card-body">
-        <header class="cf-badge cf-badge--grid">
+        <header class="cf-badge cf-badge--grid cf-badge--figma">
           <img src="/assets/confirm/tile-check.svg" width="20" height="20" alt="" class="cf-badge-icon" aria-hidden="true" />
           <span class="cf-badge-label">${t('bevestigen.title')}</span>
         </header>
-        <div class="confirm-actions-grid">
-          <button type="button" class="focusable confirm-action-btn confirm-action-primary" id="btn-bevestigen-direct" tabindex="0">
-            ${iconImg('action-check', 'ca-icon', 32)}
-            <span class="ca-label">${t('btn.bevestigen')}</span>
-          </button>
-          <button type="button" class="focusable confirm-action-btn" id="btn-foto" tabindex="0">
-            ${iconImg('action-photo', 'ca-icon', 32)}
-            <span class="ca-label">${t('btn.foto')}</span>
-          </button>
-          <button type="button" class="focusable confirm-action-btn" id="btn-handtekening" tabindex="0">
-            ${iconImg('action-signature', 'ca-icon', 32)}
-            <span class="ca-label">${t('btn.handtekening')}</span>
-          </button>
-          <button type="button" class="focusable confirm-action-btn" id="btn-scan-opnieuw" tabindex="0">
-            ${iconImg('action-rescan', 'ca-icon', 32)}
-            <span class="ca-label">${t('btn.scan_opnieuw')}</span>
-          </button>
-        </div>
-        <div class="cf-voice-hint cf-voice-hint--grid pro-hide">
-          ${confirmThumbHint()}
-          <p class="cf-voice-hint-text">${t('confirm.grid.hint_lead')}<strong class="cf-voice-em">${t('confirm.grid.hint_em')}</strong></p>
+        <div class="cf-grid-actions">
+          <div class="cf-shortcut-grid confirm-actions-grid" data-focus-axis="horizontal">
+            <button type="button" class="focusable confirm-action-btn confirm-action-primary" id="btn-bevestigen-direct" tabindex="0">
+              ${iconImg('action-check', 'cf-shortcut-tile__icon ca-icon', 32)}
+              <span class="cf-shortcut-tile__label ca-label">${t('btn.bevestigen')}</span>
+            </button>
+            <button type="button" class="focusable confirm-action-btn" id="btn-foto" tabindex="0">
+              ${iconImg('action-photo', 'cf-shortcut-tile__icon ca-icon', 32)}
+              <span class="cf-shortcut-tile__label ca-label">${t('btn.foto')}</span>
+            </button>
+            <button type="button" class="focusable confirm-action-btn" id="btn-handtekening" tabindex="0">
+              ${iconImg('action-signature', 'cf-shortcut-tile__icon ca-icon', 32)}
+              <span class="cf-shortcut-tile__label ca-label">${t('btn.handtekening')}</span>
+            </button>
+            <button type="button" class="focusable confirm-action-btn" id="btn-scan-opnieuw" tabindex="0">
+              ${iconImg('action-rescan', 'cf-shortcut-tile__icon ca-icon', 32)}
+              <span class="cf-shortcut-tile__label ca-label">${t('btn.scan_opnieuw')}</span>
+            </button>
+          </div>
+          <div class="cf-voice-hint cf-voice-hint--grid pro-hide">
+            ${confirmThumbHint()}
+            <p class="cf-voice-hint-text">
+              <span class="cf-voice-dim">${t('confirm.grid.hint_lead')}</span><span class="cf-voice-em">${t('confirm.grid.hint_em')}</span>
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -390,7 +393,9 @@ export function mount(container: HTMLElement): () => void {
     </div>
 
     <div class="cta-layer${!isDelivered && (isPhotoRes || (isRescan && rescanVerified) || isSign) ? '' : ' cf-hidden'}">
-      ${isPhotoRes || (isRescan && rescanVerified) ? buildPrimaryCta(t('btn.delivery_confirm'), { id: 'btn-subflow-confirm' }) : ''}
+      ${isPhotoRes
+        ? buildPrimaryCta(t('bevestigen.success'), { id: 'btn-subflow-confirm', className: 'cf-photo-result-cta' })
+        : (isRescan && rescanVerified) ? buildPrimaryCta(t('btn.delivery_confirm'), { id: 'btn-subflow-confirm' }) : ''}
       ${isSign ? buildPrimaryCta(t('btn.sign_confirm'), { id: 'btn-sign-ok' }) : ''}
     </div>
   </div>

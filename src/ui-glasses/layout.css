@@ -795,6 +795,16 @@ body[data-mode="glasses"] #app {
   justify-content: center;
 }
 
+button.depot-cta-ai {
+  width: 69px;
+  height: 70px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
 .depot-cta-ai .ai-icon-shape {
   width: 70px;
   height: 69px;
@@ -843,15 +853,26 @@ body[data-mode="glasses"] #app {
   display: flex;
   justify-content: center;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .rc-screen-stack {
   --rc-inner-w: 383px;
   --rc-card-pad: 32px;
+  container-type: inline-size;
+  container-name: rc-stack;
   gap: var(--gap-card-cta);
   align-items: stretch;
   width: 100%;
   max-width: min(520px, calc(100vw - var(--edge) - 20px));
+}
+
+@container rc-stack (max-width: 440px) {
+  .rc-btn-icon {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 body[data-mode="glasses"] .rc-screen-stack {
@@ -930,10 +951,12 @@ body[data-mode="glasses"] .rc-screen-stack {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  gap: 24px;
-  width: auto;
+  gap: clamp(16px, 4vw, 24px);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .rc-btn {
@@ -942,10 +965,14 @@ body[data-mode="glasses"] .rc-screen-stack {
   justify-content: center;
   gap: 8px;
   height: 54px;
+  min-height: 54px;
   border-radius: 28px;
   border: none;
   cursor: pointer;
   font-family: var(--font);
+  box-sizing: border-box;
+  flex: 0 1 auto;
+  max-width: calc(50% - clamp(8px, 2vw, 12px));
   transition: opacity 0.15s, transform 0.1s;
 }
 
@@ -956,28 +983,30 @@ body[data-mode="glasses"] .rc-screen-stack {
 }
 
 .rc-btn-label {
-  font-size: 24px;
+  font-size: clamp(18px, 4.2vw, 24px);
   font-weight: 600;
   line-height: normal;
   white-space: nowrap;
 }
 
 .rc-btn-yes {
-  padding: 0 48px;
+  padding: 0 clamp(28px, 9vw, 48px);
   background: var(--green);
   color: #fff;
-  box-shadow: none;
+  box-shadow: 0 4px 10px var(--green-glow);
 }
 
 .rc-btn-yes .rc-btn-label { color: #fff; }
 .rc-btn-yes:hover { opacity: 0.88; }
 .rc-btn-yes:active { transform: scale(0.97); }
+.rc-btn-yes.focusable:focus-visible {
+  box-shadow: 0 4px 10px var(--green-glow), var(--focus-ring);
+}
 
 .rc-btn-no {
-  padding: 2px 50px;
+  padding: 2px clamp(30px, 9.2vw, 50px);
   background: var(--red-dim);
   border: 2px solid var(--red-border);
-  box-sizing: border-box;
 }
 
 .rc-btn-no .rc-btn-label { color: #ffa0a0; }

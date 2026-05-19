@@ -59,17 +59,19 @@ function buildSpPickCard(addr: string, selectedKey: string): string {
       <span class="cf-badge-label">${t('veiligeplek.title')}</span>
     </header>
     <p class="cf-branch-address cf-branch-address--figma sp-address">${addr}</p>
-    <div class="sp-grid sp-tiles-figma">
-      ${PLACES.map(p => `
+    <div class="sp-pick-block">
+      <div class="sp-grid sp-tiles-figma" data-focus-axis="horizontal">
+        ${PLACES.map(p => `
         <button type="button" class="focusable sp-tile cf-shortcut-tile${selectedKey === p.key ? ' sp-tile-active' : ''}" data-key="${p.key}" data-val="${p.val}" tabindex="0">
           ${iconImg(p.icon, 'sp-tile-icon cf-shortcut-tile__icon', 32)}
           <span class="sp-tile-label cf-shortcut-tile__label">${t(p.key)}</span>
         </button>
-      `).join('')}
+        `).join('')}
+      </div>
+      <p class="cf-voice-hint-text cf-voice-hint-text--figma sp-voice-hint">
+        <span class="cf-voice-dim">${t('veiligeplek.voice_prefix')}</span><span class="cf-voice-em">${t('veiligeplek.voice_em')}</span>
+      </p>
     </div>
-    <p class="cf-voice-hint-text cf-voice-hint-text--figma sp-voice-hint">
-      <span class="cf-voice-dim">${t('veiligeplek.voice_prefix')}</span><span class="cf-voice-em">${t('veiligeplek.voice_em')}</span>
-    </p>
   </div>
 </div>`;
 }

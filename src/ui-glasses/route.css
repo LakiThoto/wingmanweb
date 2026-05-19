@@ -171,4 +171,6 @@
 .route-screen-stack .route-depot-cta.depot-cta-row {
   width: 100%;
   max-width: var(--route-stack-max-w);
+  justify-content: center;
+  align-self: center;
 }

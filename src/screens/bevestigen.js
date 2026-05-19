@@ -1,6 +1,6 @@
 // Screen: bevestigen — Bezorging bevestigen (multi-phase)
 // Figma grid B 1:1674 · summary 1:1717 · photo 1:325 · sign 1:1751 · rescan 1:350 · delivered 1:584
-import { focusScreen, buildPrimaryCta } from './_frame';
+import { focusScreen, buildDepotCtaRow, bindDepotCtaRow, buildConfirmDeliveryTile } from './_frame';
 import { playPhaseEnter } from '@/core/screen-transition';
 import { getActiveDelivery, getState, markActiveDelivered } from '@/core/state';
 import { restartScanBeamAnim } from '@/core/scan-anim';
@@ -33,7 +33,6 @@ function photoResultMarkup(hidden) {
             <p class="cf-photo-proof-label">${t('confirm.photo.confirmed')}</p>
           </div>
         </div>
-        <p class="cf-photo-proof-sub">${t('confirm.photo.sub')}</p>
       </div>
     </div>`;
 }
@@ -41,36 +40,29 @@ function deliveredMarkup(hidden, address, code, pkgCount) {
     return `
     <div class="screen-card cf-card cf-phase-card cf-delivered-card${hidden ? ' cf-hidden' : ''}" id="confirm-delivered-card">
       <div class="cf-card-body cf-branch-inner cf-delivered-body">
-        <header class="cf-badge cf-badge--grid">
+        <header class="cf-badge cf-badge--grid cf-badge--figma">
           <img src="/assets/confirm/tile-check.svg" width="20" height="20" alt="" class="cf-badge-icon" aria-hidden="true" />
           <span class="cf-badge-label">${t('bevestigen.title')}</span>
         </header>
-        <div class="cf-delivered-tile">
-          <div class="cf-delivered-tile-top">
-            <div class="cf-delivered-status">
-              <div class="cf-delivered-check" aria-hidden="true">
-                <img src="/assets/confirm/tile-check.svg" width="20" height="20" alt="" />
-              </div>
-              <span class="cf-delivered-status-label">${t('bevestigen.success')}</span>
-            </div>
-            <p class="cf-delivered-address" id="cf-delivered-address">${address}</p>
-          </div>
-          <div class="cf-meta-row">
-            <div class="cf-meta-group">
-              <img src="/assets/confirm/parcel-arrow.svg" width="24" height="24" alt="" class="cf-meta-img cf-meta-img--deliver" aria-hidden="true" />
-              <span class="cf-pkg-count" id="cf-delivered-pkg-count">${pkgCount}</span>
-            </div>
-            <div class="cf-meta-group cf-meta-group--code">
-              <img src="/assets/confirm/barcode.svg" width="24" height="24" alt="" class="cf-meta-img" aria-hidden="true" />
-              <span class="cf-tracking" id="cf-delivered-tracking">${code}</span>
-            </div>
-          </div>
-        </div>
+        ${buildConfirmDeliveryTile({
+        address,
+        pkgCount,
+        tracking: code,
+        variant: 'delivered',
+        statusLabel: t('bevestigen.success'),
+        addressId: 'cf-delivered-address',
+        pkgCountId: 'cf-delivered-pkg-count',
+        trackingId: 'cf-delivered-tracking',
+    })}
       </div>
     </div>
-    <div class="cta-layer cf-delivered-cta-layer${hidden ? ' cf-hidden' : ''}" id="confirm-delivered-cta">
-      ${buildPrimaryCta(t('bevestigen.success'), { className: 'cf-delivered-cta-static', ariaLabel: t('bevestigen.success') })}
-    </div>`;
+    ${buildDepotCtaRow(t('bevestigen.success'), {
+        rowClass: 'cf-delivered-cta-layer',
+        hidden,
+        static: true,
+        pillIcon: 'check',
+        ariaLabel: t('bevestigen.success'),
+    })}`;
 }
 function buildRescanCameraMarkup() {
     if (getState().mode === 'lab') {
@@ -250,31 +242,35 @@ export function mount(container) {
   <div class="screen-stack cf-screen-stack">
     <div class="screen-card cf-card cf-grid-card${isGrid ? '' : ' cf-hidden'}">
       <div class="cf-card-body cf-grid-card-body">
-        <header class="cf-badge cf-badge--grid">
+        <header class="cf-badge cf-badge--grid cf-badge--figma">
           <img src="/assets/confirm/tile-check.svg" width="20" height="20" alt="" class="cf-badge-icon" aria-hidden="true" />
           <span class="cf-badge-label">${t('bevestigen.title')}</span>
         </header>
-        <div class="confirm-actions-grid">
-          <button type="button" class="focusable confirm-action-btn confirm-action-primary" id="btn-bevestigen-direct" tabindex="0">
-            ${iconImg('action-check', 'ca-icon', 32)}
-            <span class="ca-label">${t('btn.bevestigen')}</span>
-          </button>
-          <button type="button" class="focusable confirm-action-btn" id="btn-foto" tabindex="0">
-            ${iconImg('action-photo', 'ca-icon', 32)}
-            <span class="ca-label">${t('btn.foto')}</span>
-          </button>
-          <button type="button" class="focusable confirm-action-btn" id="btn-handtekening" tabindex="0">
-            ${iconImg('action-signature', 'ca-icon', 32)}
-            <span class="ca-label">${t('btn.handtekening')}</span>
-          </button>
-          <button type="button" class="focusable confirm-action-btn" id="btn-scan-opnieuw" tabindex="0">
-            ${iconImg('action-rescan', 'ca-icon', 32)}
-            <span class="ca-label">${t('btn.scan_opnieuw')}</span>
-          </button>
-        </div>
-        <div class="cf-voice-hint cf-voice-hint--grid pro-hide">
-          ${confirmThumbHint()}
-          <p class="cf-voice-hint-text">${t('confirm.grid.hint_lead')}<strong class="cf-voice-em">${t('confirm.grid.hint_em')}</strong></p>
+        <div class="cf-grid-actions">
+          <div class="cf-shortcut-grid confirm-actions-grid" data-focus-axis="horizontal">
+            <button type="button" class="focusable confirm-action-btn confirm-action-primary" id="btn-bevestigen-direct" tabindex="0">
+              ${iconImg('action-check', 'cf-shortcut-tile__icon ca-icon', 32)}
+              <span class="cf-shortcut-tile__label ca-label">${t('btn.bevestigen')}</span>
+            </button>
+            <button type="button" class="focusable confirm-action-btn" id="btn-foto" tabindex="0">
+              ${iconImg('action-photo', 'cf-shortcut-tile__icon ca-icon', 32)}
+              <span class="cf-shortcut-tile__label ca-label">${t('btn.foto')}</span>
+            </button>
+            <button type="button" class="focusable confirm-action-btn" id="btn-handtekening" tabindex="0">
+              ${iconImg('action-signature', 'cf-shortcut-tile__icon ca-icon', 32)}
+              <span class="cf-shortcut-tile__label ca-label">${t('btn.handtekening')}</span>
+            </button>
+            <button type="button" class="focusable confirm-action-btn" id="btn-scan-opnieuw" tabindex="0">
+              ${iconImg('action-rescan', 'cf-shortcut-tile__icon ca-icon', 32)}
+              <span class="cf-shortcut-tile__label ca-label">${t('btn.scan_opnieuw')}</span>
+            </button>
+          </div>
+          <div class="cf-voice-hint cf-voice-hint--grid pro-hide">
+            ${confirmThumbHint()}
+            <p class="cf-voice-hint-text">
+              <span class="cf-voice-dim">${t('confirm.grid.hint_lead')}</span><span class="cf-voice-em">${t('confirm.grid.hint_em')}</span>
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -282,33 +278,22 @@ export function mount(container) {
       <img src="/assets/confirm/arrive-ai.svg" width="70" height="69" alt="" class="cf-grid-deco-img" />
     </div>
 
-    <div class="screen-card cf-card cf-work-card${isPhotoCap ? ' cf-work-card--capture' : ''}${isRescan ? ' cf-work-card--rescan' : ''}${isWork ? '' : ' cf-hidden'}" id="confirm-work-card">
+    <div class="screen-card cf-card cf-work-card${isSummary ? ' cf-work-card--summary' : ''}${isPhotoCap ? ' cf-work-card--capture' : ''}${isRescan ? ' cf-work-card--rescan' : ''}${isWork ? '' : ' cf-hidden'}" id="confirm-work-card">
       <div class="cf-card-body cf-subflow${isSummary ? '' : ' cf-hidden'}" id="confirm-summary-body">
-        <header class="cf-badge cf-badge--grid">
+        <header class="cf-badge cf-badge--grid cf-badge--figma">
           <span class="cf-badge-label">${t('bevestigen.title')}</span>
         </header>
-        <div class="cf-summary-tile">
-          <div class="cf-summary-top">
-            <div class="cf-check-badge" aria-hidden="true">
-              <img src="/assets/confirm/tile-check.svg" width="20" height="20" alt="" class="cf-check-icon" />
-            </div>
-            <p class="cf-address" id="cf-address">${address}</p>
-          </div>
-          <div class="cf-meta-row">
-            <div class="cf-meta-group">
-              <img src="/assets/confirm/parcel-arrow.svg" width="24" height="24" alt="" class="cf-meta-img cf-meta-img--deliver" aria-hidden="true" />
-              <span class="cf-pkg-count">${pkgCount}</span>
-            </div>
-            <div class="cf-meta-group cf-meta-group--code">
-              <img src="/assets/confirm/barcode.svg" width="24" height="24" alt="" class="cf-meta-img" aria-hidden="true" />
-              <span class="cf-tracking">${code}</span>
-            </div>
-          </div>
-        </div>
-        <div class="cf-voice-hint pro-hide">
+        ${buildConfirmDeliveryTile({
+            address,
+            pkgCount,
+            tracking: code,
+            variant: 'summary',
+            addressId: 'cf-address',
+        })}
+        <p class="cf-voice-hint cf-voice-hint-text--figma pro-hide">
           ${confirmThumbHint()}
-          <p class="cf-voice-hint-text">${t('confirm.summary.hint')}</p>
-        </div>
+          <span class="cf-voice-dim">${t('confirm.summary.hint_lead')}</span><span class="cf-voice-em">${t('confirm.summary.hint_em')}</span>
+        </p>
       </div>
 
       <div class="photo-capture-zone${isPhotoCap ? '' : ' cf-hidden'}" id="photo-capture-zone">
@@ -356,14 +341,16 @@ export function mount(container) {
 
     ${deliveredMarkup(!isDelivered, address, code, pkgCount)}
 
-    <div class="cta-layer${isSummary ? '' : ' cf-hidden'}" id="confirm-summary-cta">
-      ${isSummary ? buildPrimaryCta(t('btn.bevestigen'), { id: 'btn-confirm-main' }) : ''}
-    </div>
+    ${buildDepotCtaRow(t('btn.bevestigen'), { id: 'btn-confirm-main', hidden: !isSummary, rowClass: 'cf-confirm-depot-cta' })}
 
-    <div class="cta-layer${!isDelivered && (isPhotoRes || (isRescan && rescanVerified) || isSign) ? '' : ' cf-hidden'}">
-      ${isPhotoRes || (isRescan && rescanVerified) ? buildPrimaryCta(t('btn.delivery_confirm'), { id: 'btn-subflow-confirm' }) : ''}
-      ${isSign ? buildPrimaryCta(t('btn.sign_confirm'), { id: 'btn-sign-ok' }) : ''}
-    </div>
+    ${buildDepotCtaRow(
+            isSign ? t('btn.sign_confirm') : isPhotoRes ? t('bevestigen.success') : t('btn.delivery_confirm'),
+            {
+            id: isSign ? 'btn-sign-ok' : 'btn-subflow-confirm',
+            hidden: isDelivered || (!isPhotoRes && !(isRescan && rescanVerified) && !isSign),
+            rowClass: 'cf-confirm-depot-cta',
+            pillIcon: 'check',
+        })}
   </div>
 </div>`;
         if (isPhotoRes) {
@@ -395,9 +382,9 @@ export function mount(container) {
             showPhase('rescan');
             startRescanFlow();
         });
-        container.querySelector('#btn-confirm-main')?.addEventListener('click', confirmFromSummary);
-        container.querySelector('#btn-subflow-confirm')?.addEventListener('click', requestConfirm);
-        container.querySelector('#btn-sign-ok')?.addEventListener('click', requestConfirm);
+        bindDepotCtaRow(container, confirmFromSummary, { mainSelector: '#btn-confirm-main' });
+        const subflowSel = phase === 'sign' ? '#btn-sign-ok' : '#btn-subflow-confirm';
+        bindDepotCtaRow(container, requestConfirm, { mainSelector: subflowSel });
     }
     render();
     if (phase === 'photo-capture')

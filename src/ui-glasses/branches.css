@@ -21,7 +21,13 @@
   color: rgba(255, 255, 255, 0.55);
 }
 
-/* Veilige plek — Figma 1:436 pick */
+/* Veilige plek — Figma 1:437 pick (card 616×394, inner 552px, tiles 268×80) */
+:root {
+  --sp-branch-inner-w: 552px;
+  --sp-branch-card-w: calc(var(--sp-branch-inner-w) + 2 * var(--pad-card));
+  --sp-tile-h: 80px;
+}
+
 .sp-screen.cf-branch-stack {
   gap: 32px;
   align-items: stretch;
@@ -30,6 +36,8 @@
 
 .sp-screen .sp-branch-card.screen-card {
   width: 100%;
+  max-width: var(--sp-branch-card-w);
+  align-self: center;
   padding: 32px;
   border-radius: 65px;
   gap: 0;
@@ -39,51 +47,69 @@
 .sp-screen .cf-branch-figma-inner {
   gap: 24px;
   width: 100%;
-  max-width: 100%;
+  max-width: var(--sp-branch-inner-w);
+  align-items: flex-start;
 }
 
 .sp-address {
   margin: 0;
 }
 
-.sp-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+/* Figma 1:446 — grid + voice hint, 16px apart */
+.sp-screen .sp-pick-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 16px;
   width: 100%;
 }
 
-.sp-tile {
+.sp-grid,
+.sp-screen .sp-grid.sp-tiles-figma {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+.sp-screen .sp-tile {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
   gap: 8px;
+  min-width: 0;
+  width: 100%;
+  height: var(--sp-tile-h);
+  min-height: var(--sp-tile-h);
+  max-height: var(--sp-tile-h);
   padding: 24px;
-  min-height: 0;
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(217, 217, 217, 0.3));
   border: 2px solid rgba(156, 156, 156, 0.5);
   border-radius: 32px;
   cursor: pointer;
   text-align: left;
   font-family: var(--font);
-  color: var(--text);
+  color: #fafcff;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
-.sp-tile:hover {
+.sp-screen .sp-tile:hover {
   border-color: rgba(200, 200, 200, 0.65);
 }
 
-.sp-tile-active,
-.sp-tile.selected {
+.sp-screen .sp-tile-active,
+.sp-screen .sp-tile.selected {
   border-color: rgba(255, 255, 255, 0.65) !important;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(217, 217, 217, 0.3)) !important;
 }
 
-.sp-tile-label {
-  font-size: 0.78rem;
-  font-weight: 600;
+.sp-screen .sp-tile-icon,
+.sp-screen .sp-tile .cf-shortcut-tile__icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
 .sp-phase { width: 100%; }
@@ -240,13 +266,30 @@
   font-weight: 600;
   line-height: 1.2;
   color: #fff;
+  max-width: 100%;
+  white-space: normal;
+  word-break: break-word;
 }
 
-.sp-screen .sp-tile-label {
-  font-size: 24px;
+.sp-screen .sp-tile-label,
+.sp-screen .sp-tile .cf-shortcut-tile__label {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font);
+  font-size: clamp(17px, 4.1vw, 24px);
   font-weight: 600;
+  line-height: 1.2;
   color: #fafcff;
   letter-spacing: 0.35px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Figma 1:479 — Anders… 22px */
+.sp-screen .sp-tile[data-key="sp.anders"] .sp-tile-label {
+  font-size: clamp(16px, 3.8vw, 22px);
+  letter-spacing: 0;
 }
 
 .sp-screen .sp-voice-hint {
@@ -268,7 +311,27 @@
 
 .sp-screen .sp-depot-cta.depot-cta-row {
   width: 100%;
+  max-width: var(--sp-branch-card-w);
   justify-content: center;
+  align-self: center;
+}
+
+/* MRBD 472px — fit Figma grid in glasses frame */
+body[data-mode="glasses"] .sp-screen .sp-branch-card.screen-card,
+body[data-mode="lab"] #app .sp-screen .sp-branch-card.screen-card {
+  max-width: 100%;
+  align-self: stretch;
+}
+
+body[data-mode="glasses"] .sp-screen .cf-branch-figma-inner,
+body[data-mode="lab"] #app .sp-screen .cf-branch-figma-inner {
+  max-width: 100%;
+}
+
+body[data-mode="glasses"] .sp-screen .sp-tile,
+body[data-mode="lab"] #app .sp-screen .sp-tile {
+  padding: 16px;
+  gap: 8px;
 }
 
 /* PostNL punt */
