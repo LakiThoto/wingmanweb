@@ -2,8 +2,6 @@
 
 import type { Mode, ScreenId } from '@/types';
 import { getState, setLicensePlate, setScreen } from './state';
-import { t } from './strings';
-
 export const DEMO_PLATE = 'AB-123-C';
 
 const VALID_SCREENS = new Set<ScreenId>([
@@ -27,9 +25,10 @@ export function applyBootParams(mode: Mode): GlassesBootOptions {
   const params = new URLSearchParams(location.search);
   let initialScreen: ScreenId | undefined;
 
+  // Only pre-fill when deep-linking ?plate= — otherwise tap-to-fill on start (no keyboard on MRBD).
   if (mode === 'glasses') {
-    const plate = params.get('plate') ?? t('kenteken.plate') ?? DEMO_PLATE;
-    setLicensePlate(plate);
+    const plateParam = params.get('plate');
+    if (plateParam) setLicensePlate(plateParam);
   }
 
   const screenParam = params.get('screen');

@@ -138,11 +138,18 @@ function attachHandlers(): void {
   });
 }
 
+function emitMenuOpenChange(): void {
+  document.dispatchEvent(
+    new CustomEvent('wingman:hand_menu', { detail: { open: isOpen } }),
+  );
+}
+
 export function openHandMenu(): void {
   if (!overlayEl) return;
   isOpen = true;
   overlayEl.hidden = false;
   overlayEl.setAttribute('aria-hidden', 'false');
+  emitMenuOpenChange();
   syncMenuSelection();
   requestAnimationFrame(() => {
     const first = overlayEl?.querySelector<HTMLElement>('.menu-circle-tile:not([disabled])');
@@ -163,6 +170,7 @@ export function closeHandMenu(): void {
   isOpen = false;
   overlayEl.hidden = true;
   overlayEl.setAttribute('aria-hidden', 'true');
+  emitMenuOpenChange();
 }
 
 export function toggleHandMenu(): void {

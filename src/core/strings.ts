@@ -4,7 +4,8 @@
 export const STRINGS: Record<string, string> = {
   // ── start ─────────────────────────────────────────────────────────────
   'start.lead':               'Voer je kenteken in om de route van vandaag te laden',
-  'start.glasses_hint':       'Druk op Enter om te starten met het demo-kenteken',
+  'start.glasses_hint':       'Tik op het kenteken om in te vullen, daarna Start',
+  'start.plate_tap':          'Tik om kenteken in te vullen',
   'start.placeholder':        'AB-123-C',
   'start.voice_hint':         "Zeg 'volgende stop' om te navigeren",
   'start.settings_title':     'Assistent instellingen',

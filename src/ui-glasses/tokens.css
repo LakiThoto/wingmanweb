@@ -171,6 +171,7 @@ body[data-mode="glasses"] .nb-choice,
 body[data-mode="glasses"] .rc-inner-tile,
 body[data-mode="glasses"] .route-tab-bar,
 body[data-mode="glasses"] .plate-input,
+body[data-mode="glasses"] .plate-fill-btn,
 body[data-mode="glasses"] .plate-dock-pill,
 body[data-mode="glasses"] .hand-menu-panel {
   backdrop-filter: none;

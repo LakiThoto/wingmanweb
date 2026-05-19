@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   frame.css — lab-mode chrome: companion panel, scrollbar, portrait card
+   frame.css — lab-mode chrome: settings control, scrollbar
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* ── Scrollbar ──────────────────────────────────────────────────────────── */
@@ -17,76 +17,55 @@ body[data-mode="lab"] #app::-webkit-scrollbar-thumb {
   border-radius: var(--radius-pill);
 }
 
-/* ── Companion panel ────────────────────────────────────────────────────── */
+/* ── Lab settings button (bottom-left) ──────────────────────────────────── */
 
-#companion {
+body[data-mode="lab"] .companion-settings-btn {
   position: fixed;
+  left: var(--sp-4);
   bottom: var(--sp-4);
-  right: var(--sp-4);
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-2);
-  padding: var(--sp-3);
-  border-radius: var(--radius-card);
-  background: rgba(0, 0, 0, 0.85);
-  border: 1px solid var(--line);
-  font-size: var(--fs-xs);
-  color: var(--text-mute);
-  z-index: 8000;
-  min-width: 160px;
-}
-
-#companion h4 {
-  font-size: var(--fs-xs);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-dim);
-  margin-bottom: var(--sp-1);
-}
-
-#companion .companion-row {
+  z-index: 8100;
   display: flex;
   align-items: center;
-  gap: var(--sp-2);
-  flex-wrap: wrap;
-}
-
-#companion .companion-btn {
-  padding: var(--sp-1) var(--sp-2);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--line);
-  background: var(--surface);
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 2px solid rgba(156, 156, 156, 0.45);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.88);
   color: var(--text);
-  font-size: var(--fs-xs);
-  font-weight: 600;
   cursor: pointer;
-  transition: background 0.1s;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
 }
 
-#companion .companion-btn:hover,
-#companion .companion-btn.active {
-  background: var(--accent);
+body[data-mode="lab"] .companion-settings-btn:hover {
+  background: rgba(28, 28, 28, 0.95);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+body[data-mode="lab"] .companion-settings-btn.is-active {
   border-color: var(--accent);
-  color: #fff;
-}
-
-#companion .companion-state {
-  font-size: var(--fs-xs);
-  color: var(--ok);
-  font-family: monospace;
-}
-
-/* ── Mode toggle chip ───────────────────────────────────────────────────── */
-
-#companion .mode-toggle {
-  padding: var(--sp-1) var(--sp-2);
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--accent);
+  background: rgba(40, 24, 0, 0.92);
   color: var(--accent);
-  font-size: var(--fs-xs);
-  font-weight: 600;
-  background: transparent;
-  cursor: pointer;
-  text-decoration: none;
+}
+
+body[data-mode="lab"] .companion-settings-btn:active {
+  transform: scale(0.96);
+}
+
+body[data-mode="lab"] .companion-settings-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+body[data-mode="lab"] .companion-settings-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }

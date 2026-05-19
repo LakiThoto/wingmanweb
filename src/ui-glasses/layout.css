@@ -326,6 +326,18 @@ body[data-mode="glasses"] #app {
   font-variant-numeric: tabular-nums;
 }
 
+.plate-dock-pill #plate-display {
+  display: inline-block;
+  font-family: var(--font);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 2.48px;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  color: inherit;
+}
+
 .plate-dock-pill > span:last-child:not(:only-child) {
   font-weight: 600;
 }
@@ -1242,6 +1254,23 @@ body[data-mode="glasses"] .rc-screen-stack {
 .plate-input:focus {
   outline: none;
   box-shadow: var(--focus-ring), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+button.plate-dock-pill.plate-fill-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  justify-content: flex-start;
+  text-align: left;
+  cursor: pointer;
+}
+
+button.plate-dock-pill.plate-fill-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+button.plate-dock-pill.plate-fill-btn:not(.is-filled) #plate-display {
+  color: var(--text-placeholder);
 }
 
 .glasses-plate-dock {
