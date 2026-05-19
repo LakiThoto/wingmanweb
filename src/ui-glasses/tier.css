@@ -9,9 +9,6 @@ body:not([data-exp="experienced"]) .experienced-only { display: none !important;
 body:not([data-exp="pro"])         .pro-only         { display: none !important; }
 body[data-exp="pro"]               .pro-hide         { display: none !important; }
 
-/* ── Compliment banner — beginner only ───────────────────────────────────── */
-body:not([data-exp="beginner"]) .compliment-banner { display: none !important; }
-
 /* ── Card inner gap per tier (WingmanCopy L5052–5083) ───────────────────── */
 body[data-exp="beginner"] .screen-card  { gap: 18px; }
 body[data-exp="experienced"] .screen-card { gap: 10px; }

@@ -105,7 +105,13 @@ function mountScreen(id: ScreenId, app: HTMLElement): void {
 
 // ── Boot ───────────────────────────────────────────────────────────────────
 
+function removeLegacyComplimentBanner(): void {
+  document.querySelectorAll('.compliment-banner').forEach(el => el.remove());
+}
+
 async function boot(): Promise<void> {
+  removeLegacyComplimentBanner();
+
   const mode = detectMode();
   document.body.dataset.mode = mode;
 

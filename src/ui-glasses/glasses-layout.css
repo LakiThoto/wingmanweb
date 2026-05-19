@@ -11,12 +11,12 @@ body[data-mode="glasses"] {
   --glasses-stack-max-h: calc(var(--glasses-viewport) - var(--edge) * 2);
 }
 
-/* Stage: gecentreerd horizontaal, vast vanaf boven (niet flex-end) */
-body[data-mode="glasses"] .screen-stage {
+/* Stage: gecentreerd horizontaal, vast vanaf boven — geen padding */
+body[data-mode="glasses"] .screen-stage,
+body[data-mode="lab"] #app .screen-stage {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: var(--edge);
   box-sizing: border-box;
 }
 

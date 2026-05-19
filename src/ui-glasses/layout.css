@@ -2,6 +2,11 @@
    layout.css — component library derived from Figma bgpquXiTqq4UY6DYgypTpK
    ═══════════════════════════════════════════════════════════════════════════ */
 
+/* Legacy compliment toast — removed; hide if cached HTML/JS left it in the DOM */
+.compliment-banner {
+  display: none !important;
+}
+
 /* ── APP STAGE (Copy .screen-overlay) ─────────────────────────────────────── */
 
 body[data-mode="glasses"] #app {
@@ -16,7 +21,6 @@ body[data-mode="glasses"] #app {
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-  padding: 0 var(--edge) var(--edge) 0;
 }
 
 .screen-scrim {
