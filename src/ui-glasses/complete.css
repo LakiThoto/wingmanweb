@@ -1,9 +1,9 @@
 /* Route complete — Figma 1:1868 / Wingman Copy #screen-complete */
 
 :root {
-  /* Figma 1:1875 — stats row 552px; three tiles 173px + 16px gaps */
   --complete-stats-gap: 16px;
-  --complete-stat-w: 173px;
+  --complete-stats-max-w: 552px;
+  --complete-stat-min-h: 101px;
 }
 
 .complete-stack.screen-stack {
@@ -20,15 +20,25 @@
   gap: 24px;
   padding: 32px;
   box-sizing: border-box;
+  border: 3px solid rgba(156, 156, 156, 0.5);
   border-radius: 65px;
-  border-width: 3px;
-  border-color: rgba(156, 156, 156, 0.5);
   background: linear-gradient(to bottom, rgba(217, 217, 217, 0.1), rgba(0, 0, 0, 0.1));
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+}
+
+.complete-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
 }
 
 .complete-title-chip {
   display: inline-flex;
   align-items: center;
+  margin: 0;
   padding: 8px 16px;
   border-radius: 999px;
   background: transparent;
@@ -52,7 +62,7 @@
   max-width: 100%;
 }
 
-/* Figma 1:1875 — three stat shortcuts in one row */
+/* Figma 1:1875 — three stat shortcuts, 16px gap */
 .completion-stats {
   display: flex;
   flex-direction: row;
@@ -60,91 +70,74 @@
   align-items: stretch;
   gap: var(--complete-stats-gap);
   width: 100%;
+  max-width: var(--complete-stats-max-w);
 }
 
 .complete-stat-tile {
   flex: 1 1 0;
   min-width: 0;
+  min-height: var(--complete-stat-min-h);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
   gap: 8px;
-  padding: 18px 14px;
-  min-height: 101px;
+  padding: 24px;
   border-radius: 32px;
   border: 2px solid rgba(156, 156, 156, 0.5);
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(217, 217, 217, 0.3));
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: none;
   box-sizing: border-box;
-}
-
-/* Wider viewports: match Figma tile width (173–174px) */
-@media (min-width: 560px) {
-  .completion-stats {
-    max-width: calc(3 * var(--complete-stat-w) + 2 * var(--complete-stats-gap));
-  }
-
-  .complete-stat-tile {
-    flex: 0 0 var(--complete-stat-w);
-    max-width: var(--complete-stat-w);
-    padding: 24px;
-  }
+  overflow: hidden;
 }
 
 .complete-stat-val {
   font-family: var(--font);
-  font-size: clamp(18px, 4.2vw, 24px);
+  font-size: 24px;
   font-weight: 600;
   letter-spacing: 0.35px;
   line-height: normal;
   color: #fafcff;
+  white-space: nowrap;
 }
 
 .complete-stat-lbl {
   font-family: var(--font);
-  font-size: clamp(15px, 3.5vw, 20px);
-  font-weight: 500;
-  line-height: 1.2;
-  color: rgba(255, 255, 255, 0.48);
-}
-
-.screen-card--complete .complete-voice-hint {
-  margin: 0;
-  font-family: var(--font);
   font-size: 20px;
   font-weight: 500;
-  line-height: 28px;
-  letter-spacing: 0.45px;
-  color: rgba(255, 255, 255, 0.65);
+  line-height: 14.56px;
+  color: rgba(255, 255, 255, 0.48);
+  white-space: nowrap;
 }
 
-.screen-card--complete .complete-voice-hint em {
-  font-style: normal;
-  font-weight: 600;
-  color: #fff;
-  letter-spacing: 0.24px;
-}
-
-/* MRBD 472px stack — keep three stats on one row (Figma 1:1875) */
-body[data-mode="glasses"] .completion-stats,
-body[data-mode="lab"] #app .completion-stats {
-  gap: 12px;
+/* MRBD 472px — equal thirds, Figma typography unchanged */
+body[data-mode="glasses"] .screen-card.screen-card--complete,
+body[data-mode="lab"] #app .screen-card.screen-card--complete {
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
 }
 
 body[data-mode="glasses"] .complete-stat-tile,
 body[data-mode="lab"] #app .complete-stat-tile {
-  padding: 16px 10px;
-  min-height: 96px;
+  padding: 24px;
+  min-height: var(--complete-stat-min-h);
+}
+
+body[data-mode="glasses"] .complete-stat-val,
+body[data-mode="lab"] #app .complete-stat-val {
+  font-size: 24px;
+}
+
+body[data-mode="glasses"] .complete-stat-lbl,
+body[data-mode="lab"] #app .complete-stat-lbl {
+  font-size: 20px;
+}
+
+body[data-mode="glasses"] .complete-stack.screen-stack--cta-gap,
+body[data-mode="lab"] #app .complete-stack.screen-stack--cta-gap:has(.cta-layer) {
+  gap: var(--gap-card-cta);
 }
 
 body[data-exp="pro"] .screen-card--complete .complete-sub,
 body[data-exp="experienced"] .screen-card--complete .complete-sub {
-  display: none;
-}
-
-body[data-exp="pro"] .screen-card--complete .complete-voice-hint {
   display: none;
 }

@@ -58,16 +58,37 @@ export function buildDepotCtaRow(label: string, opts: DepotCtaOptions = {}): str
 </div>`.trim();
 }
 
-/** Wire both depot CTA controls to the same action. */
+/** Wire depot CTA row — whole row + triangle + pill share one action. */
 export function bindDepotCtaRow(
   root: ParentNode,
   handler: (ev: Event) => void,
   opts?: { mainSelector?: string; aiSelector?: string },
 ): void {
   const mainSel = opts?.mainSelector ?? '.depot-start-btn';
-  const aiSel = opts?.aiSelector ?? 'button.depot-cta-ai';
-  root.querySelector<HTMLButtonElement>(mainSel)?.addEventListener('click', handler);
-  root.querySelector<HTMLButtonElement>(aiSel)?.addEventListener('click', handler);
+  const main = root.querySelector<HTMLButtonElement>(mainSel);
+  if (!main || main.disabled || main.classList.contains('cf-delivered-cta-static'))
+    return;
+  const row = main.closest('.depot-cta-row');
+  if (!row)
+    return;
+  const fire = (ev: Event) => {
+    if (main.hidden || main.disabled || main.classList.contains('cf-delivered-cta-static'))
+      return;
+    handler(ev);
+  };
+  row.addEventListener('click', (ev) => {
+    if (ev.target instanceof HTMLElement && ev.target.closest('button[disabled], .cf-delivered-cta-static'))
+      return;
+    fire(ev);
+  });
+  row.addEventListener('keydown', (ev) => {
+    if (!(ev instanceof KeyboardEvent) || (ev.key !== 'Enter' && ev.key !== ' '))
+      return;
+    if (ev.target !== row && ev.target instanceof HTMLElement && ev.target.closest('button'))
+      return;
+    ev.preventDefault();
+    fire(ev);
+  });
 }
 
 /** WingmanCopy unified CTA: AI icon + expanding gradient pill inside one button. */
@@ -140,6 +161,8 @@ export interface VanDiagramOptions {
   loadMode?: boolean;
   /** Wrap in .load-vandiagram-tile (laden/zoek). False for locker mini diagram. */
   wrapped?: boolean;
+  /** Show label + position row above the diagram (off for load/zoek). */
+  showHeader?: boolean;
 }
 
 /** Wingman Copy van-map — 6 slots per row, green active slot in load mode. */
@@ -154,6 +177,7 @@ export function buildVanDiagram(
     slotsPerRow = 6,
     loadMode = true,
     wrapped = true,
+    showHeader = !wrapped,
   } = opts;
 
   const rowsHtml = ['A', 'B', 'C']
@@ -172,12 +196,16 @@ export function buildVanDiagram(
     })
     .join('');
 
-  const map = `
-  <div class="van-map${loadMode ? ' load-mode' : ''}">
+  const header = showHeader
+    ? `
     <div class="van-map-header">
       <span class="van-map-label">${label}</span>
       <span class="van-map-pos">${posLabel}</span>
-    </div>
+    </div>`
+    : '';
+  const map = `
+  <div class="van-map${loadMode ? ' load-mode' : ''}${showHeader ? '' : ' van-map--no-header'}">
+    ${header}
     <div class="van-diagram">
       <div class="van-cargo">
         ${rowsHtml}

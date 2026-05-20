@@ -31,21 +31,23 @@ type ConfirmPhase =
 
 const AUTO_CAPTURE_MS = 1500;
 const DELIVERED_DWELL_MS = 3000;
-const MOCK_PHOTO = '/assets/confirm/rescan-preview.png';
+/** After photo proof overlay — skip Figma 1:584 delivered card (proof is the confirmation). */
+const PHOTO_CONFIRM_DWELL_MS = 2500;
+const MOCK_PHOTO = '/assets/confirm/photo-proof-default.jpg';
 
 function photoResultMarkup(hidden: boolean): string {
   return `
     <div class="screen-card cf-card cf-phase-card cf-photo-card${hidden ? ' cf-hidden' : ''}" id="confirm-photo-card">
-      <div class="cf-card-body cf-branch-inner cf-photo-result-body">
-        <header class="cf-badge cf-badge--grid">
-          <img src="/assets/confirm/tile-check.svg" width="20" height="20" alt="" class="cf-badge-icon" aria-hidden="true" />
+      <div class="cf-card-body cf-photo-result-body">
+        <header class="cf-badge cf-badge--grid cf-badge--figma">
+          <img src="/assets/confirm/photo-title-icon.svg" width="20" height="20" alt="" class="cf-badge-icon" aria-hidden="true" decoding="async" />
           <span class="cf-badge-label">${t('bevestigen.title')}</span>
         </header>
         <div class="cf-photo-proof photo-result-zone" id="photo-result-zone">
-          <img id="photo-result" src="" alt="Bewijsfoto" />
-          <div class="cf-photo-proof-overlay photo-success-overlay">
-            <div class="cf-delivered-check" aria-hidden="true">
-              <img src="/assets/confirm/tile-check.svg" width="20" height="20" alt="" />
+          <img id="photo-result" src="" alt="Bewijsfoto" decoding="async" />
+          <div class="cf-photo-proof-overlay photo-success-overlay" aria-hidden="true">
+            <div class="cf-delivered-check">
+              <img src="/assets/confirm/photo-success-check.svg" width="20" height="20" alt="" decoding="async" />
             </div>
             <p class="cf-photo-proof-label">${t('confirm.photo.confirmed')}</p>
           </div>
@@ -103,6 +105,7 @@ export function mount(container: HTMLElement): () => void {
   let rescanTimer: ReturnType<typeof setTimeout> | null = null;
   let autoCaptureTimer: ReturnType<typeof setTimeout> | null = null;
   let deliveredTimer: ReturnType<typeof setTimeout> | null = null;
+  let photoConfirmTimer: ReturnType<typeof setTimeout> | null = null;
   let photoStream: MediaStream | null = null;
   let stopRescanCamera: (() => void) | null = null;
   let rescanVerified = false;
@@ -125,6 +128,7 @@ export function mount(container: HTMLElement): () => void {
     if (rescanTimer) clearTimeout(rescanTimer);
     if (autoCaptureTimer) clearTimeout(autoCaptureTimer);
     if (deliveredTimer) clearTimeout(deliveredTimer);
+    if (photoConfirmTimer) clearTimeout(photoConfirmTimer);
     stopCameraStream(photoStream);
     photoStream = null;
     stopRescanCamera?.();
@@ -145,16 +149,35 @@ export function mount(container: HTMLElement): () => void {
     completeDelivery({ method: 'home', markDelivered: false, skipAcknowledgement: true });
   }
 
+  function clearPhotoConfirmTimer(): void {
+    if (photoConfirmTimer) {
+      clearTimeout(photoConfirmTimer);
+      photoConfirmTimer = null;
+    }
+  }
+
   /** Summary CTA — tile already matches delivered card (Figma 1:1717); skip 1:584 dwell. */
   function confirmFromSummary(): void {
     clearDeliveredTimer();
+    clearPhotoConfirmTimer();
     stopCameraStream(photoStream);
     photoStream = null;
     completeDelivery({ method: 'home' });
   }
 
-  /** Foto / handtekening / scan opnieuw — show delivered card (Figma 1:584) then advance. */
+  /** Photo proof (Figma 1:326) is the confirmation — advance without 1:584 delivered card. */
+  function confirmFromPhoto(): void {
+    clearPhotoConfirmTimer();
+    clearDeliveredTimer();
+    stopCameraStream(photoStream);
+    photoStream = null;
+    if (phase !== 'photo-result') return;
+    completeDelivery({ method: 'home' });
+  }
+
+  /** Handtekening / scan opnieuw — show delivered card (Figma 1:584) then advance. */
   function requestConfirm(): void {
+    clearPhotoConfirmTimer();
     clearDeliveredTimer();
     stopCameraStream(photoStream);
     photoStream = null;
@@ -173,6 +196,7 @@ export function mount(container: HTMLElement): () => void {
   }
 
   function showPhase(next: ConfirmPhase): void {
+    if (next !== 'photo-result') clearPhotoConfirmTimer();
     phase = next;
     if (next === 'rescan') rescanVerified = false;
     render();
@@ -392,10 +416,8 @@ export function mount(container: HTMLElement): () => void {
       ${isSummary ? buildPrimaryCta(t('btn.bevestigen'), { id: 'btn-confirm-main' }) : ''}
     </div>
 
-    <div class="cta-layer${!isDelivered && (isPhotoRes || (isRescan && rescanVerified) || isSign) ? '' : ' cf-hidden'}">
-      ${isPhotoRes
-        ? buildPrimaryCta(t('bevestigen.success'), { id: 'btn-subflow-confirm', className: 'cf-photo-result-cta' })
-        : (isRescan && rescanVerified) ? buildPrimaryCta(t('btn.delivery_confirm'), { id: 'btn-subflow-confirm' }) : ''}
+    <div class="cta-layer${!isDelivered && ((isRescan && rescanVerified) || isSign) ? '' : ' cf-hidden'}">
+      ${(isRescan && rescanVerified) ? buildPrimaryCta(t('btn.delivery_confirm'), { id: 'btn-subflow-confirm' }) : ''}
       ${isSign ? buildPrimaryCta(t('btn.sign_confirm'), { id: 'btn-sign-ok' }) : ''}
     </div>
   </div>
@@ -407,7 +429,12 @@ export function mount(container: HTMLElement): () => void {
       if (img) img.src = pendingPhotoSrc || MOCK_PHOTO;
       pendingPhotoSrc = null;
       zone?.classList.remove('confirmed');
+      clearPhotoConfirmTimer();
       setTimeout(() => zone?.classList.add('confirmed'), 160);
+      photoConfirmTimer = setTimeout(
+        () => confirmFromPhoto(),
+        160 + PHOTO_CONFIRM_DWELL_MS,
+      );
     }
 
     attachHandlers();

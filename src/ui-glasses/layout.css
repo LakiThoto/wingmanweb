@@ -9,11 +9,6 @@
 
 /* ── APP STAGE (Copy .screen-overlay) ─────────────────────────────────────── */
 
-body[data-mode="glasses"] #app {
-  position: absolute;
-  inset: 0;
-}
-
 .screen-stage {
   position: absolute;
   inset: 0;
@@ -458,11 +453,12 @@ body[data-mode="glasses"] #app {
 .route-tab-bar {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: stretch;
+  align-items: center;
   width: 100%;
   padding: 5.5px;
   border-radius: 65px;
   border: 1.5px solid #9c9c9c;
+  box-sizing: border-box;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.30) 0%, rgba(217, 217, 217, 0.30) 100%),
     linear-gradient(90deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.07) 100%);
@@ -474,37 +470,42 @@ body[data-mode="glasses"] #app {
   align-items: center;
   justify-content: center;
   gap: 8px;
+  height: 57px;
   min-height: 57px;
+  max-height: 57px;
   padding: 8px 4px;
   border-radius: 32px;
   border: none;
   background: transparent;
   color: inherit;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
   min-width: 0;
   width: 100%;
   font-family: var(--font);
+  box-sizing: border-box;
 }
 
 .route-tab-bar .rtab.rtab-active {
-  gap: 12px;
+  gap: 8px;
   background: rgba(255, 255, 255, 0.12);
 }
 
 .rtab-count {
   font-family: var(--font);
-  font-size: 1.1rem;
-  font-weight: 800;
+  font-size: 20px;
+  font-weight: 700;
   color: #fff;
-  line-height: 1.1;
+  line-height: 17.6px;
+  margin: 0;
 }
 
 .rtab-label {
   font-family: var(--font);
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.07em;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.6496px;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.55);
   white-space: nowrap;
@@ -616,6 +617,8 @@ body[data-mode="glasses"] #app {
 /* ── CTA LAYER (WingmanCopy: card + separated actions) ───────────────────── */
 
 .cta-layer {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -623,6 +626,7 @@ body[data-mode="glasses"] #app {
   gap: var(--gap-cta);
   width: 100%;
   padding: 0;
+  pointer-events: auto;
 }
 
 .cta-layer .btn-primary[hidden] {
@@ -719,7 +723,11 @@ body[data-mode="glasses"] #app {
   transform: translateX(0) scale(1);
 }
 
-.btn-primary:hover.btn-ready .ai-text-pill { opacity: 0.92; }
+.btn-primary:hover.btn-ready .ai-text-pill {
+  opacity: 1;
+  filter: brightness(1.1);
+  box-shadow: var(--cta-inset-shadow);
+}
 .btn-primary:active.btn-ready .ai-text-pill { transform: scale(0.97); }
 
 .ai-btn-text {
@@ -760,6 +768,17 @@ body[data-mode="glasses"] #app {
   gap: 12px;
   width: 100%;
   flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+}
+
+.depot-cta-row:not(:has(.cf-delivered-cta-static)) {
+  cursor: pointer;
+}
+
+.depot-cta-row button {
+  pointer-events: auto;
 }
 
 .depot-cta-ai-btn {
@@ -997,7 +1016,10 @@ body[data-mode="glasses"] .rc-screen-stack {
 }
 
 .rc-btn-yes .rc-btn-label { color: #fff; }
-.rc-btn-yes:hover { opacity: 0.88; }
+.rc-btn-yes:hover {
+  filter: brightness(1.12);
+  box-shadow: 0 4px 16px var(--green-glow), 0 0 0 2px rgba(47, 216, 124, 0.45);
+}
 .rc-btn-yes:active { transform: scale(0.97); }
 .rc-btn-yes.focusable:focus-visible {
   box-shadow: 0 4px 10px var(--green-glow), var(--focus-ring);
@@ -1010,7 +1032,11 @@ body[data-mode="glasses"] .rc-screen-stack {
 }
 
 .rc-btn-no .rc-btn-label { color: #ffa0a0; }
-.rc-btn-no:hover { background: rgba(255, 82, 82, 0.2); }
+.rc-btn-no:hover {
+  background: rgba(255, 82, 82, 0.28);
+  border-color: rgba(255, 120, 120, 0.75);
+  box-shadow: 0 0 0 2px rgba(255, 82, 82, 0.35);
+}
 .rc-btn-no:active { transform: scale(0.97); }
 
 /* Legacy yes/no (niet-thuis grid) — kept for non-recipient screens */
@@ -1048,7 +1074,11 @@ body[data-mode="glasses"] .rc-screen-stack {
 .btn-no { background: var(--cta-gradient-no); }
 
 .btn-yes:hover.btn-ready,
-.btn-no:hover.btn-ready { opacity: 0.92; }
+.btn-no:hover.btn-ready {
+  opacity: 1;
+  filter: brightness(1.1);
+  box-shadow: var(--cta-inset-shadow);
+}
 
 .btn-yes:active.btn-ready,
 .btn-no:active.btn-ready { transform: scale(0.97); }
@@ -1084,14 +1114,17 @@ body[data-mode="glasses"] .rc-screen-stack {
 
 .alt-tile:hover,
 .choice-tile:hover {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.07));
-  border-color: rgba(200, 200, 200, 0.5);
+  background: var(--hover-surface-bg);
+  border-color: var(--hover-surface-border);
+  box-shadow: none;
 }
 
-.alt-tile:focus,
-.choice-tile:focus,
+.alt-tile:focus-visible,
+.choice-tile:focus-visible,
 .alt-tile.selected,
-.choice-tile.selected { border-color: var(--orange); }
+.choice-tile.selected {
+  border: var(--selection-border);
+}
 
 .alt-tile:active,
 .choice-tile:active { transform: scale(0.97); }
@@ -1176,10 +1209,14 @@ body[data-mode="glasses"] .rc-screen-stack {
   font-family: var(--font);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
 }
 
 .nb-choice.selected,
-.nb-choice:focus { border-color: rgba(255, 255, 255, 0.6); }
+.nb-choice.nb-choice-active,
+.nb-choice:focus-visible {
+  border: var(--selection-border);
+}
 
 .depot-headline,
 .card-title.depot-headline {

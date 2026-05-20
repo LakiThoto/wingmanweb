@@ -3,55 +3,57 @@ import { focusFirst } from '@/input/dpad';
 import { runCtaEntranceAnimations } from '@/core/cta-animate';
 import { playPhaseEnter } from '@/core/screen-transition';
 import { iconImg } from '@/ui/icons';
-function depotPillInner(label, pillIcon) {
-    if (pillIcon === 'scan') {
-        return `<img src="/assets/confirm/barcode.svg" width="24" height="24" alt="" class="depot-pill-icon depot-pill-icon--scan" aria-hidden="true" /><span class="ai-btn-text">${label}</span>`;
-    }
-    if (pillIcon === 'check') {
-        return `<img src="/assets/confirm/pill-check.svg" width="36" height="36" alt="" class="depot-pill-icon depot-pill-icon--check" aria-hidden="true" /><span class="ai-btn-text">${label}</span>`;
-    }
-    return `<span class="ai-btn-text">${label}</span>`;
-}
-/** Figma depot row — AI triangle + gradient pill, 12px gap (start / route / confirm). */
+/** Figma depot row — AI triangle + gradient pill, 12px gap. */
 export function buildDepotCtaRow(label, opts = {}) {
-    const { id = '', aiId = id ? `${id}-ai` : 'btn-depot-ai', hidden = false, pillClass = '', btnClass = '', rowClass = '', ariaLabel, pillIcon, static: isStatic = false, } = opts;
+    const { id = '', aiId = id ? `${id}-ai` : 'btn-depot-ai', hidden = false, pillClass = '', btnClass = '', rowClass = '', ariaLabel, } = opts;
     const idAttr = id ? ` id="${id}"` : '';
     const aiIdAttr = ` id="${aiId}"`;
     const hiddenAttr = hidden ? ' hidden' : '';
-    const rowHiddenClass = hidden ? ' cf-hidden' : '';
     const extraBtnClass = btnClass ? ` ${btnClass}` : '';
     const extraPillClass = pillClass ? ` ${pillClass}` : '';
     const extraRowClass = rowClass ? ` ${rowClass}` : '';
-    const staticClass = isStatic ? ' cf-delivered-cta-static' : '';
     const aria = (ariaLabel ?? label).replace(/"/g, '&quot;');
-    const tabAi = isStatic ? ' tabindex="-1"' : ' tabindex="0"';
-    const tabMain = isStatic ? ' tabindex="-1"' : ' tabindex="0"';
-    const disabledAttr = isStatic ? ' disabled' : '';
     return `
-<div class="cta-layer depot-cta-row${extraRowClass}${rowHiddenClass}">
-  <button type="button" class="focusable depot-cta-ai"${aiIdAttr}${tabAi}${hiddenAttr}${disabledAttr} aria-label="${aria}">
+<div class="cta-layer depot-cta-row${extraRowClass}">
+  <button type="button" class="focusable depot-cta-ai"${aiIdAttr} tabindex="0"${hiddenAttr} aria-label="${aria}">
     <span class="ai-icon-shape">
       <img src="/assets/ai-icon.png" class="ai-triangle" alt="" width="52" height="52" decoding="async" />
     </span>
   </button>
-  <button type="button" class="focusable btn-primary depot-start-btn${extraBtnClass}${staticClass}"${idAttr}${tabMain}${hiddenAttr}${disabledAttr} aria-label="${aria}">
+  <button type="button" class="focusable btn-primary depot-start-btn${extraBtnClass}"${idAttr} tabindex="0"${hiddenAttr} aria-label="${aria}">
     <div class="ai-text-pill depot-start-pill${extraPillClass}">
-      ${depotPillInner(label, pillIcon)}
+      <span class="ai-btn-text">${label}</span>
     </div>
   </button>
 </div>`.trim();
 }
-/** Wire both depot CTA controls to the same action. */
+/** Wire depot CTA row — whole row + triangle + pill share one action. */
 export function bindDepotCtaRow(root, handler, opts) {
     const mainSel = opts?.mainSelector ?? '.depot-start-btn';
     const main = root.querySelector(mainSel);
-    const ai = root.querySelector(opts?.aiSelector ?? '') ??
-        (main?.id ? root.querySelector(`#${main.id}-ai`) : null) ??
-        root.querySelector('button.depot-cta-ai');
-    if (main?.disabled || main?.classList.contains('cf-delivered-cta-static'))
+    if (!main || main.disabled || main.classList.contains('cf-delivered-cta-static'))
         return;
-    main?.addEventListener('click', handler);
-    ai?.addEventListener('click', handler);
+    const row = main.closest('.depot-cta-row');
+    if (!row)
+        return;
+    const fire = (ev) => {
+        if (main.hidden || main.disabled || main.classList.contains('cf-delivered-cta-static'))
+            return;
+        handler(ev);
+    };
+    row.addEventListener('click', (ev) => {
+        if (ev.target instanceof HTMLElement && ev.target.closest('button[disabled], .cf-delivered-cta-static'))
+            return;
+        fire(ev);
+    });
+    row.addEventListener('keydown', (ev) => {
+        if (!(ev instanceof KeyboardEvent) || (ev.key !== 'Enter' && ev.key !== ' '))
+            return;
+        if (ev.target !== row && ev.target instanceof HTMLElement && ev.target.closest('button'))
+            return;
+        ev.preventDefault();
+        fire(ev);
+    });
 }
 /** WingmanCopy unified CTA: AI icon + expanding gradient pill inside one button. */
 export function buildPrimaryCta(label, opts = {}) {
@@ -97,7 +99,7 @@ export function renderScreen(opts) {
 }
 /** Wingman Copy van-map — 6 slots per row, green active slot in load mode. */
 export function buildVanDiagram(activeRow, activePos, opts = {}) {
-    const { label = 'Plaatsing in bus', posLabel = `${activePos} / 40 ${activeRow}`, slotsPerRow = 6, loadMode = true, wrapped = true, } = opts;
+    const { label = 'Plaatsing in bus', posLabel = `${activePos} / 40 ${activeRow}`, slotsPerRow = 6, loadMode = true, wrapped = true, showHeader = !wrapped, } = opts;
     const rowsHtml = ['A', 'B', 'C']
         .map(row => {
         const isActiveRow = row === activeRow;
@@ -112,12 +114,16 @@ export function buildVanDiagram(activeRow, activePos, opts = {}) {
     </div>`;
     })
         .join('');
-    const map = `
-  <div class="van-map${loadMode ? ' load-mode' : ''}">
+    const header = showHeader
+        ? `
     <div class="van-map-header">
       <span class="van-map-label">${label}</span>
       <span class="van-map-pos">${posLabel}</span>
-    </div>
+    </div>`
+        : '';
+    const map = `
+  <div class="van-map${loadMode ? ' load-mode' : ''}${showHeader ? '' : ' van-map--no-header'}">
+    ${header}
     <div class="van-diagram">
       <div class="van-cargo">
         ${rowsHtml}
@@ -150,43 +156,6 @@ export function buildLoadVanPhase(address, van) {
         loadMode: true,
         wrapped: true,
     })}
-</div>`.trim();
-}
-/** Green delivery summary tile — Figma 1:1717 / 1:584 (shared by bevestigen + veiligeplek). */
-export function buildConfirmDeliveryTile(opts) {
-    const variant = opts.variant ?? 'summary';
-    const addrId = opts.addressId ? ` id="${opts.addressId}"` : '';
-    const pkgId = opts.pkgCountId ? ` id="${opts.pkgCountId}"` : '';
-    const trackId = opts.trackingId ? ` id="${opts.trackingId}"` : '';
-    const topRow = variant === 'delivered'
-        ? `<div class="cf-delivery-tile-top cf-delivered-tile-top">
-        <div class="cf-delivered-status">
-          <div class="cf-delivered-check" aria-hidden="true">
-            <img src="/assets/confirm/tile-check.svg" width="20" height="20" alt="" />
-          </div>
-          <span class="cf-delivered-status-label">${opts.statusLabel ?? 'Bevestigd'}</span>
-        </div>
-        <p class="cf-delivered-address cf-address"${addrId}>${opts.address}</p>
-      </div>`
-        : `<div class="cf-delivery-tile-top cf-summary-top">
-        <div class="cf-check-badge" aria-hidden="true">
-          <img src="/assets/confirm/tile-check.svg" width="20" height="20" alt="" class="cf-check-icon" />
-        </div>
-        <p class="cf-address"${addrId}>${opts.address}</p>
-      </div>`;
-    return `
-<div class="cf-delivery-tile cf-summary-tile${variant === 'delivered' ? ' cf-delivered-tile' : ''}">
-  ${topRow}
-  <div class="cf-meta-row">
-    <div class="cf-meta-group">
-      ${iconImg('meta-arrow-right', 'cf-meta-img cf-meta-img--deliver', 24)}
-      <span class="cf-pkg-count"${pkgId}>${opts.pkgCount}</span>
-    </div>
-    <div class="cf-meta-group cf-meta-group--code">
-      ${iconImg('load-scan-barcode-icon', 'cf-meta-img cf-meta-img--barcode', 24)}
-      <span class="cf-tracking"${trackId}>${opts.tracking}</span>
-    </div>
-  </div>
 </div>`.trim();
 }
 export function buildAddressHero(opts) {

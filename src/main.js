@@ -9,6 +9,9 @@ import '@/ui-glasses/tier.css';
 import '@/ui-glasses/confirm.css';
 import '@/ui-glasses/locker.css';
 import '@/ui-glasses/branches.css';
+import '@/ui-glasses/niet-thuis.css';
+import '@/ui-glasses/later.css';
+import '@/ui-glasses/buren.css';
 import '@/ui-glasses/scan-load.css';
 import '@/ui-glasses/load-van.css';
 import '@/ui-glasses/return.css';
@@ -120,10 +123,8 @@ async function boot() {
     initHandMenu();
     initGestures();
     initVoice();
-    if (mode === 'lab') {
-        const { mountCompanion } = await import('@/ui-lab/companion');
-        mountCompanion();
-    }
+    const { mountCompanion } = await import('@/ui-lab/companion');
+    mountCompanion();
     const app = document.getElementById('app');
     if (!app)
         throw new Error('#app element not found');

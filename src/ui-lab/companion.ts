@@ -1,4 +1,4 @@
-// Lab settings control — bottom-left button opens the assistant settings menu.
+// Settings control (lab + glasses) — bottom-left button opens the assistant menu.
 
 import { t } from '@/core/strings';
 import { settingsIcon } from '@/ui/icons';
@@ -17,6 +17,7 @@ export function mountCompanion(): void {
   btn.id = SETTINGS_BTN_ID;
   btn.type = 'button';
   btn.className = 'companion-settings-btn focusable';
+  btn.tabIndex = 0;
   btn.setAttribute('aria-label', t('start.settings_title'));
   btn.setAttribute('aria-expanded', 'false');
   btn.setAttribute('aria-haspopup', 'dialog');

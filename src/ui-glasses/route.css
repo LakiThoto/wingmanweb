@@ -43,21 +43,18 @@
   color: var(--text);
 }
 
-.route-tab-bar .rtab-count {
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 17.6px;
-}
-
-.route-tab-bar .rtab-label {
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 0.65px;
-  text-transform: uppercase;
+/* Tab bar — Figma 1:712 (~68px total: 5.5 + 57 + 5.5 padding) */
+.route-screen-stack .route-tab-bar {
+  align-items: center;
 }
 
 .route-stop-list {
   max-height: min(38vh, 260px);
+}
+
+body[data-mode="glasses"] .route-stop-list,
+body[data-mode="lab"] #app .route-stop-list {
+  max-height: var(--glasses-route-list-max);
 }
 
 .stop-item-outer {

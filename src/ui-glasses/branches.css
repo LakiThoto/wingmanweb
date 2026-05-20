@@ -95,13 +95,19 @@
   overflow: hidden;
 }
 
+.sp-screen .sp-tile {
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+
 .sp-screen .sp-tile:hover {
-  border-color: rgba(200, 200, 200, 0.65);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.42), rgba(217, 217, 217, 0.38));
+  border-color: var(--hover-surface-border);
+  box-shadow: none;
 }
 
 .sp-screen .sp-tile-active,
 .sp-screen .sp-tile.selected {
-  border-color: rgba(255, 255, 255, 0.65) !important;
+  border: var(--selection-border) !important;
 }
 
 .sp-screen .sp-tile-icon,
@@ -485,60 +491,6 @@ body[data-mode="lab"] #app .sp-screen .sp-tile {
   font-size: 0.82rem;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.62);
-}
-
-/* Later */
-.later-context {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.later-context-name {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.later-context-addr {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.52);
-}
-
-.later-choices--two {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.later-choice {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 18px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.08), rgba(217, 217, 217, 0.04));
-  border: 1.5px solid rgba(156, 156, 156, 0.28);
-  border-radius: var(--r-inner);
-  cursor: pointer;
-  text-align: left;
-  font-family: var(--font);
-  color: var(--text);
-}
-
-.later-choice-active,
-.later-choice.selected {
-  border-color: rgba(255, 255, 255, 0.6) !important;
-}
-
-.later-choice-label {
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-.later-choice-sub {
-  font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.48);
-  margin-top: 3px;
 }
 
 body[data-exp="experienced"] .hide-on-experienced {

@@ -130,7 +130,8 @@ export const STRINGS: Record<string, string> = {
   'niet_thuis.punt_label':    'PostNL Punt',
   'niet_thuis.punt_sub':      'Dichtstbijzijnde locatie',
   'niet_thuis.later_label':   'Later bezorgen',
-  'niet_thuis.voice_hint':    'Zeg bijvoorbeeld "buren" of "later"',
+  'niet_thuis.voice_prefix':  'Zeg ',
+  'niet_thuis.voice_em':      '"buren" of "later"',
 
   // ── buren ─────────────────────────────────────────────────────────────
   'buren.title':              'Afgeven buren',
@@ -172,9 +173,10 @@ export const STRINGS: Record<string, string> = {
   'later.title':              'Later bezorgen',
   'later.today_label':        'Vandaag opnieuw',
   'later.today_sub':          'Later vandaag terugkomen',
-  'later.tomorrow_label':     '2e bezorgpoging',
+  'later.tomorrow_label':     '2e bezorgingpoging',
   'later.tomorrow_sub':       'Morgen een nieuwe afspraak',
-  'later.voice_hint':         "Zeg 'later' of 'morgen'",
+  'later.voice_prefix':       'Zeg ',
+  'later.voice_em':           '"vandaag" of "Retour"',
   'btn.later_bevestigen':     'Bevestigen',
   'btn.niemand_thuis':        'Niemand thuis',
 
@@ -218,11 +220,11 @@ export const STRINGS: Record<string, string> = {
   'compliment.locker.pro':          '',
 
   // ── return / complete / feedback ────────────────────────────────────
-  'return.title':                   'Afgeleverd — Teruglopen',
-  'return.stop.done':               '{n} stop afgerond',
-  'return.next.label':              'Volgende stop',
-  'return.eta.static':              '± 4 min rijden',
-  'return.hint.dog':                'Hond aanwezig bij volgende stop',
+  'return.title':                   'Terug naar bus',
+  'return.stat.walk':               '50 meter',
+  'return.stat.drive':              '~6 min',
+  'return.stat.drive_label':        'Naar stop',
+  'return.stat.next_label':         'Volgende',
   'btn.return.to.van':              'Terug naar bus',
 
   'return.feedforward':             'Stop afgerond. Terug naar de bus. Volgende: {addr}.',
@@ -258,7 +260,7 @@ export const STRINGS: Record<string, string> = {
   'voice.route.complete.pro':       'Route voltooid.',
 
   'complete.title':                 'Route voltooid',
-  'complete.sub':                   'Alle pakketten verwerkt voor vandaag.',
+  'complete.sub':                   'Alle pakketten verwerkt voor vandaag',
   'complete.stat.deliveries':       'Bezorgingen',
   'complete.stat.walked':           'Gelopen',
   'complete.stat.success':          'Geslaagd',
@@ -269,11 +271,12 @@ export const STRINGS: Record<string, string> = {
   'btn.complete.restart':           'Opnieuw starten',
 
   'locker.find.chip':               'Zoek in bus',
-  'locker.place.title':             'Plaatsen in locker',
-  'locker.place.sub':               'Scan daarna de barcode op het label.',
+  'locker.find.sub':                'Haal het pakket uit de bus voor je naar het PostNL Punt gaat.',
+  'locker.place.title':             'Plaatsen in parcel locker',
+  'locker.place.sub':               'Leg het pakket in het locker-vak en scan daarna de barcode op het label.',
   'locker.btn.navigate':            'Navigeer',
   'locker.btn.to.find':             'Zoek pakket in bus',
-  'locker.btn.to.place':            'Plaats in locker',
+  'locker.btn.pakket_meegenomen':   'Pakket meegenomen',
   'locker.btn.scan':                'Scan barcode',
   'locker.scan.status':             'Locker scannen…',
   'btn.locker.confirm':             'Bon afdrukken & bevestigen',

@@ -1,6 +1,5 @@
 // Screen: scan — package barcode scanning
-// Figma: E 1:2088 · P 1:3845
-// Copy: load-phase-scan beam + status reveal; lab: live camera in frame.
+// Figma 1:637 · beam + package preview in frame
 
 import { focusScreen, buildPrimaryCta } from './_frame';
 import { iconImg, loadVoiceMicPill } from '@/ui/icons';
@@ -13,11 +12,15 @@ import {
   startScanStatusReveal,
 } from '@/core/scan-anim';
 
-function buildCameraMarkup(mode: 'lab' | 'glasses'): string {
-  if (mode === 'lab') {
-    return `<video id="scan-video" class="scan-video-in-frame" autoplay muted playsinline></video>`;
-  }
-  return `<img class="load-camera-img" src="/assets/package-label.png" alt="" aria-hidden="true" />`;
+const SCAN_PACKAGE_IMG = '/assets/scan/package-label.png';
+
+/** Figma 1:647 — package label in frame; lab keeps hidden video for ZXing. */
+function buildScanFrameMarkup(mode: 'lab' | 'glasses'): string {
+  const captureVideo =
+    mode === 'lab'
+      ? `<video id="scan-video" class="scan-video-in-frame scan-video--capture" autoplay muted playsinline aria-hidden="true"></video>`
+      : '';
+  return `${captureVideo}<img class="load-package-preview" src="${SCAN_PACKAGE_IMG}" alt="" decoding="async" aria-hidden="true" />`;
 }
 
 export function mount(container: HTMLElement): () => void {
@@ -40,7 +43,7 @@ export function mount(container: HTMLElement): () => void {
 
     <div id="scan-preview-block" class="load-scan-preview-block">
       <div class="load-camera-frame">
-        ${buildCameraMarkup(mode)}
+        ${buildScanFrameMarkup(mode)}
         <div class="load-scan-beam-anim" id="scan-beam" aria-hidden="true"></div>
       </div>
       <div class="load-status-reveal-shell" aria-hidden="true">

@@ -29,6 +29,10 @@
   width: 100%;
 }
 
+.locker-screen .locker-flow.cf-hidden {
+  display: none !important;
+}
+
 .locker-screen .locker-flow--nav {
   gap: 16px;
 }

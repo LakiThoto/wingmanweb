@@ -1,11 +1,24 @@
 // Screen: punt — PostNL Punt (4-phase locker hand-in)
-// Figma navigate 1:490 · find-in-van 1:1481 · Copy #screen-locker
-import { focusScreen, buildLoadVanPhase, buildDepotCtaRow, bindDepotCtaRow } from './_frame';
+// Figma 1:490 · Copy #screen-locker
+import { focusScreen, buildBusDiagram } from './_frame';
 import { playPhaseEnter } from '@/core/screen-transition';
 import { iconImg } from '@/ui/icons';
 import { getActiveDelivery } from '@/core/state';
 import { completeLockerHandoff } from '@/core/delivery-complete';
 import { t } from '@/core/strings';
+function lockerArriveCta(label, id, hidden, variant = 'check') {
+    const pillClass = variant === 'scan' ? 'cf-confirm-pill cf-confirm-pill--scan' : 'cf-confirm-pill';
+    const pillIcon = variant === 'scan'
+        ? '<img src="/assets/confirm/barcode.svg" width="24" height="24" alt="" class="cf-pill-scan-icon" aria-hidden="true" />'
+        : '<img src="/assets/confirm/pill-check.svg" width="36" height="36" alt="" class="cf-pill-check" aria-hidden="true" />';
+    return `
+<button type="button" class="focusable cf-confirm-btn locker-cta-btn${hidden ? ' cf-hidden' : ''}" id="${id}" tabindex="0">
+  <span class="${pillClass}">
+    ${pillIcon}
+    <span class="cf-confirm-label">${label}</span>
+  </span>
+</button>`.trim();
+}
 export function mount(container) {
     let phase = 'navigate';
     let hasRendered = false;
@@ -55,33 +68,18 @@ export function mount(container) {
         </p>
       </div>`;
         const findBlock = `
-      <div class="locker-flow${isFind ? '' : ' cf-hidden'}" data-locker-phase="find_in_van">
+      <div class="locker-flow locker-flow--find${isFind ? '' : ' cf-hidden'}" data-locker-phase="find_in_van">
         <header class="cf-badge cf-badge--grid cf-badge--figma">
           ${iconImg('barcode', 'cf-badge-icon', 20)}
           <span class="cf-badge-label">${t('locker.find.chip')}</span>
         </header>
-        <p class="locker-find-hint">${t('zoek.title')}</p>
-        <div class="load-header-row">
-          <div class="screen-chip">
-            <img class="chip-icon" src="/assets/icons/barcode.svg" alt="" />
-            ${t('zoek.title')}
-          </div>
+        <p class="locker-find-hint">${t('locker.find.sub')}</p>
+        <div class="locker-mini-van">
+          ${buildBusDiagram(delivery?.rowInVan ?? 'B', delivery?.positionInRow ?? 1, 3, t('zoek.row_label'), `${delivery?.positionInRow ?? 1} / 40 ${delivery?.rowInVan ?? 'B'}`)}
         </div>
-        ${buildLoadVanPhase({
-            address: delivery?.address ?? t('zoek.address'),
-            positionInRow: delivery?.positionInRow ?? 12,
-            rowInVan: delivery?.rowInVan ?? 'B',
-            packageId: delivery?.id ?? t('zoek.package_code'),
-            stopNumber: 1,
-        }, {
-            activeRow: delivery?.rowInVan ?? 'B',
-            activePos: delivery?.positionInRow ?? 12,
-            label: t('zoek.chip'),
-            posLabel: '',
-        })}
       </div>`;
         const placeBlock = `
-      <div class="locker-flow${isPlace ? '' : ' cf-hidden'}" data-locker-phase="place_in_locker">
+      <div class="locker-flow locker-flow--place${isPlace ? '' : ' cf-hidden'}" data-locker-phase="place_in_locker">
         <header class="cf-badge cf-badge--grid cf-badge--figma">
           <span class="cf-badge-label">${t('locker.place.title')}</span>
         </header>
@@ -99,7 +97,7 @@ export function mount(container) {
         const advanceLabel = isNav
             ? t('locker.btn.navigate')
             : isFind
-                ? t('locker.btn.to.place')
+                ? t('locker.btn.pakket_meegenomen')
                 : t('locker.btn.to.find');
         const showAdvance = !isPlace && !isPrint;
         const showScan = isPlace;
@@ -114,26 +112,33 @@ export function mount(container) {
       ${printBlock}
     </div>
   </div>
-  ${buildDepotCtaRow(advanceLabel, { id: 'btn-locker-advance', hidden: !showAdvance, rowClass: 'locker-depot-cta', pillIcon: 'check' })}
-  ${buildDepotCtaRow(t('locker.btn.scan'), { id: 'btn-locker-scan', hidden: !showScan, rowClass: 'locker-depot-cta', pillIcon: 'scan' })}
-  ${buildDepotCtaRow(t('btn.bevestigen'), { id: 'btn-locker-done', hidden: !showDone, rowClass: 'locker-depot-cta', pillIcon: 'check' })}
+  <div class="cf-cta-layer locker-cta-layer">
+    <div class="cf-arrive-cta locker-arrive-cta">
+      <div class="cf-arrive-ai" aria-hidden="true">
+        <img src="/assets/confirm/arrive-ai.svg" width="70" height="69" alt="" class="cf-arrive-ai-img" decoding="async" />
+      </div>
+      ${lockerArriveCta(advanceLabel, 'btn-locker-advance', !showAdvance)}
+      ${lockerArriveCta(t('locker.btn.scan'), 'btn-locker-scan', !showScan, 'scan')}
+      ${lockerArriveCta(t('btn.bevestigen'), 'btn-locker-done', !showDone)}
+    </div>
+  </div>
 </div>`;
-        bindDepotCtaRow(container, () => {
+        container.querySelector('#btn-locker-advance')?.addEventListener('click', () => {
             if (phase === 'navigate')
                 enterPhase('find_in_van');
             else if (phase === 'find_in_van')
                 enterPhase('place_in_locker');
-        }, { mainSelector: '#btn-locker-advance' });
-        bindDepotCtaRow(container, () => {
+        });
+        container.querySelector('#btn-locker-scan')?.addEventListener('click', () => {
             const status = container.querySelector('#locker-scan-status');
             status?.classList.remove('cf-hidden');
             if (scanTimer)
                 clearTimeout(scanTimer);
             scanTimer = setTimeout(() => enterPhase('print_ready'), 900);
-        }, { mainSelector: '#btn-locker-scan' });
-        bindDepotCtaRow(container, () => {
+        });
+        container.querySelector('#btn-locker-done')?.addEventListener('click', () => {
             completeLockerHandoff();
-        }, { mainSelector: '#btn-locker-done' });
+        });
         if (hasRendered)
             playPhaseEnter(container);
         hasRendered = true;

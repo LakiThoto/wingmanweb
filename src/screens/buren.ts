@@ -1,11 +1,27 @@
 // Screen: buren — Afgeven bij de buren
-// Figma: B 1:539 · E 1:2365 · P 1:5357
+// Figma 1:540
 
 import { focusScreen, buildDepotCtaRow, bindDepotCtaRow } from './_frame';
 import { setNeighborChoice, getState } from '@/core/state';
 import { completeDelivery } from '@/core/delivery-complete';
 import { t } from '@/core/strings';
-import { iconImg, loadVoiceMicPill } from '@/ui/icons';
+import { iconImg } from '@/ui/icons';
+
+function buildNeighborChoice(id: string, num: string, dir: string): string {
+  return `
+      <button type="button" class="focusable nb-choice" id="${id}" tabindex="0">
+        <span class="nb-choice-head">
+          <span class="nb-choice-icon-wrap">${iconImg('icon-home', 'nb-choice-icon', 32)}</span>
+          <span class="nb-choice-num">${num}</span>
+        </span>
+        <span class="nb-choice-dir pro-hide">${dir}</span>
+      </button>`;
+}
+
+function confirmNeighbor(choice: 'left' | 'right'): void {
+  setNeighborChoice(choice);
+  completeDelivery({ method: 'neighbor' });
+}
 
 export function mount(container: HTMLElement): () => void {
   const state = getState();
@@ -14,58 +30,31 @@ export function mount(container: HTMLElement): () => void {
     ? `${delivery.address} ${delivery.postcode} ${delivery.city}`.trim()
     : t('buren.address');
 
-  function render(selected: 'left' | 'right'): void {
-    const leftCls = selected === 'left' ? ' nb-choice-active selected' : '';
-    const rightCls = selected === 'right' ? ' nb-choice-active selected' : '';
-
-    container.innerHTML = `
+  container.innerHTML = `
 <div class="screen-stack screen-stack--cta-gap">
-  <div class="screen-card">
-    <div class="screen-chip"><img class="chip-icon" src="/assets/icons/badge-icon.svg" alt="" /> ${t('buren.title')}</div>
+  <div class="screen-card screen-card--buren">
+    <div class="screen-chip">
+      <img class="chip-icon" src="/assets/icons/badge-icon.svg" width="20" height="20" alt="" aria-hidden="true" />
+      ${t('buren.title')}
+    </div>
     <p class="nb-delivery-address">${addr}</p>
     <div class="nb-choices" data-focus-axis="horizontal">
-      <button class="focusable nb-choice${leftCls}" id="btn-left" tabindex="0">
-        <span class="nb-choice-icon-wrap">${iconImg('icon-home', 'nb-choice-icon', 20)}</span>
-        <div>
-          <div class="nb-choice-num">${t('buren.left_label')}</div>
-          <div class="nb-choice-dir pro-hide">${t('buren.left_dir')}</div>
-        </div>
-      </button>
-      <button class="focusable nb-choice${rightCls}" id="btn-right" tabindex="0">
-        <span class="nb-choice-icon-wrap">${iconImg('icon-home', 'nb-choice-icon', 20)}</span>
-        <div>
-          <div class="nb-choice-num">${t('buren.right_label')}</div>
-          <div class="nb-choice-dir pro-hide">${t('buren.right_dir')}</div>
-        </div>
-      </button>
+      ${buildNeighborChoice('btn-left', t('buren.left_label'), t('buren.left_dir'))}
+      ${buildNeighborChoice('btn-right', t('buren.right_label'), t('buren.right_dir'))}
     </div>
-    <div class="voice-hint pro-hide">
-      ${loadVoiceMicPill()}
-      Zeg <strong>"Links"</strong> of <strong>"Rechts"</strong>
-    </div>
+    <p class="buren-voice-hint pro-hide">
+      <span class="bvn-voice-dim">Zeg </span><span class="bvn-voice-em">"Links"</span><span class="bvn-voice-dim"> of </span><span class="bvn-voice-em">"Rechts"</span><span class="bvn-voice-dim"> of </span><span class="bvn-voice-em">"Huisnummer"</span>
+    </p>
   </div>
   ${buildDepotCtaRow(t('btn.neighbor.confirm'), { id: 'btn-buren-bevestigen', rowClass: 'buren-depot-cta' })}
 </div>`;
 
-    attachHandlers(selected);
-    focusScreen();
-  }
+  container.querySelector('#btn-left')?.addEventListener('click', () => confirmNeighbor('left'));
+  container.querySelector('#btn-right')?.addEventListener('click', () => confirmNeighbor('right'));
+  bindDepotCtaRow(container, () => {
+    confirmNeighbor(state.neighborChoice ?? 'left');
+  }, { mainSelector: '#btn-buren-bevestigen' });
 
-  function attachHandlers(selected: 'left' | 'right'): void {
-    container.querySelector('#btn-left')?.addEventListener('click', () => {
-      setNeighborChoice('left');
-      render('left');
-    });
-    container.querySelector('#btn-right')?.addEventListener('click', () => {
-      setNeighborChoice('right');
-      render('right');
-    });
-    bindDepotCtaRow(container, () => {
-      setNeighborChoice(selected);
-      completeDelivery({ method: 'neighbor' });
-    }, { mainSelector: '#btn-buren-bevestigen' });
-  }
-
-  render('left');
+  focusScreen(container);
   return () => {};
 }

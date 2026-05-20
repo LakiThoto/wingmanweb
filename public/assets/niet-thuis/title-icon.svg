@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Title Icon">
+<path id="Vector" d="M8.66732 9.16667C10.5083 9.16667 12.0007 7.67428 12.0007 5.83333C12.0007 3.99238 10.5083 2.5 8.66732 2.5C6.82637 2.5 5.33398 3.99238 5.33398 5.83333C5.33398 7.67428 6.82637 9.16667 8.66732 9.16667Z" stroke="var(--stroke-0, white)" stroke-width="1.66667"/>
+<path id="Vector_2" d="M2 17.5C2 14.1666 4.98333 11.6666 8.66667 11.6666C12.35 11.6666 15.3333 14.1666 15.3333 17.5" stroke="var(--stroke-0, white)" stroke-width="1.66667" stroke-linecap="round"/>
+<g id="Vector_3">
+<path d="M15 1.5L18.3333 4.83333ZM18.3333 1.5L15 4.83333Z" fill="var(--fill-0, black)"/>
+<path d="M15 1.5L18.3333 4.83333M18.3333 1.5L15 4.83333" stroke="var(--stroke-0, white)" stroke-width="1.66667" stroke-linecap="round"/>
+</g>
+</g>
+</svg>

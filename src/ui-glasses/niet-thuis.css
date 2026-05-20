@@ -1,0 +1,200 @@
+/* Niet-thuis choice screen — Figma 1:367 */
+
+:root {
+  --nth-grid-w: 536px;
+  --nth-card-w: calc(var(--nth-grid-w) + 2 * var(--pad-card));
+}
+
+body[data-mode="glasses"] .screen-mount:has(.screen-card--niet-thuis),
+body[data-mode="lab"] #app .screen-mount:has(.screen-card--niet-thuis) {
+  width: min(var(--nth-card-w), var(--glasses-viewport));
+  max-width: min(var(--nth-card-w), 100%);
+}
+
+body[data-mode="glasses"] .screen-mount > .screen-stack:has(.screen-card--niet-thuis),
+body[data-mode="lab"] #app .screen-mount > .screen-stack:has(.screen-card--niet-thuis) {
+  width: 100%;
+  max-width: 100%;
+}
+
+.screen-card.screen-card--niet-thuis {
+  gap: 24px;
+  padding: 32px;
+  box-sizing: border-box;
+  border: 3px solid rgba(156, 156, 156, 0.5);
+  border-radius: 65px;
+  background: linear-gradient(to bottom, rgba(217, 217, 217, 0.1), rgba(0, 0, 0, 0.1));
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+}
+
+.nth-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
+}
+
+/* Figma 1:370 — title chip */
+.nth-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  margin: 0;
+  border: none;
+  background: transparent;
+}
+
+.nth-chip-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.nth-chip-label {
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.184px;
+  line-height: normal;
+  text-transform: uppercase;
+  color: #fff;
+  white-space: nowrap;
+}
+
+/* Figma 1:376 — choice block, 16px between rows */
+.nth-choices-block {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: var(--nth-grid-w);
+}
+
+/* Figma 1:377 — 2×2 shortcuts, 16px gap, 536px row */
+.nth-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+  max-width: var(--nth-grid-w);
+  align-items: start;
+}
+
+/* Figma 1:378 — shortcut tile (266×auto in design; 260px cols in 536 grid) */
+.screen-card--niet-thuis .nth-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  padding: 24px;
+  box-sizing: border-box;
+  border-radius: 32px;
+  border: 2px solid rgba(156, 156, 156, 0.5);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(217, 217, 217, 0.3));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #fafcff;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font);
+  overflow: hidden;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.1s ease;
+}
+
+.nth-tile-head {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+.nth-tile-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+/* Figma 1:388 — 24px SemiBold #fafcff */
+.nth-tile-label {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.35px;
+  line-height: normal;
+  color: #fafcff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Figma 1:390 — 16px Medium, 48% white */
+.nth-tile-sub {
+  display: block;
+  width: 100%;
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 14.56px;
+  color: rgba(255, 255, 255, 0.48);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.screen-card--niet-thuis .nth-tile:hover {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.38), rgba(217, 217, 217, 0.35));
+  border-color: rgba(200, 200, 200, 0.65);
+  box-shadow: none;
+}
+
+.screen-card--niet-thuis .nth-tile:focus-visible,
+.screen-card--niet-thuis .nth-tile.selected {
+  border: var(--selection-border);
+  box-shadow: none;
+  outline: none;
+}
+
+.screen-card--niet-thuis .nth-tile:active {
+  transform: scale(0.98);
+}
+
+/* Figma 1:428 — voice hint */
+.nth-voice-hint {
+  margin: 0;
+  max-width: var(--nth-grid-w);
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: 0.45px;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: normal;
+}
+
+.nth-voice-dim {
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 600;
+  letter-spacing: 0.24px;
+}
+
+.nth-voice-em {
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.24px;
+}

@@ -1,0 +1,207 @@
+/* Later bezorgen — Figma 1:281 */
+
+:root {
+  --later-content-w: 552px;
+  --later-card-w: calc(var(--later-content-w) + 2 * var(--pad-card));
+}
+
+body[data-mode="glasses"] .screen-mount:has(.screen-card--later),
+body[data-mode="lab"] #app .screen-mount:has(.screen-card--later) {
+  width: min(var(--later-card-w), var(--glasses-viewport));
+  max-width: min(var(--later-card-w), 100%);
+}
+
+body[data-mode="glasses"] .screen-mount > .screen-stack:has(.screen-card--later),
+body[data-mode="lab"] #app .screen-mount > .screen-stack:has(.screen-card--later) {
+  width: 100%;
+  max-width: 100%;
+}
+
+.screen-card.screen-card--later {
+  gap: 24px;
+  padding: 32px;
+  box-sizing: border-box;
+  border: 3px solid rgba(156, 156, 156, 0.5);
+  border-radius: 65px;
+  background: linear-gradient(to bottom, rgba(217, 217, 217, 0.1), rgba(0, 0, 0, 0.1));
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+}
+
+.later-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
+}
+
+/* Figma 1:284 — title chip */
+.later-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  margin: 0;
+  border: none;
+  background: transparent;
+}
+
+.later-chip-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.later-chip-label {
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.184px;
+  line-height: normal;
+  text-transform: uppercase;
+  color: #fff;
+  white-space: nowrap;
+}
+
+/* Figma 1:291 — stacked shortcuts, 12px gap */
+.later-choices-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: var(--later-content-w);
+}
+
+.screen-card--later .later-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  padding: 24px;
+  box-sizing: border-box;
+  border-radius: 32px;
+  border: 2px solid rgba(156, 156, 156, 0.5);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(217, 217, 217, 0.3));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #fafcff;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font);
+  overflow: hidden;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.1s ease;
+}
+
+.later-tile-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+.later-tile-head {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+}
+
+.later-tile-head--tight {
+  gap: 8px;
+}
+
+.later-tile-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+/* Figma 1:300 — 24px SemiBold */
+.later-tile-label {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.35px;
+  line-height: normal;
+  color: #fafcff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Figma 1:302 — 20px Medium, 48% white */
+.later-tile-sub {
+  display: block;
+  width: 100%;
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 14.56px;
+  color: rgba(255, 255, 255, 0.48);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.screen-card--later .later-tile:hover {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.38), rgba(217, 217, 217, 0.35));
+  border-color: rgba(200, 200, 200, 0.65);
+  box-shadow: none;
+}
+
+.screen-card--later .later-tile:focus-visible,
+.screen-card--later .later-tile.later-tile-active {
+  border: var(--selection-border);
+  box-shadow: none;
+  outline: none;
+}
+
+.screen-card--later .later-tile:active {
+  transform: scale(0.98);
+}
+
+/* Figma 1:317 — voice hint */
+.later-voice-hint {
+  margin: 0;
+  max-width: var(--later-content-w);
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: 0.45px;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: normal;
+}
+
+.later-voice-dim {
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 600;
+  letter-spacing: 0.24px;
+}
+
+.later-voice-em {
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.24px;
+}
+
+body[data-mode="glasses"] .screen-card--later .later-tile,
+body[data-mode="lab"] #app .screen-card--later .later-tile {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}

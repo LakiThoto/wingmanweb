@@ -85,12 +85,12 @@ export function mount(container: HTMLElement): () => void {
       </div>`;
 
     const findBlock = `
-      <div class="locker-flow${isFind ? '' : ' cf-hidden'}" data-locker-phase="find_in_van">
+      <div class="locker-flow locker-flow--find${isFind ? '' : ' cf-hidden'}" data-locker-phase="find_in_van">
         <header class="cf-badge cf-badge--grid cf-badge--figma">
           ${iconImg('barcode', 'cf-badge-icon', 20)}
           <span class="cf-badge-label">${t('locker.find.chip')}</span>
         </header>
-        <p class="locker-find-hint">${t('zoek.title')}</p>
+        <p class="locker-find-hint">${t('locker.find.sub')}</p>
         <div class="locker-mini-van">
           ${buildBusDiagram(
             delivery?.rowInVan ?? 'B',
@@ -103,7 +103,7 @@ export function mount(container: HTMLElement): () => void {
       </div>`;
 
     const placeBlock = `
-      <div class="locker-flow${isPlace ? '' : ' cf-hidden'}" data-locker-phase="place_in_locker">
+      <div class="locker-flow locker-flow--place${isPlace ? '' : ' cf-hidden'}" data-locker-phase="place_in_locker">
         <header class="cf-badge cf-badge--grid cf-badge--figma">
           <span class="cf-badge-label">${t('locker.place.title')}</span>
         </header>
@@ -125,7 +125,7 @@ export function mount(container: HTMLElement): () => void {
     const advanceLabel = isNav
       ? t('locker.btn.navigate')
       : isFind
-        ? t('locker.btn.to.place')
+        ? t('locker.btn.pakket_meegenomen')
         : t('locker.btn.to.find');
 
     const showAdvance = !isPlace && !isPrint;

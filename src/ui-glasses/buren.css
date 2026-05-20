@@ -1,0 +1,196 @@
+/* Buren (afgeven buren) — Figma 1:540 */
+
+:root {
+  --buren-grid-w: 536px;
+  --buren-card-w: calc(var(--buren-grid-w) + 2 * var(--pad-card));
+}
+
+body[data-mode="glasses"] .screen-mount:has(.screen-card--buren),
+body[data-mode="lab"] #app .screen-mount:has(.screen-card--buren) {
+  width: min(var(--buren-card-w), var(--glasses-viewport));
+  max-width: min(var(--buren-card-w), 100%);
+}
+
+body[data-mode="glasses"] .screen-mount > .screen-stack:has(.screen-card--buren),
+body[data-mode="lab"] #app .screen-mount > .screen-stack:has(.screen-card--buren) {
+  width: 100%;
+  max-width: 100%;
+}
+
+.screen-card--buren {
+  gap: 24px;
+  padding: 32px;
+  box-sizing: border-box;
+  border: 3px solid rgba(156, 156, 156, 0.5);
+  border-radius: 65px;
+  background: linear-gradient(to bottom, rgba(217, 217, 217, 0.1), rgba(0, 0, 0, 0.1));
+}
+
+.screen-card--buren .screen-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  margin: 0;
+  border: none;
+  background: transparent;
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.184px;
+  line-height: normal;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.screen-card--buren .screen-chip .chip-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.screen-card--buren .nb-delivery-address {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #fff;
+  max-width: var(--buren-grid-w);
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+/* Figma 1:551 — two shortcuts, 16px gap */
+.screen-card--buren .nb-choices {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+  max-width: var(--buren-grid-w);
+}
+
+.screen-card--buren .nb-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  padding: 24px;
+  box-sizing: border-box;
+  border-radius: 32px;
+  border: 2px solid rgba(156, 156, 156, 0.5);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(217, 217, 217, 0.3));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #fafcff;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font);
+  overflow: visible;
+  transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.1s ease;
+}
+
+.screen-card--buren .nb-choice-head {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+.screen-card--buren .nb-choice-icon-wrap {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fafcff;
+}
+
+.screen-card--buren .nb-choice-icon {
+  width: 32px;
+  height: 32px;
+  opacity: 1;
+  object-fit: contain;
+}
+
+.screen-card--buren .nb-choice-num {
+  flex: 1;
+  min-width: 0;
+  font-size: clamp(20px, 4.2vw, 24px);
+  font-weight: 600;
+  letter-spacing: 0.35px;
+  line-height: 1.2;
+  color: #fafcff;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.screen-card--buren .nb-choice-dir {
+  display: block;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.48);
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.screen-card--buren .nb-choice:hover {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.38), rgba(217, 217, 217, 0.35));
+  border-color: rgba(200, 200, 200, 0.65);
+  box-shadow: none;
+}
+
+.screen-card--buren .nb-choice.selected,
+.screen-card--buren .nb-choice.nb-choice-active,
+.screen-card--buren .nb-choice:focus-visible {
+  border: var(--selection-border);
+  box-shadow: none;
+  outline: none;
+}
+
+.screen-card--buren .nb-choice:active {
+  transform: scale(0.98);
+}
+
+.screen-card--buren .buren-voice-hint {
+  margin: 0;
+  max-width: var(--buren-grid-w);
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: 0.45px;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.screen-card--buren .buren-voice-hint .bvn-voice-dim {
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 600;
+}
+
+.screen-card--buren .buren-voice-hint .bvn-voice-em {
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.24px;
+}
+
+body[data-mode="glasses"] .screen-card--buren .nb-choice,
+body[data-mode="lab"] #app .screen-card--buren .nb-choice {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@media (min-width: 536px) {
+  .screen-card--buren .nb-choice-num {
+    font-size: 24px;
+  }
+}

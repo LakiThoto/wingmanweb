@@ -18,28 +18,28 @@ export function mount(container) {
     const deliveredCount = deliveries.filter(d => d.delivered).length;
     const total = deliveries.length;
     speakByTier('voice.route.complete');
+    const stackGapClass = mode === 'lab' ? ' screen-stack--cta-gap' : '';
     container.innerHTML = `
-<div class="screen-stack screen-stack--cta-gap complete-stack">
+<div class="screen-stack complete-stack${stackGapClass}">
   <div class="screen-card screen-card--complete">
-    <header class="complete-title-chip">${t('complete.title')}</header>
-    <p class="complete-sub">${t('complete.sub')}</p>
-    <div class="completion-stats" role="group" aria-label="${t('complete.title')}">
-      <div class="complete-stat-tile">
-        <span class="complete-stat-val" id="complete-stat-deliveries">${deliveredCount}</span>
-        <span class="complete-stat-lbl">${t('complete.stat.deliveries')}</span>
-      </div>
-      <div class="complete-stat-tile">
-        <span class="complete-stat-val" id="complete-stat-walked">${formatWalkedKm(total)}</span>
-        <span class="complete-stat-lbl">${t('complete.stat.walked')}</span>
-      </div>
-      <div class="complete-stat-tile">
-        <span class="complete-stat-val" id="complete-stat-success">${formatSuccessRate(deliveredCount, total)}</span>
-        <span class="complete-stat-lbl">${t('complete.stat.success')}</span>
+    <div class="complete-card-body">
+      <header class="complete-title-chip">${t('complete.title')}</header>
+      <p class="complete-sub">${t('complete.sub')}</p>
+      <div class="completion-stats" role="group" aria-label="${t('complete.title')}">
+        <div class="complete-stat-tile">
+          <span class="complete-stat-val" id="complete-stat-deliveries">${deliveredCount}</span>
+          <span class="complete-stat-lbl">${t('complete.stat.deliveries')}</span>
+        </div>
+        <div class="complete-stat-tile">
+          <span class="complete-stat-val" id="complete-stat-walked">${formatWalkedKm(total)}</span>
+          <span class="complete-stat-lbl">${t('complete.stat.walked')}</span>
+        </div>
+        <div class="complete-stat-tile">
+          <span class="complete-stat-val" id="complete-stat-success">${formatSuccessRate(deliveredCount, total)}</span>
+          <span class="complete-stat-lbl">${t('complete.stat.success')}</span>
+        </div>
       </div>
     </div>
-    <p class="complete-voice-hint voice-hint pro-hide">
-      ${t('complete.hint_lead')}<em>${t('complete.hint_em')}</em>${t('complete.hint_tail')}
-    </p>
   </div>
   ${mode === 'lab' ? `<div class="cta-layer">${buildPrimaryCta(t('btn.complete.restart'), { id: 'btn-complete-restart' })}</div>` : ''}
 </div>`.trim();
@@ -47,6 +47,6 @@ export function mount(container) {
         resetDeliveriesForDemo();
         transition('complete_restart');
     });
-    focusScreen();
+    focusScreen(container);
     return () => { };
 }

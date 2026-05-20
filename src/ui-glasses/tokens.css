@@ -22,6 +22,7 @@
 
   --glass-border:       rgba(156, 156, 156, 0.5);
   --glass-border-inner: rgba(156, 156, 156, 0.5);
+  --selection-border:   2px solid var(--glass-border);
   --glass-bg: var(--surface-card);
   --glass-input-bg: var(--surface-tile);
   --glass-blur: 28px;
@@ -149,6 +150,12 @@
   /* ── Focus ring ──────────────────────────────────────────────────────── */
   --focus-ring: 0 0 0 2px var(--orange);
 
+  /* Hover — clearer feedback on pointer devices */
+  --hover-surface-bg: linear-gradient(to bottom, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.12));
+  --hover-surface-border: rgba(255, 255, 255, 0.62);
+  --hover-surface-shadow: none;
+  --hover-tab-bg: rgba(255, 255, 255, 0.18);
+
   /* ── Min tap target ──────────────────────────────────────────────────── */
   --min-target: 64px;
 }
@@ -226,6 +233,18 @@ body[data-mode="lab"] {
 /* Keyboard / D-pad only — no orange ring after mouse click */
 .focusable:focus-visible {
   box-shadow: var(--focus-ring);
+}
+
+/* Glass shortcut tiles — border highlight only (no outer glow) */
+.bevestigen-root .cf-grid-card .confirm-action-btn.focusable:focus-visible,
+.screen-card--niet-thuis .nth-tile.focusable:focus-visible,
+.screen-card--buren .nb-choice.focusable:focus-visible,
+.screen-card--later .later-tile.focusable:focus-visible,
+.sp-screen .sp-tile.focusable:focus-visible,
+.alt-tile.focusable:focus-visible,
+.choice-tile.focusable:focus-visible {
+  box-shadow: none;
+  outline: none;
 }
 
 /* Primary CTAs use their own pill styling; skip the global ring */

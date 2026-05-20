@@ -8,7 +8,23 @@ body[data-mode="lab"] {
   --glasses-viewport: 600px;
   /* Symmetrische rand 64px links + rechts */
   --glasses-stack-w: calc(var(--glasses-viewport) - var(--edge) * 2);
-  --glasses-stack-max-h: calc(var(--glasses-viewport) - var(--edge) * 2);
+  /* Full viewport height — UI is bottom-anchored in 600×600 */
+  --glasses-stack-max-h: var(--glasses-viewport);
+  --glasses-cta-block-h: calc(var(--gap-card-cta) + 72px);
+  --glasses-card-max-h: calc(var(--glasses-viewport) - var(--glasses-cta-block-h));
+  --glasses-route-list-max: 156px;
+  --glasses-menu-max-h: calc(var(--glasses-viewport) - 2 * var(--edge));
+}
+
+/* Glasses + lab: fixed 600×600 frame */
+body[data-mode="glasses"] #app {
+  position: absolute;
+  inset: 0;
+  width: var(--glasses-viewport);
+  height: var(--glasses-viewport);
+  max-width: var(--glasses-viewport);
+  max-height: var(--glasses-viewport);
+  overflow: hidden;
 }
 
 /* Lab preview: fixed 600×600 frame (matches glasses) */
@@ -30,6 +46,13 @@ body[data-mode="lab"] #app .screen-stage {
   box-sizing: border-box;
 }
 
+body[data-mode="glasses"] .screen-stage {
+  width: 100%;
+  height: 100%;
+  max-height: var(--glasses-viewport);
+  box-sizing: border-box;
+}
+
 body[data-mode="glasses"] .screen-mount,
 body[data-mode="lab"] #app .screen-mount {
   position: relative;
@@ -39,7 +62,9 @@ body[data-mode="lab"] #app .screen-mount {
   left: auto;
   width: var(--glasses-stack-w);
   max-width: var(--glasses-stack-w);
+  max-height: var(--glasses-stack-max-h);
   min-width: 0;
+  min-height: 0;
   margin: 0 auto;
   overflow-x: hidden;
   overflow-y: auto;
@@ -47,7 +72,7 @@ body[data-mode="lab"] #app .screen-mount {
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-end;
-  flex-shrink: 0;
+  flex-shrink: 1;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
@@ -70,11 +95,63 @@ body[data-mode="lab"] #app .screen-mount > .walk-hud-root,
 body[data-mode="lab"] #app .screen-mount > .drive-phase-ui {
   width: 100%;
   max-width: 100%;
+  max-height: var(--glasses-stack-max-h);
   min-width: 0;
+  min-height: 0;
   margin: 0;
   align-items: stretch;
   justify-content: flex-end;
+  flex-shrink: 1;
+  overflow: hidden;
+}
+
+/* Card scrolls; CTA / depot row stays pinned at bottom of stack */
+body[data-mode="glasses"] .screen-mount .screen-card,
+body[data-mode="lab"] #app .screen-mount .screen-card {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: var(--glasses-card-max-h);
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+body[data-mode="glasses"] .screen-mount .screen-card::-webkit-scrollbar,
+body[data-mode="lab"] #app .screen-mount .screen-card::-webkit-scrollbar {
+  display: none;
+}
+
+body[data-mode="glasses"] .screen-mount .cta-layer,
+body[data-mode="glasses"] .screen-mount .depot-cta-row,
+body[data-mode="glasses"] .screen-mount .rc-cta-layer,
+body[data-mode="glasses"] .screen-mount .locker-cta-layer,
+body[data-mode="lab"] #app .screen-mount .cta-layer,
+body[data-mode="lab"] #app .screen-mount .depot-cta-row,
+body[data-mode="lab"] #app .screen-mount .rc-cta-layer,
+body[data-mode="lab"] #app .screen-mount .locker-cta-layer {
   flex-shrink: 0;
+}
+
+body[data-mode="glasses"] .screen-stack--cta-gap,
+body[data-mode="lab"] #app .screen-stack--cta-gap {
+  gap: 24px;
+}
+
+body[data-mode="glasses"] .bevestigen-root,
+body[data-mode="lab"] #app .bevestigen-root {
+  display: flex;
+  flex-direction: column;
+  max-height: var(--glasses-stack-max-h);
+  min-height: 0;
+  overflow: hidden;
+}
+
+body[data-mode="glasses"] .bevestigen-root .cf-screen-stack,
+body[data-mode="lab"] #app .bevestigen-root .cf-screen-stack {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 100%;
+  overflow: hidden;
 }
 
 body[data-mode="glasses"] .screen-stack,
@@ -120,12 +197,16 @@ body[data-mode="glasses"] .bevestigen-root .cf-work-card--rescan {
   max-width: 100%;
 }
 
-/* Figma 1:325 — photo result card 414px, not full 472px stack */
-body[data-mode="glasses"] .bevestigen-root .cf-photo-card,
-body[data-mode="lab"] #app .bevestigen-root .cf-photo-card {
-  width: 100%;
+/* Figma 1:326 — photo result card 414px centered in 472px stack; proof 350×263.5 */
+body[data-mode="glasses"] .bevestigen-root .screen-card.cf-card.cf-photo-card,
+body[data-mode="lab"] #app .bevestigen-root .screen-card.cf-card.cf-photo-card {
+  width: var(--cf-photo-card-w, 414px);
   max-width: var(--cf-photo-card-w, 414px);
+  flex: 0 0 auto;
   align-self: center;
+  align-items: center;
+  --cf-photo-proof-h: 263.5px;
+  --cf-photo-proof-inner-h: 259.5px;
 }
 
 body[data-mode="glasses"] .rc-card-body {
@@ -167,8 +248,89 @@ body[data-mode="glasses"] .hand-menu {
 body[data-mode="glasses"] .hand-menu .menu-stack {
   width: var(--glasses-stack-w);
   max-width: var(--glasses-stack-w);
-  max-height: var(--glasses-stack-max-h);
+  max-height: var(--glasses-menu-max-h);
   overflow-y: auto;
+}
+
+body[data-mode="lab"] #app .hand-menu .menu-stack {
+  max-height: var(--glasses-menu-max-h);
+  overflow-y: auto;
+}
+
+/* Scrollable in-card lists — px caps, not vh (MRBD is always 600px tall) */
+body[data-mode="glasses"] .route-stop-list,
+body[data-mode="lab"] #app .route-stop-list {
+  max-height: var(--glasses-route-list-max);
+}
+
+/* Bevestigen grid: skip extra AI deco (depot CTA already has triangle) */
+body[data-mode="glasses"] .bevestigen-root .cf-grid-deco,
+body[data-mode="lab"] #app .bevestigen-root .cf-grid-deco {
+  display: none !important;
+}
+
+/* Photo capture / sign — scale proof to fit card budget (result card keeps Figma size) */
+body[data-mode="glasses"] .bevestigen-root .cf-work-card,
+body[data-mode="lab"] #app .bevestigen-root .cf-work-card {
+  --cf-photo-proof-h: clamp(180px, 42vw, 220px);
+  --cf-photo-proof-inner-h: calc(var(--cf-photo-proof-h) - 4px);
+}
+
+body[data-mode="glasses"] .bevestigen-root .cf-work-card .photo-capture-zone,
+body[data-mode="lab"] #app .bevestigen-root .cf-work-card .photo-capture-zone {
+  height: var(--cf-photo-proof-h);
+  max-height: min(var(--cf-photo-proof-h), calc(var(--glasses-card-max-h) - 120px));
+}
+
+body[data-mode="glasses"] .bevestigen-root .sign-canvas,
+body[data-mode="lab"] #app .bevestigen-root .sign-canvas {
+  height: clamp(100px, 28vw, 140px);
+}
+
+body[data-mode="glasses"] .bevestigen-root .cf-delivered-tile,
+body[data-mode="glasses"] .sp-screen .cf-delivered-tile,
+body[data-mode="lab"] #app .bevestigen-root .cf-delivered-tile,
+body[data-mode="lab"] #app .sp-screen .cf-delivered-tile {
+  min-height: 0;
+  padding: 24px;
+}
+
+/* Start screen — tighten vertical rhythm */
+body[data-mode="glasses"] .screen-card .greeting-row {
+  margin-bottom: 0;
+}
+
+body[data-mode="glasses"] .glasses-start-hint:empty {
+  display: none;
+}
+
+body[data-mode="glasses"] .screen-card.load-card,
+body[data-mode="lab"] #app .screen-card.load-card {
+  max-width: 100%;
+}
+
+body[data-mode="glasses"] .load-phase-van,
+body[data-mode="lab"] #app .load-phase-van {
+  gap: 16px;
+  max-width: 100%;
+}
+
+body[data-mode="glasses"] .load-phase-van .lat-address,
+body[data-mode="lab"] #app .load-phase-van .lat-address {
+  font-size: 1.5rem;
+}
+
+/* Screens without a separate CTA row may use full viewport height */
+body[data-mode="glasses"] .complete-stack .screen-card--complete,
+body[data-mode="glasses"] .rc-screen-stack .rc-card,
+body[data-mode="lab"] #app .complete-stack .screen-card--complete,
+body[data-mode="lab"] #app .rc-screen-stack .rc-card {
+  max-height: var(--glasses-stack-max-h);
+}
+
+body[data-mode="glasses"] .bevestigen-root .cf-grid-card .cf-grid-card-body,
+body[data-mode="lab"] #app .bevestigen-root .cf-grid-card .cf-grid-card-body {
+  max-width: 100%;
 }
 
 /* Alleen fade — geen verschuiving bij schermwissel */

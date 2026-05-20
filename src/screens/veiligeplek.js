@@ -1,6 +1,6 @@
 // Screen: veiligeplek — Veilige plek (pick location → confirm)
 // Figma pick 1:436 · confirm 1:584
-import { focusScreen, buildDepotCtaRow, bindDepotCtaRow, buildConfirmDeliveryTile } from './_frame';
+import { focusScreen, buildDepotCtaRow, bindDepotCtaRow } from './_frame';
 import { playPhaseEnter } from '@/core/screen-transition';
 import { setSafeplaceChoice, getActiveDelivery } from '@/core/state';
 import { completeDelivery } from '@/core/delivery-complete';
@@ -20,13 +20,27 @@ function buildSpConfirmCard(address, pkgCount, tracking) {
       <img src="/assets/confirm/tile-check.svg" width="20" height="20" alt="" class="cf-badge-icon" aria-hidden="true" />
       <span class="cf-badge-label">${t('bevestigen.title')}</span>
     </header>
-    ${buildConfirmDeliveryTile({
-        address,
-        pkgCount,
-        tracking,
-        variant: 'delivered',
-        statusLabel: t('bevestigen.success'),
-    })}
+    <div class="cf-delivered-tile">
+      <div class="cf-delivered-tile-top">
+        <div class="cf-delivered-status">
+          <div class="cf-delivered-check" aria-hidden="true">
+            <img src="/assets/confirm/tile-check.svg" width="20" height="20" alt="" />
+          </div>
+          <span class="cf-delivered-status-label">${t('bevestigen.success')}</span>
+        </div>
+        <p class="cf-delivered-address">${address}</p>
+      </div>
+      <div class="cf-meta-row">
+        <div class="cf-meta-group">
+          <img src="/assets/confirm/parcel-arrow.svg" width="24" height="24" alt="" class="cf-meta-img cf-meta-img--deliver" aria-hidden="true" />
+          <span class="cf-pkg-count">${pkgCount}</span>
+        </div>
+        <div class="cf-meta-group cf-meta-group--code">
+          <img src="/assets/confirm/barcode.svg" width="24" height="24" alt="" class="cf-meta-img" aria-hidden="true" />
+          <span class="cf-tracking">${tracking}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>`;
 }
