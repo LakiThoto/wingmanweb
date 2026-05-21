@@ -1,22 +1,7 @@
-// World map layer — static map chrome (Mapbox-free) for drive / zoek / walk phases.
-const AMBIENT_SCREENS = new Set([
-    'route',
-    'zoek',
-    'walk',
-    'thuis',
-    'bevestigen',
-    'niet-thuis',
-    'return',
-]);
-export function syncWorldMapForScreen(screen) {
-    if (screen === 'drive')
-        setWorldMapMode('drive');
-    else if (screen === 'walk')
-        setWorldMapMode('walk');
-    else if (AMBIENT_SCREENS.has(screen))
-        setWorldMapMode('ambient');
-    else
-        setWorldMapMode('hidden');
+// World map layer — disabled; walk/drive use inline Figma map art (no full-screen background).
+/** Keep normal app background on all screens — no global map layer. */
+export function syncWorldMapForScreen(_screen) {
+    setWorldMapMode('hidden');
 }
 export function setWorldMapMode(mode) {
     document.body.dataset.mapMode = mode;
@@ -32,12 +17,8 @@ export function initWorldMap() {
     map.className = 'world-map-layer';
     map.setAttribute('aria-hidden', 'true');
     map.dataset.mode = 'hidden';
-    map.innerHTML = `
-    <div class="world-map-canvas">
-      <div class="world-map-grid"></div>
-      <div class="world-map-route"></div>
-      <div class="world-map-dest-pin" aria-hidden="true"></div>
-    </div>
-  `;
     document.body.prepend(map);
 }
+/** No-op — GPS hooks retained for future use without changing the viewport background. */
+export function updateWorldMapPosition(_lat, _lon, _heading) { }
+export function setDestinationOnMap(_lat, _lon) { }

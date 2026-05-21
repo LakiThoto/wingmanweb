@@ -81,22 +81,38 @@ describe('FSM happy path', () => {
     expect(getState().screen).toBe('route');
   });
 
-  it('route → zoek on route_start', () => {
+  it('route → drive on route_start', () => {
     transition('kenteken_submitted');
     transition('start_laden');
     transition('scan_ok');
     transition('all_loaded');
     expect(transition('route_start')).toBe(true);
-    expect(getState().screen).toBe('zoek');
+    expect(getState().screen).toBe('drive');
   });
 
-  it('zoek → thuis on pkg_confirmed', () => {
+  it('drive → zoek on drive_complete', () => {
     transition('kenteken_submitted');
     transition('start_laden');
     transition('scan_ok');
     transition('all_loaded');
     transition('route_start');
+    expect(transition('drive_complete')).toBe(true);
+    expect(getState().screen).toBe('zoek');
+  });
+
+  it('zoek → walk on pkg_confirmed', () => {
+    transition('kenteken_submitted');
+    transition('start_laden');
+    transition('scan_ok');
+    transition('all_loaded');
+    transition('route_start');
+    transition('drive_complete');
     expect(transition('pkg_confirmed')).toBe(true);
+    expect(getState().screen).toBe('walk');
+  });
+
+  it('walk → thuis on walk_arrived', () => {
+    advanceToThuis();
     expect(getState().screen).toBe('thuis');
   });
 
@@ -106,14 +122,14 @@ describe('FSM happy path', () => {
     expect(getState().screen).toBe('bevestigen');
   });
 
-  it('return → zoek on return_continue', () => {
+  it('return → drive on return_continue', () => {
     initState('lab', 'beginner', TWO_DELIVERIES);
     advanceToThuis();
     transition('ja_thuis');
     markActiveDelivered();
     setScreen('return');
     expect(transition('return_continue')).toBe(true);
-    expect(getState().screen).toBe('zoek');
+    expect(getState().screen).toBe('drive');
   });
 
   it('complete → start on complete_restart', () => {
@@ -248,5 +264,7 @@ function advanceToThuis(): void {
   transition('scan_ok');
   transition('all_loaded');
   transition('route_start');
+  transition('drive_complete');
   transition('pkg_confirmed');
+  transition('walk_arrived');
 }

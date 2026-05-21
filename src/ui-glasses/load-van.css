@@ -45,6 +45,11 @@
   line-height: 1.2;
 }
 
+/* Figma 1177:52857 — same layout/spacing as .lat-slot-row; orange shelf badge only */
+.load-phase-van .lat-shelf-badge--figma-52857 {
+  background: #fcae49;
+}
+
 .load-phase-van .lat-meta-value {
   font-size: 1.5rem;
   line-height: 1.2;

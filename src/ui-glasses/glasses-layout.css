@@ -87,12 +87,12 @@ body[data-mode="glasses"] .screen-mount > .screen-stack,
 body[data-mode="glasses"] .screen-mount > .screen,
 body[data-mode="glasses"] .screen-mount > .bevestigen-root,
 body[data-mode="glasses"] .screen-mount > .walk-hud-root,
-body[data-mode="glasses"] .screen-mount > .drive-phase-ui,
+body[data-mode="glasses"] .screen-mount > .drive-screen-stack,
 body[data-mode="lab"] #app .screen-mount > .screen-stack,
 body[data-mode="lab"] #app .screen-mount > .screen,
 body[data-mode="lab"] #app .screen-mount > .bevestigen-root,
 body[data-mode="lab"] #app .screen-mount > .walk-hud-root,
-body[data-mode="lab"] #app .screen-mount > .drive-phase-ui {
+body[data-mode="lab"] #app .screen-mount > .drive-screen-stack {
   width: 100%;
   max-width: 100%;
   max-height: var(--glasses-stack-max-h);

@@ -6,6 +6,7 @@ import { transition, getState } from '@/core/state';
 import { skipStopLaterToday, completeLaterTomorrow } from '@/core/delivery-complete';
 import { setTier } from '@/core/tier';
 import { closeHandMenu, isHandMenuOpen, toggleHandMenu } from '@/ui/hand-menu';
+import { requestZoekPackageFound } from '@/screens/zoek';
 
 // Map of NL transcript fragments → FSM events or side-effects
 const VOICE_COMMANDS: Array<{
@@ -22,7 +23,9 @@ const VOICE_COMMANDS: Array<{
   },
   { match: /^(scan|volgende pakket)$/,               action: () => transition('scan_ok') },
   { match: /^(volgende stop|route|plan)$/,           action: () => transition('route_start') },
-  { match: /^(pakket gevonden|gevonden)$/,           action: () => transition('pkg_confirmed') },
+  { match: /^(pakket gevonden|gevonden)$/,           action: () => {
+    if (!requestZoekPackageFound()) transition('pkg_confirmed');
+  }},
   { match: /^(ja|ja thuis|thuis|aanwezig)$/,         action: () => transition('ja_thuis') },
   { match: /^(niet thuis|niemand|afwezig)$/,         action: () => transition('niet_thuis') },
   { match: /^buren$/,                                action: () => transition('kies_buren') },

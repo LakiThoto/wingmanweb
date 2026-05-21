@@ -1,5 +1,4 @@
 // MRBD geolocation — navigator.geolocation from paired phone.
-// https://wearables.developer.meta.com/docs/develop/webapps/build#location
 export const GEO_OPTIONS = {
     enableHighAccuracy: true,
     timeout: 15000,
@@ -39,7 +38,6 @@ function positionToFix(position) {
         timestamp,
     };
 }
-/** One-shot fix (Meta getCurrentPosition pattern). */
 export function getCurrentFix(options = GEO_OPTIONS) {
     return new Promise((resolve, reject) => {
         if (!isGeolocationSupported()) {
@@ -59,7 +57,6 @@ export function clearWatch(watchId) {
         navigator.geolocation.clearWatch(watchId);
     }
 }
-/** Log fix for MRBD debugging (matches Meta sample fields). */
 export function logGeoFix(fix, label = 'Geolocation') {
     console.info(`[${label}] lat=${fix.latitude.toFixed(5)} lon=${fix.longitude.toFixed(5)} ` +
         `accuracy=${fix.accuracy.toFixed(0)}m speed=${fix.speed ?? '—'} heading=${fix.heading ?? '—'}`);

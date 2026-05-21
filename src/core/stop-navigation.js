@@ -43,7 +43,7 @@ export async function ensureGeoReady() {
         return false;
     }
 }
-/** Drive phase: TTS + watch until within parking radius. */
+/** Drive phase: watch until within parking radius (audio handled by drive screen). */
 export function startDriveNavigation(opts) {
     clearNavigationSession();
     const dest = opts.destination;

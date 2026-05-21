@@ -21,17 +21,23 @@ const TRANSITIONS: Partial<Record<ScreenId, Partial<Record<FsmEvent, ScreenId>>>
     all_loaded: 'route',
   },
   route: {
-    route_start: 'zoek',
+    route_start: 'drive',
+  },
+  drive: {
+    drive_complete: 'zoek',
   },
   zoek: {
-    pkg_confirmed: 'thuis',
+    pkg_confirmed: 'walk',
+  },
+  walk: {
+    walk_arrived: 'thuis',
   },
   thuis: {
     ja_thuis: 'bevestigen',
     niet_thuis: 'niet-thuis',
   },
   return: {
-    return_continue: 'zoek',
+    return_continue: 'drive',
   },
   complete: {
     complete_restart: 'start',

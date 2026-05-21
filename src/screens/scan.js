@@ -1,19 +1,26 @@
 // Screen: scan — package barcode scanning
 // Figma 1:637 · beam + package preview in frame
-import { focusScreen, buildPrimaryCta } from './_frame';
+import { focusScreen, buildPrimaryCta, buildLoadCameraFrameDecor } from './_frame';
 import { iconImg, loadVoiceMicPill } from '@/ui/icons';
 import { transition, getState, setScanBuffer, getActiveDelivery } from '@/core/state';
 import { on } from '@/core/events';
 import { startCamera } from '@/input/camera';
+import { acquireCameraStream, bindCameraPreview } from '@/input/photo-capture';
 import { t } from '@/core/strings';
 import { restartScanBeamAnim, startScanStatusReveal, } from '@/core/scan-anim';
 const SCAN_PACKAGE_IMG = '/assets/scan/package-label.png';
-/** Figma 1:647 — package label in frame; lab keeps hidden video for ZXing. */
-function buildScanFrameMarkup(mode) {
-    const captureVideo = mode === 'lab'
-        ? `<video id="scan-video" class="scan-video-in-frame scan-video--capture" autoplay muted playsinline aria-hidden="true"></video>`
-        : '';
-    return `${captureVideo}<img class="load-package-preview" src="${SCAN_PACKAGE_IMG}" alt="" decoding="async" aria-hidden="true" />`;
+/** Figma 63:453 — scanner frame; live camera + decor; package preview on reveal. */
+function buildScanFrameMarkup() {
+    return `
+    <video id="scan-video" class="scan-video-in-frame" autoplay muted playsinline aria-hidden="true"></video>
+    ${buildLoadCameraFrameDecor()}
+    <img
+      class="load-package-preview"
+      src="${SCAN_PACKAGE_IMG}"
+      alt=""
+      decoding="async"
+      aria-hidden="true"
+    />`.trim();
 }
 export function mount(container) {
     const state = getState();
@@ -34,7 +41,7 @@ export function mount(container) {
 
     <div id="scan-preview-block" class="load-scan-preview-block">
       <div class="load-camera-frame">
-        ${buildScanFrameMarkup(mode)}
+        ${buildScanFrameMarkup()}
         <div class="load-scan-beam-anim" id="scan-beam" aria-hidden="true"></div>
       </div>
       <div class="load-status-reveal-shell" aria-hidden="true">
@@ -73,10 +80,21 @@ export function mount(container) {
         setScanBuffer(code);
         transition('scan_ok');
     });
-    if (mode === 'lab') {
-        const videoEl = container.querySelector('#scan-video');
-        if (videoEl) {
+    const videoEl = container.querySelector('#scan-video');
+    if (videoEl) {
+        if (mode === 'lab') {
             startCamera(videoEl).then(stop => { stopCamera = stop; });
+        }
+        else {
+            acquireCameraStream()
+                .then(async (stream) => {
+                await bindCameraPreview(videoEl, stream);
+                stopCamera = () => {
+                    stream.getTracks().forEach(track => track.stop());
+                    videoEl.srcObject = null;
+                };
+            })
+                .catch(() => { });
         }
     }
     function confirmScan() {

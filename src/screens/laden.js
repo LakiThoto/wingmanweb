@@ -26,6 +26,7 @@ export function mount(container) {
         rowInVan: row,
         packageId: delivery?.id ?? t('laden.package_code'),
         stopNumber: 1,
+        slotRowFigma: state.activeDeliveryIdx === 1,
     }, {
         activeRow: row,
         activePos: pos,

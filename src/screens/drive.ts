@@ -1,17 +1,25 @@
 // Screen: drive — Figma 1357:14088 audio status bar only (no CTA)
+
 import { focusScreen } from './_frame';
 import { transition, getActiveDelivery, getState } from '@/core/state';
 import { speakTierPhrase } from '@/core/audio';
 import { t } from '@/core/strings';
-import { deliveryToDestination, startDriveNavigation, stopNavigation, } from '@/core/stop-navigation';
+import {
+  deliveryToDestination,
+  startDriveNavigation,
+  stopNavigation,
+} from '@/core/stop-navigation';
+
 const FALLBACK_DEST = { latitude: 52.631, longitude: 4.748, label: '' };
-export function mount(container) {
-    const delivery = getActiveDelivery();
-    const state = getState();
-    const stopN = state.activeDeliveryIdx + 1;
-    const addr = delivery?.address ?? '';
-    const dest = deliveryToDestination(delivery);
-    container.innerHTML = `
+
+export function mount(container: HTMLElement): () => void {
+  const delivery = getActiveDelivery();
+  const state = getState();
+  const stopN = state.activeDeliveryIdx + 1;
+  const addr = delivery?.address ?? '';
+  const dest = deliveryToDestination(delivery);
+
+  container.innerHTML = `
 <div class="drive-screen-stack drive-screen-stack--audio">
   <div class="drive-audio-bar" role="status" aria-live="polite" aria-label="${t('drive.audio.aria')}">
     <img
@@ -29,19 +37,23 @@ export function mount(container) {
     </div>
   </div>
 </div>`;
-    speakTierPhrase('audio.transition');
-    speakTierPhrase('drive.start', { n: String(stopN), addr });
-    const endDrive = () => {
-        if (getState().screen === 'drive')
-            transition('drive_complete');
-    };
-    const stopNav = startDriveNavigation({
-        destination: dest ?? { ...FALLBACK_DEST, label: addr },
-        onNearDestination: endDrive,
-    });
-    focusScreen(container);
-    return () => {
-        stopNav();
-        stopNavigation();
-    };
+
+  speakTierPhrase('audio.transition');
+  speakTierPhrase('drive.start', { n: String(stopN), addr });
+
+  const endDrive = () => {
+    if (getState().screen === 'drive') transition('drive_complete');
+  };
+
+  const stopNav = startDriveNavigation({
+    destination: dest ?? { ...FALLBACK_DEST, label: addr },
+    onNearDestination: endDrive,
+  });
+
+  focusScreen(container);
+
+  return () => {
+    stopNav();
+    stopNavigation();
+  };
 }

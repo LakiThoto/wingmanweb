@@ -1,0 +1,9 @@
+/* World map layer — kept hidden; navigation uses inline Figma map on walk screen */
+
+.world-map-layer {
+  display: none !important;
+}
+
+body[data-map-mode] .screen-scrim {
+  opacity: unset;
+}

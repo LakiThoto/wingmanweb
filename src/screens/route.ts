@@ -4,6 +4,7 @@
 import { focusScreen, buildDepotCtaRow, bindDepotCtaRow } from './_frame';
 import { iconImg } from '@/ui/icons';
 import { transition, getState, allDelivered, setScreen } from '@/core/state';
+import { ensureGeoReady } from '@/core/stop-navigation';
 import { t } from '@/core/strings';
 import type { Delivery } from '@/types';
 
@@ -117,7 +118,10 @@ export function mount(container: HTMLElement): () => void {
       });
     });
 
-    const startRoute = () => transition('route_start');
+    const startRoute = () => {
+      void ensureGeoReady();
+      transition('route_start');
+    };
 
     container.querySelectorAll<HTMLButtonElement>('.stop-item').forEach(btn => {
       btn.addEventListener('click', startRoute);

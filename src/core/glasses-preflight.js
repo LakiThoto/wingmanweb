@@ -2,13 +2,13 @@
 import { getState, setLicensePlate, setScreen } from './state';
 export const DEMO_PLATE = 'AB-123-C';
 const VALID_SCREENS = new Set([
-    'start', 'kenteken', 'scan', 'scan-error', 'laden', 'route', 'zoek',
+    'start', 'kenteken', 'scan', 'scan-error', 'laden', 'route', 'drive', 'zoek', 'walk',
     'thuis', 'bevestigen', 'niet-thuis', 'buren', 'veiligeplek', 'punt', 'later',
     'return', 'complete',
 ]);
 /** Screens to walk through on Ray-Ban (happy path + branches). */
 export const GLASSES_TEST_SCREENS = [
-    'kenteken', 'scan', 'laden', 'route', 'zoek', 'thuis', 'bevestigen',
+    'kenteken', 'scan', 'laden', 'route', 'drive', 'zoek', 'walk', 'thuis', 'bevestigen',
     'niet-thuis', 'buren', 'veiligeplek', 'punt', 'later', 'return', 'complete',
     'scan-error',
 ];
@@ -36,7 +36,7 @@ export function logGlassesPreflight() {
         '[Wingman MRBD] Glasses mode active (600×600, D-pad only).',
         `  Plate: ${licensePlate}  |  Screen: ${screen}`,
         '  D-pad: ←/→ in horizontal groups, ↑/↓ between controls, Enter = activate, Esc = close menu.',
-        '  Happy path: Start CTA → kenteken → scan (mock CTA) → laden → route → zoek → thuis → bevestigen.',
+        '  Happy path: Start → kenteken → scan → laden → route → drive → zoek → walk → thuis → bevestigen.',
         '  Deep link: ?screen=zoek&plate=AB-123-C  |  Audio: TTS fallback if /audio/*.mp3 missing.',
         `  Test screens: ${GLASSES_TEST_SCREENS.join(', ')}`,
     ];

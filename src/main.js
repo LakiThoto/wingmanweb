@@ -14,9 +14,12 @@ import '@/ui-glasses/later.css';
 import '@/ui-glasses/buren.css';
 import '@/ui-glasses/scan-load.css';
 import '@/ui-glasses/load-van.css';
+import '@/ui-glasses/zoek-found.css';
 import '@/ui-glasses/return.css';
 import '@/ui-glasses/complete.css';
 import '@/ui-glasses/menu.css';
+import '@/ui-glasses/drive.css';
+import '@/ui-glasses/walk-hud.css';
 import '@/ui-lab/frame.css';
 import { initState, getState, transition, markActiveLoaded, allLoaded } from '@/core/state';
 import { setTier } from '@/core/tier';
@@ -27,6 +30,7 @@ import { initHandMenu } from '@/ui/hand-menu';
 import { initGestures } from '@/input/gestures';
 import { applyBootParams, logGlassesPreflight } from '@/core/glasses-preflight';
 import { runScreenTransition } from '@/core/screen-transition';
+import { initWorldMap, syncWorldMapForScreen } from '@/ui/world-map';
 // Screen modules
 import { mount as mountStart } from '@/screens/start';
 import { mount as mountKenteken } from '@/screens/kenteken';
@@ -34,7 +38,9 @@ import { mount as mountScan } from '@/screens/scan';
 import { mount as mountScanError } from '@/screens/scan-error';
 import { mount as mountLaden } from '@/screens/laden';
 import { mount as mountRoute } from '@/screens/route';
+import { mount as mountDrive } from '@/screens/drive';
 import { mount as mountZoek } from '@/screens/zoek';
+import { mount as mountWalk } from '@/screens/walk';
 import { mount as mountThuis } from '@/screens/thuis';
 import { mount as mountBevestigen } from '@/screens/bevestigen';
 import { mount as mountNietThuis } from '@/screens/niet-thuis';
@@ -63,7 +69,9 @@ const SCREEN_MOUNTS = {
     'scan-error': mountScanError,
     laden: mountLaden,
     route: mountRoute,
+    drive: mountDrive,
     zoek: mountZoek,
+    walk: mountWalk,
     thuis: mountThuis,
     bevestigen: mountBevestigen,
     'niet-thuis': mountNietThuis,
@@ -128,10 +136,13 @@ async function boot() {
     const app = document.getElementById('app');
     if (!app)
         throw new Error('#app element not found');
+    initWorldMap();
+    syncWorldMapForScreen(getState().screen);
     // Initial screen
     mountScreen(getState().screen, app);
     // Subscribe to FSM state changes
     on('state_change', ({ to }) => {
+        syncWorldMapForScreen(to);
         mountScreen(to, app);
     });
 }

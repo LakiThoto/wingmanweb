@@ -80,12 +80,12 @@ export function advanceAfterNextStop(opts) {
     }
     else {
         speakByTier('feedback.next.stop');
-        scheduleAdvance(() => setScreen('zoek'), 1200);
+        scheduleAdvance(() => setScreen('drive'), 1200);
     }
 }
 export function continueFromReturn() {
     clearAdvanceTimer();
-    setScreen('zoek');
+    setScreen('drive');
 }
 export function returnAutoAdvanceMs() {
     const tier = getTier();

@@ -1,6 +1,6 @@
 // Screen: bevestigen — Bezorging bevestigen (multi-phase)
 // Figma grid B 1:1674 · summary 1:1717 · photo 1:325 · sign 1:1751 · rescan 1:350 · delivered 1:584
-import { focusScreen, buildPrimaryCta } from './_frame';
+import { focusScreen, buildPrimaryCta, buildLoadCameraFrameDecor } from './_frame';
 import { playPhaseEnter } from '@/core/screen-transition';
 import { getActiveDelivery, getState, markActiveDelivered } from '@/core/state';
 import { restartScanBeamAnim } from '@/core/scan-anim';
@@ -77,7 +77,7 @@ function buildRescanCameraMarkup() {
     if (getState().mode === 'lab') {
         return `<video id="rescan-video" class="scan-video-in-frame" autoplay muted playsinline></video>`;
     }
-    return `<img class="load-camera-img" src="/assets/confirm/rescan-preview.png" alt="" aria-hidden="true" />`;
+    return buildLoadCameraFrameDecor();
 }
 export function mount(container) {
     let phase = 'grid';

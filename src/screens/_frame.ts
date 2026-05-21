@@ -260,13 +260,15 @@ export interface HeroOptions {
   packageId?: string;
   stopNumber?: number;
   showPosition?: boolean;
+  /** Figma 1177:52857 — orange shelf badge + space-between row (2nd package only). */
+  slotRowFigma?: boolean;
 }
 
 export function buildAddressHero(opts: HeroOptions): string {
   const pos = opts.showPosition !== false && opts.positionInRow && opts.rowInVan
     ? `<div class="lat-slot-row">
          <span class="lat-slot-pos">${opts.positionInRow} / 40</span>
-         <span class="lat-shelf-badge">${opts.rowInVan}</span>
+         <span class="lat-shelf-badge${opts.slotRowFigma ? ' lat-shelf-badge--figma-52857' : ''}">${opts.rowInVan}</span>
        </div>`
     : '';
 
@@ -294,6 +296,13 @@ export function buildAddressHero(opts: HeroOptions): string {
   ${pos}
   ${meta}
 </div>`.trim();
+}
+
+/** Figma 63:453 — scan camera frame barcode stripes (decorative). */
+export function buildLoadCameraFrameDecor(): string {
+  return `<div class="load-camera-frame-bars" aria-hidden="true">
+    <p class="load-camera-frame-bars__track">▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌</p>
+  </div>`;
 }
 
 export function focusScreen(root?: ParentNode): void {
