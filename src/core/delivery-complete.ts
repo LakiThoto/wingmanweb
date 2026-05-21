@@ -12,7 +12,6 @@ import {
   applyLockerHandoffChoice,
   allRouteStopsHandled,
   hasPendingLockerHandoffs,
-  startPendingLockerSession,
   completePendingLockerForActive,
   startNextPendingLocker,
 } from './state';
