@@ -53,6 +53,18 @@ body[data-mode="glasses"] .screen-stage {
   box-sizing: border-box;
 }
 
+/* Stage fills the 600×600 frame — settings control anchors to stage edges */
+body[data-mode="glasses"] .screen-stage,
+body[data-mode="lab"] #app .screen-stage {
+  overflow: visible;
+}
+
+body[data-mode="glasses"] .screen-stage .companion-settings-btn,
+body[data-mode="lab"] #app .screen-stage .companion-settings-btn {
+  left: var(--sp-3);
+  bottom: var(--sp-3);
+}
+
 body[data-mode="glasses"] .screen-mount,
 body[data-mode="lab"] #app .screen-mount {
   position: relative;
@@ -84,11 +96,13 @@ body[data-mode="lab"] #app .screen-mount::-webkit-scrollbar {
 
 /* Elke stack vult hetzelfde frame, CTA onderaan */
 body[data-mode="glasses"] .screen-mount > .screen-stack,
+body[data-mode="glasses"] .screen-stage > .hand-menu > .screen-stack,
 body[data-mode="glasses"] .screen-mount > .screen,
 body[data-mode="glasses"] .screen-mount > .bevestigen-root,
 body[data-mode="glasses"] .screen-mount > .walk-hud-root,
 body[data-mode="glasses"] .screen-mount > .drive-screen-stack,
 body[data-mode="lab"] #app .screen-mount > .screen-stack,
+body[data-mode="lab"] #app .screen-stage > .hand-menu > .screen-stack,
 body[data-mode="lab"] #app .screen-mount > .screen,
 body[data-mode="lab"] #app .screen-mount > .bevestigen-root,
 body[data-mode="lab"] #app .screen-mount > .walk-hud-root,
@@ -107,7 +121,9 @@ body[data-mode="lab"] #app .screen-mount > .drive-screen-stack {
 
 /* Card scrolls; CTA / depot row stays pinned at bottom of stack */
 body[data-mode="glasses"] .screen-mount .screen-card,
-body[data-mode="lab"] #app .screen-mount .screen-card {
+body[data-mode="glasses"] .screen-stage > .hand-menu .menu-card.screen-card,
+body[data-mode="lab"] #app .screen-mount .screen-card,
+body[data-mode="lab"] #app .screen-stage > .hand-menu .menu-card.screen-card {
   flex: 1 1 auto;
   min-height: 0;
   max-height: var(--glasses-card-max-h);
@@ -117,7 +133,9 @@ body[data-mode="lab"] #app .screen-mount .screen-card {
 }
 
 body[data-mode="glasses"] .screen-mount .screen-card::-webkit-scrollbar,
-body[data-mode="lab"] #app .screen-mount .screen-card::-webkit-scrollbar {
+body[data-mode="glasses"] .screen-stage > .hand-menu .menu-card.screen-card::-webkit-scrollbar,
+body[data-mode="lab"] #app .screen-mount .screen-card::-webkit-scrollbar,
+body[data-mode="lab"] #app .screen-stage > .hand-menu .menu-card.screen-card::-webkit-scrollbar {
   display: none;
 }
 
@@ -125,10 +143,12 @@ body[data-mode="glasses"] .screen-mount .cta-layer,
 body[data-mode="glasses"] .screen-mount .depot-cta-row,
 body[data-mode="glasses"] .screen-mount .rc-cta-layer,
 body[data-mode="glasses"] .screen-mount .locker-cta-layer,
+body[data-mode="glasses"] .screen-stage > .hand-menu .menu-cta-row,
 body[data-mode="lab"] #app .screen-mount .cta-layer,
 body[data-mode="lab"] #app .screen-mount .depot-cta-row,
 body[data-mode="lab"] #app .screen-mount .rc-cta-layer,
-body[data-mode="lab"] #app .screen-mount .locker-cta-layer {
+body[data-mode="lab"] #app .screen-mount .locker-cta-layer,
+body[data-mode="lab"] #app .screen-stage > .hand-menu .menu-cta-row {
   flex-shrink: 0;
 }
 
@@ -237,36 +257,25 @@ body[data-mode="glasses"] .depot-cta-row {
   justify-content: center;
 }
 
-/* Instellingenmenu: zelfde frame als workflow */
-body[data-mode="glasses"] .hand-menu {
-  align-items: flex-start;
-  justify-content: center;
-  padding: var(--edge);
+/* Instellingenmenu: bottom-anchored in screen-stage (same slot as screen-mount) */
+body[data-mode="glasses"] .screen-stage > .hand-menu,
+body[data-mode="lab"] #app .screen-stage > .hand-menu {
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0;
   box-sizing: border-box;
 }
 
-body[data-mode="glasses"] .hand-menu .menu-stack {
+body[data-mode="glasses"] .screen-stage > .hand-menu > .screen-stack,
+body[data-mode="lab"] #app .screen-stage > .hand-menu > .screen-stack {
   width: var(--glasses-stack-w);
   max-width: var(--glasses-stack-w);
-  max-height: var(--glasses-menu-max-h);
-  overflow-y: auto;
-}
-
-body[data-mode="lab"] #app .hand-menu .menu-stack {
-  max-height: var(--glasses-menu-max-h);
-  overflow-y: auto;
 }
 
 /* Scrollable in-card lists — px caps, not vh (MRBD is always 600px tall) */
 body[data-mode="glasses"] .route-stop-list,
 body[data-mode="lab"] #app .route-stop-list {
   max-height: var(--glasses-route-list-max);
-}
-
-/* Bevestigen grid: skip extra AI deco (depot CTA already has triangle) */
-body[data-mode="glasses"] .bevestigen-root .cf-grid-deco,
-body[data-mode="lab"] #app .bevestigen-root .cf-grid-deco {
-  display: none !important;
 }
 
 /* Photo capture / sign — scale proof to fit card budget (result card keeps Figma size) */

@@ -12,6 +12,10 @@ import {
   markActiveDelivered,
   allLoaded,
   allDelivered,
+  applyLockerHandoffChoice,
+  allRouteStopsHandled,
+  hasPendingLockerHandoffs,
+  startPendingLockerSession,
 } from '../src/core/state';
 import type { Delivery } from '../src/types';
 
@@ -159,10 +163,22 @@ describe('FSM niet-thuis sub-flows', () => {
     expect(getState().screen).toBe('veiligeplek');
   });
 
-  it('niet-thuis → punt', () => {
-    transition('niet_thuis');
-    expect(transition('kies_punt')).toBe(true);
-    expect(getState().screen).toBe('punt');
+  it('niet-thuis → punt defers locker when more route stops remain', () => {
+    initState('lab', 'beginner', TWO_DELIVERIES);
+    setScreen('niet-thuis');
+    expect(applyLockerHandoffChoice()).toBe('deferred');
+    expect(getState().deliveries[0].pendingLockerHandoff).toBe(true);
+    expect(getState().screen).toBe('niet-thuis');
+    expect(getState().activeDeliveryIdx).toBe(1);
+  });
+
+  it('niet-thuis → punt queues locker when route stops are done', () => {
+    initState('lab', 'beginner', TWO_DELIVERIES);
+    markActiveDelivered();
+    setScreen('niet-thuis');
+    expect(applyLockerHandoffChoice()).toBe('started');
+    expect(getState().screen).toBe('niet-thuis');
+    expect(getState().deliveries[1].pendingLockerHandoff).toBe(true);
   });
 
   it('niet-thuis → later', () => {
@@ -234,6 +250,18 @@ describe('loading phase', () => {
     markActiveLoaded();
     expect(getState().deliveries[0].loaded).toBe(true);
     expect(getState().deliveries[0].delivered).toBeFalsy();
+  });
+
+  it('startPendingLockerSession opens punt for first queued package', () => {
+    initState('lab', 'beginner', TWO_DELIVERIES);
+    setScreen('niet-thuis');
+    applyLockerHandoffChoice();
+    markActiveDelivered();
+    expect(allRouteStopsHandled()).toBe(true);
+    expect(hasPendingLockerHandoffs()).toBe(true);
+    startPendingLockerSession();
+    expect(getState().screen).toBe('punt');
+    expect(getState().activeDeliveryIdx).toBe(0);
   });
 
   it('route_start resets activeDeliveryIdx to first un-delivered', () => {

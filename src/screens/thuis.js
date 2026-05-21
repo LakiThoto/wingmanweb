@@ -13,10 +13,10 @@ export function mount(container) {
 <div class="screen-stack screen-stack--cta-gap rc-screen-stack">
   <div class="screen-card rc-card">
     <div class="rc-card-body">
-      <div class="screen-chip">
-        <img class="chip-icon" src="/assets/icons/pin.svg" alt="" />
-        Afleveren
-      </div>
+      <header class="screen-chip">
+        <img class="chip-icon" src="/assets/icons/pin.svg" width="20" height="20" alt="" aria-hidden="true" decoding="async" />
+        <span class="screen-chip-label">${t('thuis.title')}</span>
+      </header>
 
       <div class="rc-inner-tile">
         <p class="rc-drop-address">${address}</p>

@@ -3,6 +3,7 @@
 
 import { focusScreen } from './_frame';
 import { transition } from '@/core/state';
+import { chooseLockerHandoffFromNietThuis } from '@/core/delivery-complete';
 import { t } from '@/core/strings';
 
 function buildNthTile(id: string, iconSrc: string, label: string, sub: string): string {
@@ -21,9 +22,9 @@ export function mount(container: HTMLElement): () => void {
 <div class="screen-stack screen-stack--cta-gap">
   <div class="screen-card screen-card--niet-thuis">
     <div class="nth-card-body">
-      <header class="nth-chip">
-        <img class="nth-chip-icon" src="/assets/niet-thuis/title-icon.svg" width="20" height="20" alt="" aria-hidden="true" decoding="async" />
-        <span class="nth-chip-label">${t('niet_thuis.title')}</span>
+      <header class="screen-chip">
+        <img class="chip-icon" src="/assets/niet-thuis/title-icon.svg" width="20" height="20" alt="" aria-hidden="true" decoding="async" />
+        <span class="screen-chip-label">${t('niet_thuis.title')}</span>
       </header>
 
       <div class="nth-choices-block">
@@ -44,7 +45,7 @@ export function mount(container: HTMLElement): () => void {
 
   container.querySelector('#btn-buren')?.addEventListener('click', () => transition('kies_buren'));
   container.querySelector('#btn-veiligeplek')?.addEventListener('click', () => transition('kies_veiligeplek'));
-  container.querySelector('#btn-punt')?.addEventListener('click', () => transition('kies_punt'));
+  container.querySelector('#btn-punt')?.addEventListener('click', () => chooseLockerHandoffFromNietThuis());
   container.querySelector('#btn-later')?.addEventListener('click', () => transition('kies_later'));
 
   focusScreen(container);

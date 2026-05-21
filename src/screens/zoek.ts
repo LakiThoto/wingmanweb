@@ -29,7 +29,7 @@ function buildZoekSearchMarkup(
 <div class="screen-stack screen-stack--cta-gap zoek-search-stack">
   <div class="screen-card load-card">
     <div class="load-header-row">
-      <div class="screen-chip"><img class="chip-icon" src="/assets/icons/barcode.svg" alt="" /> ${t('zoek.title')}</div>
+      <header class="screen-chip"><img class="chip-icon" src="/assets/icons/barcode.svg" width="20" height="20" alt="" aria-hidden="true" decoding="async" /><span class="screen-chip-label">${t('zoek.title')}</span></header>
       <span class="load-counter-chip">${counter}</span>
     </div>
 
@@ -69,21 +69,18 @@ function buildZoekFoundMarkup(
 <div class="screen-stack screen-stack--cta-gap zoek-found-stack">
   <div class="screen-card zoek-found-card">
     <div class="load-header-row">
-      <div class="screen-chip">
-        <img class="chip-icon" src="/assets/zoek-found/chip-icon.svg" width="24" height="24" alt="" aria-hidden="true" />
-        ${t('zoek.title')}
-      </div>
+      <header class="screen-chip">
+        <img class="chip-icon" src="/assets/zoek-found/chip-icon.svg" width="20" height="20" alt="" aria-hidden="true" decoding="async" />
+        <span class="screen-chip-label">${t('zoek.title')}</span>
+      </header>
       <span class="load-counter-chip">${counter}</span>
     </div>
 
     <div class="zoek-found-confirm" role="status" aria-live="polite" aria-label="${t('zoek.confirmed.aria')}">
       <div class="zoek-found-confirm-top">
-        <div class="zoek-found-status">
-          <span class="zoek-found-check-badge" aria-hidden="true">
-            <img src="/assets/icons/action-check.svg" width="20" height="20" alt="" />
-          </span>
-          <p class="zoek-found-label">${t('zoek.confirmed.label')}</p>
-        </div>
+        <span class="zoek-found-check-badge" aria-hidden="true">
+          <img src="/assets/icons/action-check.svg" width="20" height="20" alt="" />
+        </span>
         <p class="zoek-found-address">${address}</p>
       </div>
       <div class="zoek-found-confirm-meta">

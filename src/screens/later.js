@@ -20,9 +20,9 @@ export function mount(container) {
 <div class="screen-stack screen-stack--cta-gap">
   <div class="screen-card screen-card--later">
     <div class="later-card-body">
-      <header class="later-chip">
-        <img class="later-chip-icon" src="/assets/later/title-icon.svg" width="20" height="20" alt="" aria-hidden="true" decoding="async" />
-        <span class="later-chip-label">${t('later.title')}</span>
+      <header class="screen-chip">
+        <img class="chip-icon" src="/assets/later/title-icon.svg" width="20" height="20" alt="" aria-hidden="true" decoding="async" />
+        <span class="screen-chip-label">${t('later.title')}</span>
       </header>
 
       <div class="later-choices-block">

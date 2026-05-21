@@ -1,6 +1,7 @@
 // Screen: walk — Figma Afstudeer 1319:12863 (map + HUD + CTA)
 
 import { focusScreen, buildDepotCtaRow, bindDepotCtaRow } from './_frame';
+import { prefersReducedMotion } from '@/core/screen-transition';
 import { transition, getActiveDelivery, getState } from '@/core/state';
 import { t } from '@/core/strings';
 import {
@@ -10,6 +11,8 @@ import {
 } from '@/core/stop-navigation';
 
 const FALLBACK_DEST = { latitude: 52.631, longitude: 4.748, label: '' };
+const NOTICE_VISIBLE_MS = 5000;
+const NOTICE_EXIT_MS = 320;
 
 export function mount(container: HTMLElement): () => void {
   const delivery = getActiveDelivery();
@@ -20,6 +23,24 @@ export function mount(container: HTMLElement): () => void {
   const pickupCount = delivery?.pickupCount ?? 0;
   const floorLabel = t('walk.hud.floor_default');
   const dest = deliveryToDestination(delivery);
+  const addressNotice = delivery?.addressNotice ?? '';
+
+  const noticeHtml = addressNotice
+    ? `
+    <div class="walk-hud-notice-slot">
+      <div class="walk-hud-notice" role="status" aria-live="polite">
+        <img
+          src="/assets/walk-hud/notice-info.svg"
+          width="24"
+          height="24"
+          alt=""
+          class="walk-hud-notice-icon"
+          aria-hidden="true"
+        />
+        <p class="walk-hud-notice-text">${addressNotice}</p>
+      </div>
+    </div>`
+    : '';
 
   container.innerHTML = `
 <div class="walk-hud-root" role="region" aria-label="${t('walk.hud.chip')}">
@@ -35,45 +56,52 @@ export function mount(container: HTMLElement): () => void {
       />
     </div>
 
-    <div class="screen-card walk-hud-card">
-      <header class="walk-hud-chip">
-        <img src="/assets/walk-hud/chip-icon.svg" width="24" height="24" alt="" class="walk-hud-chip-icon" aria-hidden="true" />
-        <span class="walk-hud-chip-label">${t('walk.hud.chip')}</span>
-      </header>
+    <div class="walk-hud-cards">
+      ${noticeHtml}
+      <div class="screen-card walk-hud-card">
+        <div class="walk-hud-card-inner">
+          <div class="walk-hud-chip-wrap">
+            <header class="screen-chip">
+              <img src="/assets/walk-hud/chip-icon.svg" width="20" height="20" alt="" class="chip-icon" aria-hidden="true" decoding="async" />
+              <span class="screen-chip-label">${t('walk.hud.chip')}</span>
+            </header>
+          </div>
 
-      <div class="walk-hud-addr-pill">
-        <img src="/assets/walk-hud/pin.svg" width="22" height="24" alt="" class="walk-hud-addr-pin" aria-hidden="true" />
-        <p class="walk-hud-address">${address}</p>
-      </div>
+          <div class="walk-hud-addr-pill">
+            <img src="/assets/walk-hud/pin.svg" width="22" height="24" alt="" class="walk-hud-addr-pin" aria-hidden="true" />
+            <p class="walk-hud-address">${address}</p>
+          </div>
 
-      <div class="walk-hud-stats" role="group" aria-label="${t('walk.hud.stats_label')}">
-        <div class="walk-hud-stat walk-hud-stat--dist">
-          <div class="walk-hud-stat-top">
-            <img src="/assets/walk-hud/turn.svg" width="87" height="28" alt="" class="walk-hud-turn-img" aria-hidden="true" />
-          </div>
-          <p class="walk-hud-stat-sub" id="walk-card-dist">120 m</p>
-        </div>
-        <div class="walk-hud-stat-divider" aria-hidden="true"></div>
-        <div class="walk-hud-stat walk-hud-stat--hint">
-          <div class="walk-hud-stat-top walk-hud-hint-row">
-            <img src="/assets/walk-hud/floor.svg" width="19" height="15" alt="" class="walk-hud-floor-icon" aria-hidden="true" />
-            <span class="walk-hud-hint-val">${floorLabel}</span>
-          </div>
-          <p class="walk-hud-stat-sub">${t('walk.hud.hint_label')}</p>
-        </div>
-        <div class="walk-hud-stat-divider" aria-hidden="true"></div>
-        <div class="walk-hud-stat walk-hud-stat--amount">
-          <div class="walk-hud-stat-top walk-hud-amount-row">
-            <div class="walk-hud-amount-item">
-              <img src="/assets/walk-hud/parcel-deliver.svg" width="24" height="24" alt="" aria-hidden="true" />
-              <span class="walk-hud-amount-val">${deliverCount}</span>
+          <div class="walk-hud-stats" role="group" aria-label="${t('walk.hud.stats_label')}">
+            <div class="walk-hud-stat walk-hud-stat--dist">
+              <div class="walk-hud-stat-top">
+                <img src="/assets/walk-hud/turn.svg" width="87" height="28" alt="" class="walk-hud-turn-img" aria-hidden="true" />
+              </div>
+              <p class="walk-hud-stat-sub walk-hud-stat-sub--dist" id="walk-card-dist">120 m</p>
             </div>
-            <div class="walk-hud-amount-item">
-              <img src="/assets/walk-hud/parcel-pickup.svg" width="24" height="24" alt="" aria-hidden="true" />
-              <span class="walk-hud-amount-val">${pickupCount}</span>
+            <div class="walk-hud-stat-divider" aria-hidden="true"></div>
+            <div class="walk-hud-stat walk-hud-stat--hint">
+              <div class="walk-hud-stat-top walk-hud-hint-row">
+                <img src="/assets/walk-hud/floor.svg" width="19" height="15" alt="" class="walk-hud-floor-icon" aria-hidden="true" />
+                <span class="walk-hud-hint-val">${floorLabel}</span>
+              </div>
+              <p class="walk-hud-stat-sub walk-hud-stat-sub--label">${t('walk.hud.hint_label')}</p>
+            </div>
+            <div class="walk-hud-stat-divider" aria-hidden="true"></div>
+            <div class="walk-hud-stat walk-hud-stat--amount">
+              <div class="walk-hud-stat-top walk-hud-amount-row">
+                <div class="walk-hud-amount-item">
+                  <img src="/assets/walk-hud/parcel-deliver.svg" width="24" height="24" alt="" aria-hidden="true" />
+                  <span class="walk-hud-amount-val">${deliverCount}</span>
+                </div>
+                <div class="walk-hud-amount-item">
+                  <img src="/assets/walk-hud/parcel-pickup.svg" width="24" height="24" alt="" aria-hidden="true" />
+                  <span class="walk-hud-amount-val">${pickupCount}</span>
+                </div>
+              </div>
+              <p class="walk-hud-stat-sub walk-hud-stat-sub--label">${t('walk.hud.amount_label')}</p>
             </div>
           </div>
-          <p class="walk-hud-stat-sub">${t('walk.hud.amount_label')}</p>
         </div>
       </div>
     </div>
@@ -99,7 +127,7 @@ export function mount(container: HTMLElement): () => void {
     onArrived: () => {
       if (distEl) {
         distEl.textContent = t('walk.hud.arrived');
-        distEl.classList.add('walk-hud-stat-sub--arrived');
+        distEl.classList.add('walk-hud-stat-sub--arrived', 'walk-hud-stat-sub--dist');
       }
     },
   });
@@ -107,7 +135,59 @@ export function mount(container: HTMLElement): () => void {
   bindDepotCtaRow(container, goThuis, { mainSelector: '#btn-arrive-deliver' });
   focusScreen(container);
 
+  let noticeDismissTimer: ReturnType<typeof setTimeout> | null = null;
+  let noticeExitTimer: ReturnType<typeof setTimeout> | null = null;
+
+  if (addressNotice) {
+    const notice = container.querySelector<HTMLElement>('.walk-hud-notice');
+    const slot = container.querySelector<HTMLElement>('.walk-hud-notice-slot');
+    if (notice && slot) {
+      const removeNotice = () => {
+        slot.remove();
+      };
+
+      let removed = false;
+      const dismissNotice = () => {
+        if (removed) return;
+        notice.classList.remove('walk-hud-notice--enter');
+        notice.classList.add('walk-hud-notice--exit');
+        slot.classList.add('walk-hud-notice-slot--exit');
+
+        if (prefersReducedMotion()) {
+          removed = true;
+          removeNotice();
+          return;
+        }
+
+        const finishRemove = () => {
+          if (removed) return;
+          removed = true;
+          removeNotice();
+        };
+
+        const onExitEnd = (e: AnimationEvent) => {
+          if (e.target !== notice || e.animationName !== 'walk-notice-exit') return;
+          notice.removeEventListener('animationend', onExitEnd);
+          finishRemove();
+        };
+        notice.addEventListener('animationend', onExitEnd);
+        noticeExitTimer = setTimeout(finishRemove, NOTICE_EXIT_MS + 120);
+      };
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          slot.classList.add('walk-hud-notice-slot--open');
+          notice.classList.add('walk-hud-notice--enter');
+        });
+      });
+
+      noticeDismissTimer = setTimeout(dismissNotice, NOTICE_VISIBLE_MS);
+    }
+  }
+
   return () => {
+    if (noticeDismissTimer) clearTimeout(noticeDismissTimer);
+    if (noticeExitTimer) clearTimeout(noticeExitTimer);
     stopNav();
     stopNavigation();
   };

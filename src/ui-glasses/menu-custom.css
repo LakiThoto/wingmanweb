@@ -1,0 +1,130 @@
+/* Custom instellingen panel — Figma 1176:44110 / support slider 1176:44488 */
+
+.menu-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  gap: 0;
+}
+
+.menu-panel[hidden] {
+  display: none !important;
+}
+
+.menu-custom-card {
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.menu-slider-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.menu-slider-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+
+.menu-slider-label {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1.48px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.menu-slider-value {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+.menu-slider-track {
+  position: relative;
+  width: 100%;
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.menu-slider-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 12px;
+  border-radius: 6px;
+  background: #fff;
+  width: 0;
+  transition: width 0.2s var(--ease-out-expo);
+}
+
+.menu-custom-support.is-gesture-active .menu-slider-fill {
+  transition-duration: 0.08s;
+}
+
+.menu-gesture-hint {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.menu-voice-section .menu-section-label {
+  margin-bottom: 0;
+}
+
+.menu-custom-voice-grid {
+  width: 100%;
+}
+
+.menu-custom-voice-grid .menu-circle-tile.menu-circle-active .menu-circle-btn {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(217, 217, 217, 0.3) 100%
+  );
+}
+
+.menu-cta-custom .menu-save-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.menu-save-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.menu-cta-custom[hidden],
+.menu-cta-main[hidden] {
+  display: none !important;
+}
+
+.hand-menu.is-custom-view .menu-cta-main {
+  display: none !important;
+}
+
+.hand-menu.is-custom-view .menu-cta-custom {
+  display: flex;
+}
+
+.hand-menu:not(.is-custom-view) .menu-cta-custom {
+  display: none !important;
+}

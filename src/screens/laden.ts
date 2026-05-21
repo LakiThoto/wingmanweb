@@ -19,7 +19,7 @@ export function mount(container: HTMLElement): () => void {
 <div class="screen-stack screen-stack--cta-gap">
   <div class="screen-card load-card">
     <div class="load-header-row">
-      <div class="screen-chip"><img class="chip-icon" src="/assets/icons/pill-check.svg" alt="" /> Geplaatst</div>
+      <header class="screen-chip"><img class="chip-icon" src="/assets/icons/laden-placed-icon.svg" width="20" height="20" alt="" aria-hidden="true" decoding="async" /><span class="screen-chip-label">${t('laden.placed_label')}</span></header>
       <span class="load-counter-chip">${counter}</span>
     </div>
 

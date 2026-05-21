@@ -10,7 +10,7 @@ export function mount(container: HTMLElement): () => void {
   container.innerHTML = `
 <div class="screen-stack screen-stack--cta-gap">
   <div class="screen-card">
-    <div class="screen-chip"><img class="chip-icon" src="/assets/icons/load-retry-icon.svg" alt="" /> Scannen</div>
+    <header class="screen-chip"><img class="chip-icon" src="/assets/icons/load-retry-icon.svg" width="20" height="20" alt="" aria-hidden="true" decoding="async" /><span class="screen-chip-label">${t('scan.title')}</span></header>
 
     <div class="tile scan-error-tile">
       ${iconImg('scan-warning', 'scan-error-icon', 40)}

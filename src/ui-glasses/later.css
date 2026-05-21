@@ -36,35 +36,6 @@ body[data-mode="lab"] #app .screen-mount > .screen-stack:has(.screen-card--later
   width: 100%;
 }
 
-/* Figma 1:284 — title chip */
-.later-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  margin: 0;
-  border: none;
-  background: transparent;
-}
-
-.later-chip-icon {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  object-fit: contain;
-}
-
-.later-chip-label {
-  font-family: var(--font);
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.184px;
-  line-height: normal;
-  text-transform: uppercase;
-  color: #fff;
-  white-space: nowrap;
-}
-
 /* Figma 1:291 — stacked shortcuts, 12px gap */
 .later-choices-block {
   display: flex;

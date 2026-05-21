@@ -59,60 +59,26 @@ body[data-mode="lab"] #app .locker-screen .screen-card.cf-card {
   width: 100%;
 }
 
-.bevestigen-root .cf-badge {
-  display: inline-flex;
-  align-items: center;
+/* Header chip typography — shared .screen-chip in layout.css */
+.bevestigen-root .cf-badge--grid,
+.locker-screen .cf-badge--grid {
+  gap: 8px;
   padding: 8px 16px;
-  border-radius: 999px;
   background: transparent;
 }
 
-.bevestigen-root .cf-badge--grid {
-  gap: 8px;
-  padding: 8px 16px;
-  background: rgba(0, 0, 0, 0.004);
-}
-
-.bevestigen-root .cf-badge-icon {
-  display: block;
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-}
-
-.bevestigen-root .cf-badge-label {
-  font-family: var(--font);
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.184px;
-  line-height: 25px;
-  text-transform: uppercase;
-  color: #fff;
-  white-space: nowrap;
-}
-
-/* Branch screens — Figma badge (1:490 / 1:539) */
-.cf-badge--figma {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-}
-
-.cf-badge--figma .cf-badge-icon {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-}
-
-.cf-badge--figma .cf-badge-label {
-  font-family: var(--font);
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.184px;
-  line-height: normal;
-  text-transform: uppercase;
-  color: #fff;
+/* Figma — all bevestigen UI icons white (chip, tiles, meta, status checks) */
+.bevestigen-root :is(
+  .chip-icon,
+  .cf-check-icon,
+  .ca-icon,
+  .cf-shortcut-tile__icon,
+  .cf-meta-img,
+  .cf-check-badge img,
+  .cf-delivered-check img,
+  .cf-photo-proof-overlay img
+) {
+  filter: brightness(0) invert(1);
 }
 
 /* ── Grid phase (Figma 1:1674 — card 588×361, inner 524px, tiles 254×80) ── */
@@ -172,26 +138,30 @@ body[data-mode="lab"] #app .locker-screen .screen-card.cf-card {
   color: #fafcff;
   cursor: pointer;
   overflow: hidden;
-  transition: background 0.18s ease, border-color 0.18s ease, transform 0.1s ease;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.1s ease;
 }
 
-.bevestigen-root .cf-grid-card .confirm-action-btn:hover {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(217, 217, 217, 0.35) 100%);
-  border-color: rgba(200, 200, 200, 0.65);
-  box-shadow: none;
+.bevestigen-root .cf-grid-card .confirm-action-btn:hover,
+.bevestigen-root .cf-grid-card .confirm-action-btn.focusable:focus-visible {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(235, 235, 235, 0.42) 100%);
+  border-color: rgba(240, 240, 240, 0.78);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
 
 .bevestigen-root .cf-grid-card .confirm-action-btn.focusable:focus-visible {
-  box-shadow: none;
   outline: none;
-  border: var(--selection-border);
 }
 
 .bevestigen-root .cf-grid-card .confirm-action-btn:active {
   transform: scale(0.98);
 }
 
-.bevestigen-root .cf-grid-card .confirm-action-btn .ca-icon {
+.bevestigen-root .cf-grid-card .confirm-action-btn .ca-icon,
+.bevestigen-root .cf-grid-card .confirm-action-btn .cf-shortcut-tile__icon {
   width: 32px;
   height: 32px;
   flex-shrink: 0;
@@ -213,8 +183,11 @@ body[data-mode="lab"] #app .locker-screen .screen-card.cf-card {
   text-overflow: ellipsis;
 }
 
-.bevestigen-root .cf-grid-card .confirm-action-btn:hover .ca-label {
-  color: #fafcff;
+.bevestigen-root .cf-grid-card .confirm-action-btn:hover .ca-label,
+.bevestigen-root .cf-grid-card .confirm-action-btn:hover .cf-shortcut-tile__label,
+.bevestigen-root .cf-grid-card .confirm-action-btn.focusable:focus-visible .ca-label,
+.bevestigen-root .cf-grid-card .confirm-action-btn.focusable:focus-visible .cf-shortcut-tile__label {
+  color: #fff;
 }
 
 /* Figma 1:1712 — thumb + hint row, 12px gap */
@@ -411,16 +384,15 @@ body[data-mode="lab"] #app .bevestigen-root .cf-grid-card .confirm-action-btn {
   cursor: default;
 }
 
-.bevestigen-root .cf-grid-deco {
+.bevestigen-root .cf-grid-ai {
   display: flex;
   justify-content: center;
   width: 100%;
+  flex-shrink: 0;
 }
 
-.bevestigen-root .cf-grid-deco-img {
-  width: 70px;
-  height: 69px;
-  transform: rotate(-90deg);
+.bevestigen-root .cf-grid-ai .depot-cta-ai {
+  pointer-events: none;
 }
 
 .bevestigen-root .cf-subflow {
@@ -486,16 +458,6 @@ body[data-mode="lab"] #app .bevestigen-root .cf-grid-card .confirm-action-btn {
   width: 100%;
   max-width: var(--cf-photo-proof-w);
   box-sizing: border-box;
-}
-
-.bevestigen-root .cf-photo-card .cf-badge--figma {
-  padding: 8px 16px;
-  margin: 0;
-}
-
-.bevestigen-root .cf-photo-card .cf-badge--figma .cf-badge-label {
-  line-height: normal;
-  letter-spacing: -0.184px;
 }
 
 .bevestigen-root .cf-photo-proof {
@@ -713,11 +675,6 @@ body[data-mode="lab"] #app .bevestigen-root .cf-grid-card .confirm-action-btn {
   gap: 24px;
   width: 100%;
   max-width: var(--cf-grid-inner);
-}
-
-.bevestigen-root .rescan-zone .cf-rescan-badge-icon {
-  width: 24px;
-  height: 24px;
 }
 
 .bevestigen-root .cf-rescan-preview-block {

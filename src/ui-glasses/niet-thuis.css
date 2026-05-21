@@ -36,35 +36,6 @@ body[data-mode="lab"] #app .screen-mount > .screen-stack:has(.screen-card--niet-
   width: 100%;
 }
 
-/* Figma 1:370 — title chip */
-.nth-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  margin: 0;
-  border: none;
-  background: transparent;
-}
-
-.nth-chip-icon {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  object-fit: contain;
-}
-
-.nth-chip-label {
-  font-family: var(--font);
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.184px;
-  line-height: normal;
-  text-transform: uppercase;
-  color: #fff;
-  white-space: nowrap;
-}
-
 /* Figma 1:376 — choice block, 16px between rows */
 .nth-choices-block {
   display: flex;

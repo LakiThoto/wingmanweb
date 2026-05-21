@@ -30,9 +30,9 @@ export function mount(container: HTMLElement): () => void {
 <div class="screen-stack screen-stack--cta-gap return-screen-stack">
   <div class="screen-card screen-card--return">
     <div class="return-card-body">
-      <header class="return-chip">
-        <img class="return-chip-icon" src="/assets/return/title-icon.svg" width="20" height="20" alt="" aria-hidden="true" decoding="async" />
-        <span class="return-chip-label">${t('return.title')}</span>
+      <header class="screen-chip">
+        <img class="chip-icon" src="/assets/return/title-icon.svg" width="20" height="20" alt="" aria-hidden="true" decoding="async" />
+        <span class="screen-chip-label">${t('return.title')}</span>
       </header>
 
       <div class="return-progress-block">

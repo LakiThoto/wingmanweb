@@ -61,9 +61,9 @@ export function mount(container) {
         container.innerHTML = `
 <div class="screen-stack screen-stack--cta-gap route-screen-stack">
   <div class="screen-card route-card">
-    <header class="route-chip">
-      <img class="route-chip-icon" src="/assets/icons/route-title.svg" width="24" height="24" alt="" aria-hidden="true" />
-      <span class="route-chip-label">${t('route.title')}</span>
+    <header class="screen-chip">
+      <img class="chip-icon" src="/assets/icons/route-title.svg" width="20" height="20" alt="" aria-hidden="true" decoding="async" />
+      <span class="screen-chip-label">${t('route.title')}</span>
     </header>
 
     <div class="route-tab-bar" data-focus-axis="horizontal">

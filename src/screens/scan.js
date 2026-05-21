@@ -35,7 +35,7 @@ export function mount(container) {
 <div class="screen-stack screen-stack--cta-gap">
   <div class="screen-card">
     <div class="screen-chip-row">
-      <div class="screen-chip"><img class="chip-icon" src="/assets/icons/load-scan-barcode-icon.svg" alt="" /> ${t('scan.title')}</div>
+      <header class="screen-chip"><img class="chip-icon" src="/assets/icons/load-scan-barcode-icon.svg" width="20" height="20" alt="" aria-hidden="true" decoding="async" /><span class="screen-chip-label">${t('scan.title')}</span></header>
       <span class="chip-counter">${counter}</span>
     </div>
 

@@ -36,6 +36,8 @@ export function logGlassesPreflight() {
         '[Wingman MRBD] Glasses mode active (600×600, D-pad only).',
         `  Plate: ${licensePlate}  |  Screen: ${screen}`,
         '  D-pad: ←/→ in horizontal groups, ↑/↓ between controls, Enter = activate, Esc = close menu.',
+        '  Menu (start screen only): gear in header, bottom-left button, voice "menu"/"instellingen", lab keys M/I/G.',
+        '  Custom panel: ↑↓ or +/- adjusts Support; Save returns to menu.',
         '  Happy path: Start → kenteken → scan → laden → route → drive → zoek → walk → thuis → bevestigen.',
         '  Deep link: ?screen=zoek&plate=AB-123-C  |  Audio: TTS fallback if /audio/*.mp3 missing.',
         `  Test screens: ${GLASSES_TEST_SCREENS.join(', ')}`,

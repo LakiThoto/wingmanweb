@@ -21,9 +21,9 @@ function buildSpConfirmCard(address: string, pkgCount: string, tracking: string)
   return `
 <div class="screen-card cf-card cf-delivered-card sp-confirm-card">
   <div class="cf-card-body cf-branch-inner cf-delivered-body">
-    <header class="cf-badge cf-badge--grid cf-badge--figma">
-      <img src="/assets/confirm/tile-check.svg" width="20" height="20" alt="" class="cf-badge-icon" aria-hidden="true" />
-      <span class="cf-badge-label">${t('bevestigen.title')}</span>
+    <header class="screen-chip cf-badge cf-badge--grid">
+      <img src="/assets/confirm/tile-check.svg" width="20" height="20" alt="" class="chip-icon" aria-hidden="true" decoding="async" />
+      <span class="screen-chip-label">${t('bevestigen.title')}</span>
     </header>
     <div class="cf-delivered-tile">
       <div class="cf-delivered-tile-top">
@@ -54,9 +54,9 @@ function buildSpPickCard(addr: string, selectedKey: string): string {
   return `
 <div class="screen-card cf-card cf-branch-card sp-branch-card">
   <div class="cf-card-body cf-branch-inner cf-branch-figma-inner">
-    <header class="cf-badge cf-badge--grid cf-badge--figma">
-      ${iconImg('alt-safeplace', 'cf-badge-icon', 20)}
-      <span class="cf-badge-label">${t('veiligeplek.title')}</span>
+    <header class="screen-chip cf-badge cf-badge--grid">
+      ${iconImg('alt-safeplace', 'chip-icon', 20)}
+      <span class="screen-chip-label">${t('veiligeplek.title')}</span>
     </header>
     <p class="cf-branch-address cf-branch-address--figma sp-address">${addr}</p>
     <div class="sp-pick-block">

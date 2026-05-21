@@ -17,14 +17,13 @@ body[data-mode="lab"] #app::-webkit-scrollbar-thumb {
   border-radius: var(--radius-pill);
 }
 
-/* ── Settings button (lab + glasses, bottom-left) ───────────────────────── */
+/* ── Settings button on screen-stage (lab + glasses, bottom-left of frame) ─ */
 
-body[data-mode="lab"] .companion-settings-btn,
-body[data-mode="glasses"] .companion-settings-btn {
-  position: fixed;
-  left: var(--sp-4);
-  bottom: var(--sp-4);
-  z-index: 8100;
+.screen-stage .companion-settings-btn {
+  position: absolute;
+  left: var(--sp-3);
+  bottom: var(--sp-3);
+  z-index: 4;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -46,26 +45,22 @@ body[data-mode="glasses"] .companion-settings-btn {
     transform 0.15s ease;
 }
 
-body[data-mode="lab"] .companion-settings-btn:hover,
-body[data-mode="glasses"] .companion-settings-btn:hover {
+.screen-stage .companion-settings-btn:hover {
   background: rgba(28, 28, 28, 0.95);
   border-color: rgba(255, 255, 255, 0.35);
 }
 
-body[data-mode="lab"] .companion-settings-btn.is-active,
-body[data-mode="glasses"] .companion-settings-btn.is-active {
+.screen-stage .companion-settings-btn.is-active {
   border-color: var(--accent);
   background: rgba(40, 24, 0, 0.92);
   color: var(--accent);
 }
 
-body[data-mode="lab"] .companion-settings-btn:active,
-body[data-mode="glasses"] .companion-settings-btn:active {
+.screen-stage .companion-settings-btn:active {
   transform: scale(0.96);
 }
 
-body[data-mode="lab"] .companion-settings-icon,
-body[data-mode="glasses"] .companion-settings-icon {
+.screen-stage .companion-settings-icon {
   display: block;
   width: 24px;
   height: 24px;
@@ -73,8 +68,12 @@ body[data-mode="glasses"] .companion-settings-icon {
   pointer-events: none;
 }
 
-body[data-mode="lab"] .companion-settings-btn:focus-visible,
-body[data-mode="glasses"] .companion-settings-btn:focus-visible {
+.screen-stage .companion-settings-btn:focus-visible {
   outline: none;
   box-shadow: var(--focus-ring);
+}
+
+.screen-stage .companion-settings-btn[hidden] {
+  display: none;
+  pointer-events: none;
 }

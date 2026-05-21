@@ -33,10 +33,10 @@ export function mount(container: HTMLElement): () => void {
   container.innerHTML = `
 <div class="screen-stack screen-stack--cta-gap">
   <div class="screen-card screen-card--buren">
-    <div class="screen-chip">
-      <img class="chip-icon" src="/assets/icons/badge-icon.svg" width="20" height="20" alt="" aria-hidden="true" />
-      ${t('buren.title')}
-    </div>
+    <header class="screen-chip">
+      <img class="chip-icon" src="/assets/icons/badge-icon.svg" width="20" height="20" alt="" aria-hidden="true" decoding="async" />
+      <span class="screen-chip-label">${t('buren.title')}</span>
+    </header>
     <p class="nb-delivery-address">${addr}</p>
     <div class="nb-choices" data-focus-axis="horizontal">
       ${buildNeighborChoice('btn-left', t('buren.left_label'), t('buren.left_dir'))}

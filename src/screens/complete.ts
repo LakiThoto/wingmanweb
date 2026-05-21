@@ -29,7 +29,7 @@ export function mount(container: HTMLElement): () => void {
 <div class="screen-stack complete-stack${stackGapClass}">
   <div class="screen-card screen-card--complete">
     <div class="complete-card-body">
-      <header class="complete-title-chip">${t('complete.title')}</header>
+      <header class="screen-chip">${t('complete.title')}</header>
       <p class="complete-sub">${t('complete.sub')}</p>
       <div class="completion-stats" role="group" aria-label="${t('complete.title')}">
         <div class="complete-stat-tile">

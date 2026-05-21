@@ -11,7 +11,7 @@ export function mount(container) {
     container.innerHTML = `
 <div class="screen-stack screen-stack--cta-gap">
   <div class="screen-card">
-    <div class="screen-chip"><img class="chip-icon" src="/assets/icons/depot-title-icon.svg" alt="" /> Bus laden</div>
+    <header class="screen-chip"><img class="chip-icon" src="/assets/icons/depot-title-icon.svg" width="20" height="20" alt="" aria-hidden="true" decoding="async" /><span class="screen-chip-label">${t('kenteken.title')}</span></header>
 
     <h1 class="card-title depot-headline">${t('kenteken.title')}</h1>
 

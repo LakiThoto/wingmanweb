@@ -11,6 +11,63 @@
   box-sizing: border-box;
 }
 
+/* Pinned inside the 600×600 screen-stage — bottom-anchored like screen-mount */
+.screen-stage > .hand-menu {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.screen-stage.is-menu-open .screen-scrim {
+  opacity: 0;
+}
+
+.screen-stage.is-menu-open .screen-mount {
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.screen-stage.is-menu-open .companion-settings-btn {
+  pointer-events: none;
+  opacity: 0;
+}
+
+.screen-stage > .hand-menu > .menu-stack {
+  position: relative;
+  z-index: 1;
+  width: var(--glasses-stack-w, 100%);
+  max-width: var(--glasses-stack-w, 100%);
+  max-height: var(--glasses-stack-max-h, calc(var(--glasses-viewport, 600px) - var(--glasses-cta-block-h, 104px)));
+  margin: 0 auto;
+  align-items: stretch;
+  justify-content: flex-end;
+  flex-shrink: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.screen-stage > .hand-menu .menu-card.screen-card {
+  width: 100%;
+  max-width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: var(--glasses-card-max-h, none);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.screen-stage > .hand-menu .menu-cta-row {
+  flex-shrink: 0;
+  width: 100%;
+}
+
 .hand-menu[hidden] {
   display: none !important;
 }
@@ -52,19 +109,6 @@
   background: linear-gradient(to bottom, rgba(217, 217, 217, 0.1), rgba(0, 0, 0, 0.1));
   box-sizing: border-box;
   align-items: flex-start;
-}
-
-.menu-title-chip {
-  align-self: flex-start;
-  gap: 8px;
-  padding: 8px 16px;
-  background: transparent;
-  border: 0;
-  font-size: 1.25rem;
-  font-weight: 800;
-  letter-spacing: -0.0115em;
-  text-transform: uppercase;
-  color: #fff;
 }
 
 .menu-section {

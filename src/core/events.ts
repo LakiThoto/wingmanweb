@@ -1,4 +1,5 @@
 import type { ScreenId, Tier, FsmEvent } from '@/types';
+import type { CustomSettings } from './custom-settings';
 
 export interface EventMap {
   state_change: { from: ScreenId; to: ScreenId };
@@ -6,6 +7,9 @@ export interface EventMap {
   voice: { transcript: string };
   scan: { code: string };
   tier_change: { tier: Tier };
+  custom_settings_change: CustomSettings;
+  custom_settings_saved: CustomSettings;
+  locker_next_package: { deliveryIdx: number };
 }
 
 export type EventKey = keyof EventMap;

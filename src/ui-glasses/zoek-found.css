@@ -28,11 +28,6 @@
   align-items: center;
 }
 
-.zoek-found-stack .screen-chip {
-  text-transform: uppercase;
-  letter-spacing: -0.184px;
-}
-
 .zoek-found-confirm {
   display: flex;
   flex-direction: column;
@@ -55,13 +50,6 @@
   width: 100%;
 }
 
-.zoek-found-status {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
 .zoek-found-check-badge {
   display: flex;
   align-items: center;
@@ -79,15 +67,6 @@
   display: block;
   width: 20px;
   height: 20px;
-}
-
-.zoek-found-label {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 700;
-  line-height: normal;
-  color: #2fd87c;
-  white-space: nowrap;
 }
 
 .zoek-found-address {

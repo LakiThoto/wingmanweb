@@ -39,9 +39,9 @@ function photoResultMarkup(hidden: boolean): string {
   return `
     <div class="screen-card cf-card cf-phase-card cf-photo-card${hidden ? ' cf-hidden' : ''}" id="confirm-photo-card">
       <div class="cf-card-body cf-photo-result-body">
-        <header class="cf-badge cf-badge--grid cf-badge--figma">
-          <img src="/assets/confirm/photo-title-icon.svg" width="20" height="20" alt="" class="cf-badge-icon" aria-hidden="true" decoding="async" />
-          <span class="cf-badge-label">${t('bevestigen.title')}</span>
+        <header class="screen-chip cf-badge cf-badge--grid">
+          <img src="/assets/confirm/photo-title-icon.svg" width="20" height="20" alt="" class="chip-icon" aria-hidden="true" decoding="async" />
+          <span class="screen-chip-label">${t('bevestigen.title')}</span>
         </header>
         <div class="cf-photo-proof photo-result-zone" id="photo-result-zone">
           <img id="photo-result" src="" alt="Bewijsfoto" decoding="async" />
@@ -60,9 +60,9 @@ function deliveredMarkup(hidden: boolean, address: string, code: string, pkgCoun
   return `
     <div class="screen-card cf-card cf-phase-card cf-delivered-card${hidden ? ' cf-hidden' : ''}" id="confirm-delivered-card">
       <div class="cf-card-body cf-branch-inner cf-delivered-body">
-        <header class="cf-badge cf-badge--grid">
-          <img src="/assets/confirm/tile-check.svg" width="20" height="20" alt="" class="cf-badge-icon" aria-hidden="true" />
-          <span class="cf-badge-label">${t('bevestigen.title')}</span>
+        <header class="screen-chip cf-badge cf-badge--grid">
+          <img src="/assets/confirm/tile-check.svg" width="20" height="20" alt="" class="chip-icon" aria-hidden="true" decoding="async" />
+          <span class="screen-chip-label">${t('bevestigen.title')}</span>
         </header>
         <div class="cf-delivered-tile">
           <div class="cf-delivered-tile-top">
@@ -302,9 +302,9 @@ export function mount(container: HTMLElement): () => void {
   <div class="screen-stack cf-screen-stack">
     <div class="screen-card cf-card cf-grid-card${isGrid ? '' : ' cf-hidden'}">
       <div class="cf-card-body cf-grid-card-body">
-        <header class="cf-badge cf-badge--grid cf-badge--figma">
-          <img src="/assets/confirm/tile-check.svg" width="20" height="20" alt="" class="cf-badge-icon" aria-hidden="true" />
-          <span class="cf-badge-label">${t('bevestigen.title')}</span>
+        <header class="screen-chip cf-badge cf-badge--grid">
+          <img src="/assets/confirm/tile-check.svg" width="20" height="20" alt="" class="chip-icon" aria-hidden="true" decoding="async" />
+          <span class="screen-chip-label">${t('bevestigen.title')}</span>
         </header>
         <div class="cf-grid-actions">
           <div class="cf-shortcut-grid confirm-actions-grid" data-focus-axis="horizontal">
@@ -334,14 +334,18 @@ export function mount(container: HTMLElement): () => void {
         </div>
       </div>
     </div>
-    <div class="cf-grid-deco${isGrid ? '' : ' cf-hidden'}" aria-hidden="true">
-      <img src="/assets/confirm/arrive-ai.svg" width="70" height="69" alt="" class="cf-grid-deco-img" />
+    <div class="cf-grid-ai${isGrid ? '' : ' cf-hidden'}" aria-hidden="true">
+      <div class="depot-cta-ai">
+        <div class="ai-icon-shape">
+          <img src="/assets/ai-icon.png" class="ai-triangle" alt="" width="52" height="52" decoding="async" />
+        </div>
+      </div>
     </div>
 
     <div class="screen-card cf-card cf-work-card${isPhotoCap ? ' cf-work-card--capture' : ''}${isRescan ? ' cf-work-card--rescan' : ''}${isWork ? '' : ' cf-hidden'}" id="confirm-work-card">
       <div class="cf-card-body cf-subflow${isSummary ? '' : ' cf-hidden'}" id="confirm-summary-body">
-        <header class="cf-badge cf-badge--grid">
-          <span class="cf-badge-label">${t('bevestigen.title')}</span>
+        <header class="screen-chip cf-badge cf-badge--grid">
+          <span class="screen-chip-label">${t('bevestigen.title')}</span>
         </header>
         <div class="cf-summary-tile">
           <div class="cf-summary-top">
@@ -381,9 +385,9 @@ export function mount(container: HTMLElement): () => void {
       </div>
 
       <div class="rescan-zone${isRescan ? '' : ' cf-hidden'}" id="rescan-zone">
-        <header class="cf-badge cf-badge--grid">
-          <img src="/assets/confirm/barcode.svg" width="24" height="24" alt="" class="cf-badge-icon cf-rescan-badge-icon" aria-hidden="true" />
-          <span class="cf-badge-label">${t('confirm.rescan.title')}</span>
+        <header class="screen-chip cf-badge cf-badge--grid">
+          <img src="/assets/confirm/barcode.svg" width="20" height="20" alt="" class="chip-icon" aria-hidden="true" decoding="async" />
+          <span class="screen-chip-label">${t('confirm.rescan.title')}</span>
         </header>
         <div class="load-scan-preview-block cf-rescan-preview-block">
           <div class="load-camera-frame${rescanVerified ? ' cf-hidden' : ''}" id="rescan-scanning-row">

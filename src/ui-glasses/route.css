@@ -25,24 +25,6 @@
   box-sizing: border-box;
 }
 
-.route-chip {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  margin: 0;
-  border: none;
-  background: transparent;
-}
-
-.route-chip .route-chip-label {
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.184px;
-  text-transform: uppercase;
-  color: var(--text);
-}
-
 /* Tab bar — Figma 1:712 (~68px total: 5.5 + 57 + 5.5 padding) */
 .route-screen-stack .route-tab-bar {
   align-items: center;

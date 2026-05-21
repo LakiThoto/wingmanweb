@@ -19,6 +19,7 @@ import '@/ui-glasses/zoek-found.css';
 import '@/ui-glasses/return.css';
 import '@/ui-glasses/complete.css';
 import '@/ui-glasses/menu.css';
+import '@/ui-glasses/menu-custom.css';
 import '@/ui-glasses/drive.css';
 import '@/ui-glasses/walk-hud.css';
 import '@/ui-lab/frame.css';
@@ -31,6 +32,7 @@ import { initDpad } from '@/input/dpad';
 import { initVoice } from '@/input/voice';
 import { initHandMenu } from '@/ui/hand-menu';
 import { initGestures } from '@/input/gestures';
+import { initVolumeGesture } from '@/input/volume-gesture';
 import { applyBootParams, logGlassesPreflight } from '@/core/glasses-preflight';
 import { runScreenTransition } from '@/core/screen-transition';
 import { initWorldMap, syncWorldMapForScreen } from '@/ui/world-map';
@@ -143,13 +145,9 @@ async function boot(): Promise<void> {
 
   // D-pad always on
   initDpad();
-  initHandMenu();
   initGestures();
-
+  initVolumeGesture();
   initVoice();
-
-  const { mountCompanion } = await import('@/ui-lab/companion');
-  mountCompanion();
 
   const app = document.getElementById('app');
   if (!app) throw new Error('#app element not found');
@@ -157,11 +155,19 @@ async function boot(): Promise<void> {
   initWorldMap();
   syncWorldMapForScreen(getState().screen);
 
-  // Initial screen
+  document.body.dataset.screen = getState().screen;
+
+  // Initial screen (creates .screen-stage before menu + settings mount)
   mountScreen(getState().screen, app);
+
+  initHandMenu();
+
+  const { mountCompanion } = await import('@/ui-lab/companion');
+  mountCompanion();
 
   // Subscribe to FSM state changes
   on('state_change', ({ to }) => {
+    document.body.dataset.screen = to;
     syncWorldMapForScreen(to);
     mountScreen(to, app);
   });

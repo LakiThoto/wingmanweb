@@ -58,6 +58,7 @@ let _state: AppState = {
   licensePlate: '',
   deliveries: [],
   activeDeliveryIdx: 0,
+  pendingLockerIdxs: [],
   scanBuffer: '',
   neighborChoice: 'left',
   safeplaceChoice: 'Voordeur',
@@ -75,6 +76,7 @@ export function initState(mode: Mode, tier: Tier, deliveries: Delivery[]): void 
     licensePlate: '',
     deliveries,
     activeDeliveryIdx: 0,
+    pendingLockerIdxs: [],
     scanBuffer: '',
     neighborChoice: 'left',
     safeplaceChoice: 'Voordeur',
@@ -121,7 +123,7 @@ export function markActiveDelivered(): void {
   const deliveries = _state.deliveries.map((d, i) =>
     i === _state.activeDeliveryIdx ? { ...d, delivered: true } : d,
   );
-  const nextIdx = deliveries.findIndex(d => !d.delivered);
+  const nextIdx = deliveries.findIndex(d => !d.delivered && !d.pendingLockerHandoff);
   _state = {
     ..._state,
     deliveries,
@@ -129,7 +131,101 @@ export function markActiveDelivered(): void {
   };
 }
 
+export function hasPendingLockerHandoffs(): boolean {
+  return _state.deliveries.some(d => d.pendingLockerHandoff && !d.delivered);
+}
+
+/** Drive screen shows audiobegeleiding break before PostNL Punt locker flow. */
+export function isLockerRouteBreakDrive(): boolean {
+  return allRouteStopsHandled() && hasPendingLockerHandoffs();
+}
+
+/** Every stop is afgehandeld (thuis/bezorgd of doorgeschoven naar PostNL Punt). */
+export function allRouteStopsHandled(): boolean {
+  return (
+    _state.deliveries.length > 0 &&
+    _state.deliveries.every(d => d.delivered || d.pendingLockerHandoff)
+  );
+}
+
+export function nextRouteDeliveryIdx(): number {
+  return _state.deliveries.findIndex(d => !d.delivered && !d.pendingLockerHandoff);
+}
+
+export function startPendingLockerSession(): void {
+  const idx =
+    _state.pendingLockerIdxs.find(i => {
+      const d = _state.deliveries[i];
+      return d && d.pendingLockerHandoff && !d.delivered;
+    }) ??
+    _state.deliveries.findIndex(d => d.pendingLockerHandoff && !d.delivered);
+  if (idx === -1) return;
+  const from = _state.screen;
+  _state = { ..._state, activeDeliveryIdx: idx, screen: 'punt' };
+  emit('state_change', { from, to: 'punt' });
+}
+
+/** Mark active locker package done; returns true if more packages await locker handoff. */
+export function completePendingLockerForActive(): boolean {
+  const idx = _state.activeDeliveryIdx;
+  const deliveries = _state.deliveries.map((d, i) =>
+    i === idx ? { ...d, delivered: true, pendingLockerHandoff: false } : d,
+  );
+  const pendingLockerIdxs = _state.pendingLockerIdxs.filter(i => i !== idx);
+  _state = { ..._state, deliveries, pendingLockerIdxs };
+  return hasPendingLockerHandoffs();
+}
+
+export function startNextPendingLocker(): boolean {
+  const idx =
+    _state.pendingLockerIdxs.find(i => {
+      const d = _state.deliveries[i];
+      return d && d.pendingLockerHandoff && !d.delivered;
+    }) ??
+    _state.deliveries.findIndex(d => d.pendingLockerHandoff && !d.delivered);
+  if (idx === -1) return false;
+  _state = { ..._state, activeDeliveryIdx: idx };
+  return true;
+}
+
+export type LockerHandoffChoice = 'deferred' | 'started' | 'failed';
+
+/** Niet thuis → PostNL Punt: queue for end-of-route locker, or start locker now if route is done. */
+export function applyLockerHandoffChoice(): LockerHandoffChoice {
+  if (_state.screen !== 'niet-thuis') return 'failed';
+  const idx = _state.activeDeliveryIdx;
+  const active = _state.deliveries[idx];
+  if (!active || active.delivered || active.pendingLockerHandoff) return 'failed';
+
+  const deliveries = _state.deliveries.map((d, i) =>
+    i === idx ? { ...d, pendingLockerHandoff: true } : d,
+  );
+  const pendingLockerIdxs = _state.pendingLockerIdxs.includes(idx)
+    ? _state.pendingLockerIdxs
+    : [..._state.pendingLockerIdxs, idx];
+
+  const nextRouteIdx = deliveries.findIndex(d => !d.delivered && !d.pendingLockerHandoff);
+  _state = { ..._state, deliveries, pendingLockerIdxs };
+
+  if (nextRouteIdx !== -1) {
+    _state = { ..._state, activeDeliveryIdx: nextRouteIdx };
+    return 'deferred';
+  }
+
+  const lockerIdx =
+    pendingLockerIdxs.find(i => {
+      const d = deliveries[i];
+      return d && d.pendingLockerHandoff && !d.delivered;
+    }) ?? idx;
+  _state = { ..._state, activeDeliveryIdx: lockerIdx };
+  return 'started';
+}
+
 export function transition(event: FsmEvent): boolean {
+  if (event === 'kies_punt') {
+    return applyLockerHandoffChoice() !== 'failed';
+  }
+
   const map = TRANSITIONS[_state.screen];
   const next = map?.[event];
   if (!next) return false;
@@ -137,7 +233,7 @@ export function transition(event: FsmEvent): boolean {
   // Loading is done — reset active to first un-delivered for the delivery phase.
   let activeDeliveryIdx = _state.activeDeliveryIdx;
   if (event === 'route_start') {
-    const idx = _state.deliveries.findIndex(d => !d.delivered);
+    const idx = nextRouteDeliveryIdx();
     if (idx !== -1) activeDeliveryIdx = idx;
   }
 
@@ -166,7 +262,7 @@ export function setActiveDeliveryIdx(idx: number): void {
 /** Advance to next undelivered stop without marking current delivered (later today). */
 export function skipToNextUndelivered(): void {
   const nextIdx = _state.deliveries.findIndex(
-    (d, i) => i > _state.activeDeliveryIdx && !d.delivered,
+    (d, i) => i > _state.activeDeliveryIdx && !d.delivered && !d.pendingLockerHandoff,
   );
   if (nextIdx !== -1) setActiveDeliveryIdx(nextIdx);
 }
@@ -178,8 +274,10 @@ export function resetDeliveriesForDemo(): void {
       ...d,
       loaded: false,
       delivered: false,
+      pendingLockerHandoff: false,
     })),
     activeDeliveryIdx: 0,
+    pendingLockerIdxs: [],
     scanBuffer: '',
   };
 }

@@ -55,6 +55,7 @@ let _state = {
     licensePlate: '',
     deliveries: [],
     activeDeliveryIdx: 0,
+    pendingLockerIdxs: [],
     scanBuffer: '',
     neighborChoice: 'left',
     safeplaceChoice: 'Voordeur',
@@ -70,6 +71,7 @@ export function initState(mode, tier, deliveries) {
         licensePlate: '',
         deliveries,
         activeDeliveryIdx: 0,
+        pendingLockerIdxs: [],
         scanBuffer: '',
         neighborChoice: 'left',
         safeplaceChoice: 'Voordeur',
@@ -106,14 +108,82 @@ export function markActiveLoaded() {
 }
 export function markActiveDelivered() {
     const deliveries = _state.deliveries.map((d, i) => i === _state.activeDeliveryIdx ? { ...d, delivered: true } : d);
-    const nextIdx = deliveries.findIndex(d => !d.delivered);
+    const nextIdx = deliveries.findIndex(d => !d.delivered && !d.pendingLockerHandoff);
     _state = {
         ..._state,
         deliveries,
         activeDeliveryIdx: nextIdx === -1 ? _state.activeDeliveryIdx : nextIdx,
     };
 }
+export function hasPendingLockerHandoffs() {
+    return _state.deliveries.some(d => d.pendingLockerHandoff && !d.delivered);
+}
+export function isLockerRouteBreakDrive() {
+    return allRouteStopsHandled() && hasPendingLockerHandoffs();
+}
+export function allRouteStopsHandled() {
+    return (_state.deliveries.length > 0 &&
+        _state.deliveries.every(d => d.delivered || d.pendingLockerHandoff));
+}
+export function nextRouteDeliveryIdx() {
+    return _state.deliveries.findIndex(d => !d.delivered && !d.pendingLockerHandoff);
+}
+export function startPendingLockerSession() {
+    const idx = _state.pendingLockerIdxs.find(i => {
+        const d = _state.deliveries[i];
+        return d && d.pendingLockerHandoff && !d.delivered;
+    }) ?? _state.deliveries.findIndex(d => d.pendingLockerHandoff && !d.delivered);
+    if (idx === -1)
+        return;
+    const from = _state.screen;
+    _state = { ..._state, activeDeliveryIdx: idx, screen: 'punt' };
+    emit('state_change', { from, to: 'punt' });
+}
+export function completePendingLockerForActive() {
+    const idx = _state.activeDeliveryIdx;
+    const deliveries = _state.deliveries.map((d, i) => i === idx ? { ...d, delivered: true, pendingLockerHandoff: false } : d);
+    const pendingLockerIdxs = _state.pendingLockerIdxs.filter(i => i !== idx);
+    _state = { ..._state, deliveries, pendingLockerIdxs };
+    return hasPendingLockerHandoffs();
+}
+export function startNextPendingLocker() {
+    const idx = _state.pendingLockerIdxs.find(i => {
+        const d = _state.deliveries[i];
+        return d && d.pendingLockerHandoff && !d.delivered;
+    }) ?? _state.deliveries.findIndex(d => d.pendingLockerHandoff && !d.delivered);
+    if (idx === -1)
+        return false;
+    _state = { ..._state, activeDeliveryIdx: idx };
+    return true;
+}
+export function applyLockerHandoffChoice() {
+    if (_state.screen !== 'niet-thuis')
+        return 'failed';
+    const idx = _state.activeDeliveryIdx;
+    const active = _state.deliveries[idx];
+    if (!active || active.delivered || active.pendingLockerHandoff)
+        return 'failed';
+    const deliveries = _state.deliveries.map((d, i) => i === idx ? { ...d, pendingLockerHandoff: true } : d);
+    const pendingLockerIdxs = _state.pendingLockerIdxs.includes(idx)
+        ? _state.pendingLockerIdxs
+        : [..._state.pendingLockerIdxs, idx];
+    const nextRouteIdx = deliveries.findIndex(d => !d.delivered && !d.pendingLockerHandoff);
+    _state = { ..._state, deliveries, pendingLockerIdxs };
+    if (nextRouteIdx !== -1) {
+        _state = { ..._state, activeDeliveryIdx: nextRouteIdx };
+        return 'deferred';
+    }
+    const lockerIdx = pendingLockerIdxs.find(i => {
+        const d = deliveries[i];
+        return d && d.pendingLockerHandoff && !d.delivered;
+    }) ?? idx;
+    _state = { ..._state, activeDeliveryIdx: lockerIdx };
+    return 'started';
+}
 export function transition(event) {
+    if (event === 'kies_punt') {
+        return applyLockerHandoffChoice() !== 'failed';
+    }
     const map = TRANSITIONS[_state.screen];
     const next = map?.[event];
     if (!next)
@@ -121,7 +191,7 @@ export function transition(event) {
     // Loading is done — reset active to first un-delivered for the delivery phase.
     let activeDeliveryIdx = _state.activeDeliveryIdx;
     if (event === 'route_start') {
-        const idx = _state.deliveries.findIndex(d => !d.delivered);
+        const idx = nextRouteDeliveryIdx();
         if (idx !== -1)
             activeDeliveryIdx = idx;
     }
@@ -144,7 +214,7 @@ export function setActiveDeliveryIdx(idx) {
 }
 /** Advance to next undelivered stop without marking current delivered (later today). */
 export function skipToNextUndelivered() {
-    const nextIdx = _state.deliveries.findIndex((d, i) => i > _state.activeDeliveryIdx && !d.delivered);
+    const nextIdx = _state.deliveries.findIndex((d, i) => i > _state.activeDeliveryIdx && !d.delivered && !d.pendingLockerHandoff);
     if (nextIdx !== -1)
         setActiveDeliveryIdx(nextIdx);
 }
@@ -155,8 +225,10 @@ export function resetDeliveriesForDemo() {
             ...d,
             loaded: false,
             delivered: false,
+            pendingLockerHandoff: false,
         })),
         activeDeliveryIdx: 0,
+        pendingLockerIdxs: [],
         scanBuffer: '',
     };
 }

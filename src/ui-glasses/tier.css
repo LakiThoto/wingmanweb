@@ -4,10 +4,20 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* ── Slot rules ──────────────────────────────────────────────────────────── */
-body:not([data-exp="beginner"])    .beginner-only    { display: none !important; }
-body:not([data-exp="experienced"]) .experienced-only { display: none !important; }
-body:not([data-exp="pro"])         .pro-only         { display: none !important; }
+body:not([data-exp="beginner"]):not([data-exp-density="beginner"])    .beginner-only    { display: none !important; }
+body:not([data-exp="experienced"]):not([data-exp-density="experienced"]) .experienced-only { display: none !important; }
+body:not([data-exp="pro"]):not([data-exp-density="pro"])         .pro-only         { display: none !important; }
 body[data-exp="pro"]               .pro-hide         { display: none !important; }
+body[data-exp="custom"][data-exp-density="pro"] .pro-hide { display: none !important; }
+
+/* Custom tier — density from support slider */
+body[data-exp="custom"][data-exp-density="beginner"] .screen-card  { gap: 18px; }
+body[data-exp="custom"][data-exp-density="experienced"] .screen-card { gap: 10px; }
+body[data-exp="custom"][data-exp-density="pro"] .screen-card       { gap: 8px; }
+body[data-exp="custom"][data-exp-density="experienced"] .voice-hint { opacity: 0.5; }
+body[data-exp="custom"][data-exp-density="pro"] .voice-hint,
+body[data-exp="custom"][data-exp-density="pro"] .choice-tile-sub,
+body[data-exp="custom"][data-exp-density="pro"] .alt-tile-sub { display: none !important; }
 
 /* ── Card inner gap per tier (WingmanCopy L5052–5083) ───────────────────── */
 body[data-exp="beginner"] .screen-card  { gap: 18px; }

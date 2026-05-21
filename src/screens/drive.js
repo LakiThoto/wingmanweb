@@ -1,17 +1,13 @@
 // Screen: drive — Figma 1357:14088 audio status bar only (no CTA)
 import { focusScreen } from './_frame';
-import { transition, getActiveDelivery, getState } from '@/core/state';
+import { transition, getActiveDelivery, getState, isLockerRouteBreakDrive, startPendingLockerSession, } from '@/core/state';
 import { speakTierPhrase } from '@/core/audio';
 import { t } from '@/core/strings';
+import { clearDeliveryAdvanceTimer, getLockerRouteBreakMs, } from '@/core/delivery-complete';
 import { deliveryToDestination, startDriveNavigation, stopNavigation, } from '@/core/stop-navigation';
 const FALLBACK_DEST = { latitude: 52.631, longitude: 4.748, label: '' };
-export function mount(container) {
-    const delivery = getActiveDelivery();
-    const state = getState();
-    const stopN = state.activeDeliveryIdx + 1;
-    const addr = delivery?.address ?? '';
-    const dest = deliveryToDestination(delivery);
-    container.innerHTML = `
+function buildDriveAudioBar() {
+    return `
 <div class="drive-screen-stack drive-screen-stack--audio">
   <div class="drive-audio-bar" role="status" aria-live="polite" aria-label="${t('drive.audio.aria')}">
     <img
@@ -29,6 +25,31 @@ export function mount(container) {
     </div>
   </div>
 </div>`;
+}
+export function mount(container) {
+    container.innerHTML = buildDriveAudioBar();
+    if (isLockerRouteBreakDrive()) {
+        const pending = getState().pendingLockerIdxs.length;
+        const n = String(Math.max(pending, 1));
+        clearDeliveryAdvanceTimer();
+        speakTierPhrase('audio.transition.locker_route');
+        speakTierPhrase('voice.locker.route_break', {
+            n,
+            name: t('punt.name'),
+        });
+        const breakTimer = setTimeout(() => {
+            if (getState().screen === 'drive' && isLockerRouteBreakDrive()) {
+                startPendingLockerSession();
+            }
+        }, getLockerRouteBreakMs());
+        focusScreen(container);
+        return () => clearTimeout(breakTimer);
+    }
+    const delivery = getActiveDelivery();
+    const state = getState();
+    const stopN = state.activeDeliveryIdx + 1;
+    const addr = delivery?.address ?? '';
+    const dest = deliveryToDestination(delivery);
     speakTierPhrase('audio.transition');
     speakTierPhrase('drive.start', { n: String(stopN), addr });
     const endDrive = () => {

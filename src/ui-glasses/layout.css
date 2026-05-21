@@ -16,6 +16,7 @@
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
+  overflow: hidden;
 }
 
 .screen-scrim {
@@ -110,28 +111,57 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── HEADER CHIP ─────────────────────────────────────────────────────────────
-   Pill at the top of every card: icon + UPPERCASE label
+/* ── HEADER CHIP (Figma 1175:42684, 1176:47451, 1177:52653, 1177:53830) ─────
+   Icon 20px + label 20px ExtraBold, 8×16 padding, transparent pill
    ─────────────────────────────────────────────────────────────────────────── */
 
-/* Matches Wingman copy .title-chip */
 .screen-chip,
-.title-chip {
+.title-chip,
+.menu-title-chip,
+.complete-title-chip,
+.menu-custom-chip,
+.walk-hud-chip,
+.route-chip,
+.nth-chip,
+.later-chip,
+.return-chip,
+.cf-badge--figma,
+.bevestigen-root .cf-badge,
+.locker-screen .cf-badge {
   display: inline-flex;
   align-items: center;
-  gap: var(--sp-2);
-  padding: 5px 13px;
-  border-radius: var(--r-chip);
-  background: var(--chip-bg);
-  border: 1.5px solid var(--chip-border);
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-sec);
+  gap: 8px;
+  padding: 8px 16px;
+  margin: 0;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
   align-self: flex-start;
-  line-height: 1;
+  box-sizing: border-box;
   font-family: var(--font);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.184px;
+  line-height: normal;
+  text-transform: uppercase;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.screen-chip-label,
+.walk-hud-chip-label,
+.route-chip-label,
+.nth-chip-label,
+.later-chip-label,
+.return-chip-label,
+.menu-custom-chip-label,
+.cf-badge-label {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  line-height: inherit;
+  white-space: inherit;
 }
 
 /* Row that holds chip (left) + optional counter badge (right) */
@@ -175,9 +205,15 @@
 
 .tile-sm { padding: var(--sp-3); }
 
-/* ── CHIP ICON (inline SVG inside .screen-chip) ─────────────────────────────
-   Matches Wingman copy .depot-title-chip-icon: 20px, block, object-fit. */
-.chip-icon {
+/* Icon inside header chip — Figma title icons 20×20 */
+.chip-icon,
+.cf-badge-icon,
+.walk-hud-chip-icon,
+.route-chip-icon,
+.nth-chip-icon,
+.later-chip-icon,
+.return-chip-icon,
+.menu-custom-chip-icon {
   width: 20px;
   height: 20px;
   display: block;
@@ -1010,19 +1046,20 @@ body[data-mode="glasses"] .rc-screen-stack {
 
 .rc-btn-yes {
   padding: 0 clamp(28px, 9vw, 48px);
-  background: var(--green);
+  background: #28b86a;
   color: #fff;
-  box-shadow: 0 4px 10px var(--green-glow);
+  box-shadow: none;
 }
 
 .rc-btn-yes .rc-btn-label { color: #fff; }
 .rc-btn-yes:hover {
-  filter: brightness(1.12);
-  box-shadow: 0 4px 16px var(--green-glow), 0 0 0 2px rgba(47, 216, 124, 0.45);
+  background: #2ec472;
+  filter: none;
+  box-shadow: none;
 }
 .rc-btn-yes:active { transform: scale(0.97); }
 .rc-btn-yes.focusable:focus-visible {
-  box-shadow: 0 4px 10px var(--green-glow), var(--focus-ring);
+  box-shadow: var(--focus-ring);
 }
 
 .rc-btn-no {

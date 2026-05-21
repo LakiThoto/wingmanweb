@@ -1,4 +1,4 @@
-export type Tier = 'beginner' | 'experienced' | 'pro';
+export type Tier = 'beginner' | 'experienced' | 'pro' | 'custom';
 export type Mode = 'glasses' | 'lab';
 
 export type ScreenId =
@@ -56,6 +56,10 @@ export interface Delivery {
   pickupCount?: number;
   loaded?: boolean;
   delivered?: boolean;
+  /** Optional alert above walk HUD card (Figma 1319:13022). */
+  addressNotice?: string;
+  /** Chosen at “niet thuis” → PostNL Punt; hand off at parcel locker after the route. */
+  pendingLockerHandoff?: boolean;
 }
 
 export interface AppState {
@@ -65,6 +69,8 @@ export interface AppState {
   licensePlate: string;
   deliveries: Delivery[];
   activeDeliveryIdx: number;
+  /** Delivery indices queued for end-of-route parcel locker handoff. */
+  pendingLockerIdxs: number[];
   scanBuffer: string;
   neighborChoice: 'left' | 'right';
   safeplaceChoice: string;

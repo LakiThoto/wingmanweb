@@ -2,9 +2,9 @@
 // webkitSpeechRecognition wrapper that emits normalised NL commands.
 import { emit } from '@/core/events';
 import { transition, getState } from '@/core/state';
-import { skipStopLaterToday, completeLaterTomorrow } from '@/core/delivery-complete';
+import { skipStopLaterToday, completeLaterTomorrow, chooseLockerHandoffFromNietThuis, } from '@/core/delivery-complete';
 import { setTier } from '@/core/tier';
-import { closeHandMenu, isHandMenuOpen, toggleHandMenu } from '@/ui/hand-menu';
+import { closeHandMenu, isHandMenuOpen, toggleHandMenu, canOpenHandMenu } from '@/ui/hand-menu';
 import { requestZoekPackageFound } from '@/screens/zoek';
 // Map of NL transcript fragments → FSM events or side-effects
 const VOICE_COMMANDS = [
@@ -27,7 +27,10 @@ const VOICE_COMMANDS = [
     { match: /^(niet thuis|niemand|afwezig)$/, action: () => transition('niet_thuis') },
     { match: /^buren$/, action: () => transition('kies_buren') },
     { match: /^(veilige plek|veilig)$/, action: () => transition('kies_veiligeplek') },
-    { match: /^(punt|postnl punt|locker)$/, action: () => transition('kies_punt') },
+    { match: /^(punt|postnl punt|locker)$/, action: () => {
+            if (getState().screen === 'niet-thuis')
+                chooseLockerHandoffFromNietThuis();
+        } },
     { match: /^later$/, action: () => transition('kies_later') },
     { match: /^(volgende stop|terug naar bus)$/, action: () => transition('return_continue') },
     { match: /^(opnieuw|herstart)$/, action: () => transition('complete_restart') },
@@ -40,7 +43,10 @@ const VOICE_COMMANDS = [
                 completeLaterTomorrow();
         } },
     { match: /^pakket geplaatst$/, action: () => transition('pkg_placed') },
-    { match: /^\s*menu\s*$/i, action: () => toggleHandMenu() },
+    { match: /^\s*(menu|instellingen|settings)\s*$/i, action: () => {
+            if (canOpenHandMenu())
+                toggleHandMenu();
+        } },
     { match: /sluit\s+menu|menu\s+sluiten|close\s+(the\s+)?menu/i, action: () => {
             if (isHandMenuOpen())
                 closeHandMenu();

@@ -35,23 +35,6 @@
   width: 100%;
 }
 
-.complete-title-chip {
-  display: inline-flex;
-  align-items: center;
-  margin: 0;
-  padding: 8px 16px;
-  border-radius: 999px;
-  background: transparent;
-  font-family: var(--font);
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.184px;
-  line-height: normal;
-  text-transform: uppercase;
-  color: #fff;
-  white-space: nowrap;
-}
-
 .screen-card--complete .complete-sub {
   margin: 0;
   font-family: var(--font);

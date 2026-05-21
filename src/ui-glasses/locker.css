@@ -145,6 +145,126 @@
   display: none;
 }
 
+/* Find in bus — same stack as laden (.load-card + .btn-primary) */
+.locker-screen.locker-screen--find-load {
+  width: 100%;
+  max-width: min(var(--load-placement-card, 426px), calc(100vw - var(--edge, 16px) * 2));
+  align-items: stretch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.locker-screen.locker-screen--find-load .load-card {
+  width: 100%;
+}
+
+/* Place in locker — Figma 1:1800 outer card + 1:1801 inner tiles */
+.locker-screen.locker-screen--place-load {
+  width: 100%;
+  max-width: min(var(--load-placement-card, 426px), calc(100vw - var(--edge, 16px) * 2));
+  align-items: stretch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.locker-screen.locker-screen--place-load .screen-card.load-card.locker-place-card {
+  width: 100%;
+  align-items: flex-start;
+}
+
+.locker-screen.locker-screen--place-load .locker-place-chip-wrap {
+  width: 100%;
+}
+
+.locker-screen.locker-screen--place-load .locker-place-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+}
+
+.locker-screen.locker-screen--place-load .locker-place-chip .screen-chip-label {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.0092em;
+  text-transform: uppercase;
+}
+
+.locker-screen.locker-screen--place-load .load-address-tile,
+.locker-screen.locker-screen--place-load .load-vandiagram-tile {
+  width: 100%;
+}
+
+.locker-screen.locker-screen--place-load .load-address-tile .lat-address {
+  font-size: 2rem;
+  line-height: 1.2;
+  max-width: 300px;
+}
+
+.locker-screen.locker-screen--place-load .load-address-tile .lat-meta-value {
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+.locker-screen.locker-screen--place-load .load-address-tile .lat-meta-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Bottom card header — Figma 1:1825 PLAATSEN + 2M */
+.locker-screen.locker-screen--place-load .load-vandiagram-tile .van-map-header {
+  margin-bottom: 8px;
+}
+
+.locker-screen.locker-screen--place-load .load-vandiagram-tile .van-map-label {
+  font-family: var(--font);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.0868em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.locker-screen.locker-screen--place-load .load-vandiagram-tile .van-map-pos {
+  font-family: var(--font);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #fff;
+}
+
+.locker-screen.locker-screen--place-load .locker-scan-depot-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 0 clamp(28px, 8vw, 59px);
+}
+
+.locker-screen.locker-screen--place-load .locker-scan-depot-pill .cf-pill-scan-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.locker-screen.locker-screen--place-load .depot-cta-row.locker-place-depot-cta {
+  gap: 12px;
+  width: 100%;
+  max-width: 100%;
+}
+
+.locker-screen.locker-screen--place-load .locker-scan-status {
+  margin-top: 8px;
+  text-align: center;
+  width: 100%;
+}
+
 /* CTA — Figma 1:531 (AI + gradient pill) */
 .locker-screen .locker-cta-layer.cf-cta-layer {
   width: 100%;
@@ -152,29 +272,17 @@
   justify-content: center;
 }
 
-.locker-screen .cf-arrive-cta.locker-arrive-cta {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
+/* Same row layout as walk / zoek / buren — depot-cta-row + 12px gap */
+.locker-screen .depot-cta-row.locker-arrive-cta {
+  gap: 12px;
   width: 100%;
+  max-width: 100%;
 }
 
-.locker-screen .cf-arrive-ai {
+.locker-screen .locker-arrive-cta > .depot-cta-ai {
   flex: 0 0 69px;
   width: 69px;
   height: 70px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.locker-screen .cf-arrive-ai-img {
-  display: block;
-  width: 70px;
-  height: 69px;
-  transform: rotate(-90deg);
 }
 
 .locker-screen .cf-confirm-btn.locker-cta-btn {
@@ -197,45 +305,41 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  padding: 17px 59px;
-  border-radius: 70px;
+  min-height: 52px;
+  height: 52px;
+  padding: 0 var(--cta-padding-x);
+  border-radius: var(--cta-radius);
   overflow: clip;
-  background: linear-gradient(129.13deg, rgba(245, 105, 0, 0.85) 9.68%, rgba(116, 116, 255, 0.85) 82.67%);
-  box-shadow:
-    inset -1px 2px 4px 0 rgba(255, 255, 255, 0.25),
-    inset 1px -2px 4px 0 rgba(255, 255, 255, 0.4);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  background: var(--cta-gradient);
+  box-shadow: var(--cta-inset-shadow);
+  transition: opacity 0.2s ease, transform 0.2s ease, filter 0.2s ease;
 }
 
 .locker-screen .cf-confirm-pill--scan {
-  padding: 17px 40px;
+  padding: 0 clamp(20px, 8vw, 40px);
 }
 
-.locker-screen .cf-pill-check {
-  display: block;
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
-}
-
+.locker-screen .cf-pill-check,
 .locker-screen .cf-pill-scan-icon {
   display: block;
   width: 24px;
   height: 24px;
   flex-shrink: 0;
+  object-fit: contain;
 }
 
 .locker-screen .cf-confirm-label {
-  font-family: var(--font);
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1.28;
+  font-family: var(--ai-btn-font-family);
+  font-size: var(--ai-btn-font-size);
+  font-weight: var(--ai-btn-font-weight);
+  letter-spacing: var(--ai-btn-letter-spacing);
+  line-height: var(--ai-btn-line-height);
   color: #fff;
   white-space: nowrap;
 }
 
 .locker-screen .cf-confirm-btn:hover .cf-confirm-pill {
-  opacity: 0.92;
+  filter: brightness(1.1);
 }
 
 .locker-screen .cf-confirm-btn:active .cf-confirm-pill {
@@ -243,10 +347,7 @@
 }
 
 .locker-screen .cf-confirm-btn.focusable:focus-visible .cf-confirm-pill {
-  box-shadow:
-    inset -1px 2px 4px 0 rgba(255, 255, 255, 0.25),
-    inset 1px -2px 4px 0 rgba(255, 255, 255, 0.4),
-    var(--focus-ring);
+  box-shadow: var(--cta-inset-shadow), var(--focus-ring);
 }
 
 /* Pro: icon-only locker CTA pill */
@@ -261,5 +362,18 @@ body[data-exp="pro"] .locker-screen .cf-confirm-pill .cf-confirm-label {
 }
 
 body[data-exp="pro"] .locker-screen .cf-confirm-pill {
-  padding: 17px 28px;
+  padding: 0 28px;
+}
+
+/* Print confirm — reuses bevestigen summary (confirm.css) */
+.locker-screen.locker-screen--print-confirm {
+  width: 100%;
+  max-width: min(var(--cf-stack-width, 552px), calc(100vw - var(--edge, 16px) * 2));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.locker-screen--print-confirm .bevestigen-root,
+.locker-screen--print-confirm .cf-screen-stack {
+  width: 100%;
 }

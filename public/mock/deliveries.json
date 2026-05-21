@@ -30,6 +30,7 @@
     "positionInRow": 2,
     "window": { "from": "11:30", "to": "12:00" },
     "latitude": 52.6331,
-    "longitude": 4.7462
+    "longitude": 4.7462,
+    "addressNotice": "Hond aanwezig op adres"
   }
 ]

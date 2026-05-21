@@ -7,7 +7,7 @@
   justify-content: flex-end;
   gap: 24px;
   width: 100%;
-  max-width: 579px;
+  max-width: 100%;
   min-height: 0;
   margin-left: auto;
   margin-right: auto;
@@ -15,7 +15,7 @@
   overflow: visible;
 }
 
-/* Map + card — 1319:12864, gap 4px */
+/* Map + cards — 1319:12940, gap 4px then 24px between notice + HUD */
 .walk-hud-panel {
   display: flex;
   flex-direction: column;
@@ -25,6 +25,133 @@
   flex-shrink: 0;
   overflow: visible;
   box-sizing: border-box;
+}
+
+.walk-hud-cards {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  width: 100%;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+/* Notice slot — height opens/collapses with the card fade */
+.walk-hud-notice-slot {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  margin: 0;
+  transition: grid-template-rows 0.42s var(--ease-out-expo);
+}
+
+.walk-hud-notice-slot--open {
+  grid-template-rows: 1fr;
+}
+
+.walk-hud-notice-slot--exit {
+  grid-template-rows: 0fr;
+  transition-duration: 0.36s;
+  transition-delay: 0.06s;
+  transition-timing-function: var(--ease-out-expo);
+}
+
+.walk-hud-notice-slot > .walk-hud-notice {
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Address notice — Figma 1319:13022 */
+.walk-hud-notice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 0;
+  padding: 24px;
+  border-radius: 65px;
+  border: 3px solid rgba(156, 156, 156, 0.5);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(217, 217, 217, 0.3) 100%
+  );
+  box-sizing: border-box;
+  flex-shrink: 0;
+  opacity: 0;
+  transform: translateY(10px);
+  will-change: transform, opacity;
+}
+
+.walk-hud-notice--enter {
+  animation: walk-notice-enter 0.42s var(--ease-out-expo) both;
+}
+
+.walk-hud-notice--exit {
+  animation: walk-notice-exit 0.32s var(--ease-out-expo) forwards;
+  pointer-events: none;
+}
+
+@keyframes walk-notice-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes walk-notice-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .walk-hud-notice-slot {
+    transition: none;
+  }
+
+  .walk-hud-notice {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+
+  .walk-hud-notice--enter,
+  .walk-hud-notice--exit {
+    animation: none;
+  }
+
+  .walk-hud-notice--exit {
+    opacity: 0;
+  }
+}
+
+.walk-hud-notice-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.walk-hud-notice-text {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: normal;
+  letter-spacing: 0.5px;
+  color: #fff;
 }
 
 /* Map frame 1319:12865 — 385×180, clip 253px art */
@@ -51,7 +178,7 @@
   pointer-events: none;
 }
 
-/* Card shell 1319:12888 — 579×295, padding 32, inner gap 24 */
+/* Card shell 1319:12888 — padding 32, inner column gap 24 */
 .walk-hud-card.screen-card {
   width: 100%;
   flex: 0 0 auto !important;
@@ -60,11 +187,12 @@
   overflow: visible !important;
   flex-shrink: 0 !important;
   padding: 32px;
+  gap: 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 24px;
+  justify-content: center;
   border-radius: 65px;
   border: 3px solid rgba(156, 156, 156, 0.5);
   background: linear-gradient(
@@ -74,44 +202,27 @@
   );
 }
 
-/* Chip 1319:12892 — 41px */
-.walk-hud-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 41px;
-  padding: 8px 16px;
-  margin: 0;
-  border: none;
-  border-radius: 999px;
-  background: transparent;
-  align-self: flex-start;
+/* Inner stack 1319:12889 */
+.walk-hud-card-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
   box-sizing: border-box;
 }
 
-.walk-hud-chip-icon {
-  display: block;
-  width: 24px;
-  height: 24px;
+.walk-hud-chip-wrap {
+  width: 100%;
   flex-shrink: 0;
 }
 
-.walk-hud-chip-label {
-  font-size: 20px;
-  font-weight: 800;
-  line-height: normal;
-  letter-spacing: -0.184px;
-  color: #fff;
-  white-space: nowrap;
-}
-
-/* Address pill 1319:12897 — 77px, padding 24 */
+/* Address pill 1319:12897 — padding 24, gap 12, 24px address */
 .walk-hud-addr-pill {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   width: 100%;
-  min-height: 77px;
   padding: 24px;
   border-radius: 65px;
   border: 3px solid rgba(156, 156, 156, 0.5);
@@ -121,6 +232,8 @@
     rgba(217, 217, 217, 0.3) 100%
   );
   box-sizing: border-box;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .walk-hud-addr-pin {
@@ -128,6 +241,7 @@
   width: 22px;
   height: 24px;
   flex-shrink: 0;
+  margin-top: 2px;
 }
 
 .walk-hud-address {
@@ -138,9 +252,12 @@
   font-weight: 600;
   line-height: 1.2;
   color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Stats 1319:12905 — 515×65, space-between */
+/* Stats 1319:12904–12905 — full width, 65px row */
 .walk-hud-stats {
   display: flex;
   align-items: center;
@@ -152,6 +269,7 @@
   box-sizing: border-box;
   overflow: hidden;
   flex-shrink: 0;
+  align-self: stretch;
 }
 
 .walk-hud-stat {
@@ -192,14 +310,22 @@
 .walk-hud-stat-sub {
   margin: 0;
   font-size: 20px;
-  font-weight: 500;
   line-height: 14.56px;
   color: rgba(255, 255, 255, 0.48);
   white-space: nowrap;
 }
 
+.walk-hud-stat-sub--dist {
+  font-weight: 600;
+}
+
+.walk-hud-stat-sub--label {
+  font-weight: 500;
+}
+
 .walk-hud-stat-sub--arrived {
   color: var(--green, #2fd87c);
+  font-weight: 600;
 }
 
 .walk-hud-hint-row {
@@ -223,6 +349,10 @@
   line-height: normal;
   color: #fff;
   white-space: nowrap;
+}
+
+.walk-hud-stat--hint .walk-hud-stat-top {
+  min-height: 25px;
 }
 
 .walk-hud-amount-row {
@@ -253,6 +383,12 @@
   white-space: nowrap;
 }
 
+/* 472px stack: slightly tighter address so one line fits (Figma 579px frame) */
+body[data-mode="glasses"] .walk-hud-address,
+body[data-mode="lab"] #app .walk-hud-address {
+  font-size: clamp(20px, 4.8vw, 24px);
+}
+
 .walk-hud-turn-img {
   display: block;
   width: 87px;
@@ -270,18 +406,7 @@
   justify-content: center;
 }
 
-.walk-depot-cta .depot-start-btn .ai-text-pill,
-.walk-depot-cta .depot-start-btn .depot-start-pill {
-  min-height: 65px;
-  padding: 17px 59px;
-  border-radius: 70px;
-}
-
-.walk-depot-cta .depot-start-btn .ai-btn-text {
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1.28;
-}
+/* CTA label: same tokens as .btn-primary / Bevestigen (layout.css --ai-btn-*) */
 
 body[data-mode="glasses"] .screen-mount > .walk-hud-root,
 body[data-mode="lab"] #app .screen-mount > .walk-hud-root {
