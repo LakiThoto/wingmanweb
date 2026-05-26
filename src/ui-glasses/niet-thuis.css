@@ -128,13 +128,6 @@ body[data-mode="lab"] #app .screen-mount > .screen-stack:has(.screen-card--niet-
   text-overflow: ellipsis;
 }
 
-.screen-card--niet-thuis .nth-tile:hover {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.38), rgba(217, 217, 217, 0.35));
-  border-color: rgba(200, 200, 200, 0.65);
-  box-shadow: none;
-}
-
-.screen-card--niet-thuis .nth-tile:focus-visible,
 .screen-card--niet-thuis .nth-tile.selected {
   border: var(--selection-border);
   box-shadow: none;

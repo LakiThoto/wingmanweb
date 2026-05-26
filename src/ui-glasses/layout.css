@@ -1214,6 +1214,39 @@ body[data-mode="glasses"] .rc-screen-stack {
   box-shadow: none;
 }
 
+/* Shortcut grids — same hover/focus lift as bevestigen confirm-actions-grid */
+.bevestigen-root .cf-grid-card .confirm-action-btn:hover,
+.bevestigen-root .cf-grid-card .confirm-action-btn.focusable:focus-visible,
+.screen-card--niet-thuis .nth-tile:hover,
+.screen-card--niet-thuis .nth-tile.focusable:focus-visible,
+.screen-card--buren .nb-choice:hover,
+.screen-card--buren .nb-choice.focusable:focus-visible,
+.screen-card--later .later-tile:hover,
+.screen-card--later .later-tile.focusable:focus-visible,
+.sp-screen .sp-tile:hover,
+.sp-screen .sp-tile.focusable:focus-visible {
+  background: var(--shortcut-tile-hover-bg);
+  border-color: var(--shortcut-tile-hover-border);
+  box-shadow: var(--shortcut-tile-hover-shadow);
+}
+
+.bevestigen-root .cf-grid-card .confirm-action-btn:hover .ca-label,
+.bevestigen-root .cf-grid-card .confirm-action-btn:hover .cf-shortcut-tile__label,
+.bevestigen-root .cf-grid-card .confirm-action-btn.focusable:focus-visible .ca-label,
+.bevestigen-root .cf-grid-card .confirm-action-btn.focusable:focus-visible .cf-shortcut-tile__label,
+.screen-card--niet-thuis .nth-tile:hover .nth-tile-label,
+.screen-card--niet-thuis .nth-tile.focusable:focus-visible .nth-tile-label,
+.screen-card--buren .nb-choice:hover .nb-choice-num,
+.screen-card--buren .nb-choice.focusable:focus-visible .nb-choice-num,
+.screen-card--later .later-tile:hover .later-tile-label,
+.screen-card--later .later-tile.focusable:focus-visible .later-tile-label,
+.sp-screen .sp-tile:hover .sp-tile-label,
+.sp-screen .sp-tile:hover .cf-shortcut-tile__label,
+.sp-screen .sp-tile.focusable:focus-visible .sp-tile-label,
+.sp-screen .sp-tile.focusable:focus-visible .cf-shortcut-tile__label {
+  color: #fff;
+}
+
 .alt-tile:focus-visible,
 .choice-tile:focus-visible,
 .alt-tile.selected,

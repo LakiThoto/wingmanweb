@@ -150,7 +150,16 @@
   /* ── Focus ring ──────────────────────────────────────────────────────── */
   --focus-ring: 0 0 0 2px var(--orange);
 
-  /* Hover — clearer feedback on pointer devices */
+  /* Hover — shortcut tiles (bevestigen grid, niet-thuis, buren, later, veilige plek) */
+  --shortcut-tile-hover-bg: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(235, 235, 235, 0.42) 100%
+  );
+  --shortcut-tile-hover-border: rgba(240, 240, 240, 0.78);
+  --shortcut-tile-hover-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+
+  /* Hover — generic surfaces (alt/choice tiles, tabs) */
   --hover-surface-bg: linear-gradient(to bottom, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.12));
   --hover-surface-border: rgba(255, 255, 255, 0.62);
   --hover-surface-shadow: none;
