@@ -12,6 +12,8 @@ body[data-mode="lab"] {
   --glasses-stack-max-h: var(--glasses-viewport);
   --glasses-cta-block-h: calc(var(--gap-card-cta) + 72px);
   --glasses-card-max-h: calc(var(--glasses-viewport) - var(--glasses-cta-block-h));
+  /* Laden/zoek — taller card: full stage minus CTA row + small gap */
+  --glasses-load-card-max-h: calc(var(--glasses-viewport) - 80px);
   --glasses-route-list-max: 156px;
   --glasses-menu-max-h: calc(var(--glasses-viewport) - 2 * var(--edge));
   --glasses-settings-gutter: 56px;
@@ -321,20 +323,38 @@ body[data-mode="glasses"] .glasses-start-hint:empty {
   display: none;
 }
 
+/* Laden/zoek — use full stage height; settings btn floats over corner */
+body[data-mode="glasses"] .screen-mount:has(.load-card),
+body[data-mode="lab"] #app .screen-mount:has(.load-card) {
+  max-height: var(--glasses-viewport);
+}
+
+body[data-mode="glasses"] .screen-stack--cta-gap:has(.load-card),
+body[data-mode="lab"] #app .screen-stack--cta-gap:has(.load-card) {
+  gap: 16px;
+}
+
 body[data-mode="glasses"] .screen-card.load-card,
 body[data-mode="lab"] #app .screen-card.load-card {
   max-width: 100%;
+  max-height: var(--glasses-load-card-max-h);
+  flex: 1 1 auto;
+  overflow: hidden;
+  padding: 24px;
+  gap: 18px;
 }
 
-body[data-mode="glasses"] .load-phase-van,
-body[data-mode="lab"] #app .load-phase-van {
-  gap: 16px;
+body[data-mode="glasses"] .screen-card.load-card .load-header-row,
+body[data-mode="lab"] #app .screen-card.load-card .load-header-row {
+  flex-shrink: 0;
+}
+
+body[data-mode="glasses"] .screen-card.load-card .load-phase-van,
+body[data-mode="lab"] #app .screen-card.load-card .load-phase-van {
+  flex: 1 1 auto;
+  min-height: 0;
+  gap: 18px;
   max-width: 100%;
-}
-
-body[data-mode="glasses"] .load-phase-van .lat-address,
-body[data-mode="lab"] #app .load-phase-van .lat-address {
-  font-size: 1.5rem;
 }
 
 /* Screens without a separate CTA row may use full viewport height */

@@ -2,6 +2,7 @@
 
 import { setTier, getTier } from '@/core/tier';
 import { on } from '@/core/events';
+import { getState } from '@/core/state';
 import { t } from '@/core/strings';
 import type { ScreenId } from '@/types';
 import { iconImg, settingsIcon } from '@/ui/icons';
@@ -42,12 +43,11 @@ function setStageMenuOpen(open: boolean): void {
   getScreenStage()?.classList.toggle('is-menu-open', open);
 }
 
-/** Screen where the menu was first designed; kept for docs / deep links. */
+/** Settings menu is only available on the start (kenteken) screen. */
 export const MENU_SCREEN: ScreenId = 'start';
 
-/** Settings available on every screen (lab + glasses). */
 export function canOpenHandMenu(): boolean {
-  return true;
+  return getState().screen === MENU_SCREEN;
 }
 
 export function isHandMenuCustomViewOpen(): boolean {
@@ -417,7 +417,8 @@ export function initHandMenu(): void {
     if (canOpenHandMenu()) openHandMenu();
   });
 
-  on('state_change', () => {
+  on('state_change', ({ to }) => {
     attachHandMenuToStage();
+    if (to !== MENU_SCREEN && isOpen) closeHandMenu();
   });
 }

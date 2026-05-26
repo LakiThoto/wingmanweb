@@ -30,7 +30,7 @@ function setStageMenuOpen(open) {
 /** Settings menu is only available on the start (kenteken) screen. */
 export const MENU_SCREEN = 'start';
 export function canOpenHandMenu() {
-    return true;
+    return getState().screen === MENU_SCREEN;
 }
 export function isHandMenuCustomViewOpen() {
     return isOpen && isCustomView;
@@ -367,7 +367,9 @@ export function initHandMenu() {
         if (canOpenHandMenu())
             openHandMenu();
     });
-    on('state_change', () => {
+    on('state_change', ({ to }) => {
         attachHandMenuToStage();
+        if (to !== MENU_SCREEN && isOpen)
+            closeHandMenu();
     });
 }

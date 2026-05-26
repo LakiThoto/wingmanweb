@@ -8,12 +8,23 @@
 }
 
 .screen-card.load-card {
+  display: flex;
+  flex-direction: column;
   gap: 24px;
   width: 100%;
   max-width: min(var(--load-placement-card), calc(100vw - var(--edge) - 20px));
   align-self: center;
   align-items: stretch;
   box-sizing: border-box;
+}
+
+.screen-card.load-card .load-header-row {
+  flex-shrink: 0;
+}
+
+.screen-card.load-card .load-phase-van {
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .load-header-row {
@@ -37,12 +48,37 @@
 .load-phase-van .load-vandiagram-tile {
   width: 100%;
   box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.load-phase-van .load-address-tile {
+  gap: 16px;
+  padding: 32px;
 }
 
 .load-phase-van .lat-address {
   max-width: 300px;
   font-size: 2rem;
+  font-weight: 600;
   line-height: 1.2;
+}
+
+.load-phase-van .lat-slot-row {
+  gap: 24px;
+}
+
+.load-phase-van .lat-slot-pos,
+.load-phase-van .lat-shelf-badge {
+  font-size: 4rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.load-phase-van .lat-shelf-badge {
+  min-width: 64px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: var(--purple);
 }
 
 /* Figma 1177:52857 — same layout/spacing as .lat-slot-row; orange shelf badge only */
@@ -50,9 +86,21 @@
   background: #fcae49;
 }
 
+.load-phase-van .lat-meta-row {
+  margin-top: 0;
+  width: 100%;
+}
+
 .load-phase-van .lat-meta-value {
   font-size: 1.5rem;
+  font-weight: 600;
   line-height: 1.2;
+}
+
+.load-phase-van .lat-code {
+  max-width: min(220px, 100%);
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .load-phase-van .lat-meta-icon {
@@ -176,6 +224,55 @@
 @keyframes load-slot-pulse {
   0%, 100% { opacity: 1; }
   50%      { opacity: 0.82; }
+}
+
+/* MRBD — fit header + address + van inside taller load-card (no inner scroll) */
+body[data-mode="glasses"] .load-phase-van .load-address-tile,
+body[data-mode="lab"] #app .load-phase-van .load-address-tile {
+  padding: 24px;
+  gap: 14px;
+}
+
+body[data-mode="glasses"] .load-phase-van .lat-address,
+body[data-mode="lab"] #app .load-phase-van .lat-address {
+  font-size: 1.75rem;
+}
+
+body[data-mode="glasses"] .load-phase-van .lat-slot-pos,
+body[data-mode="glasses"] .load-phase-van .lat-shelf-badge,
+body[data-mode="lab"] #app .load-phase-van .lat-slot-pos,
+body[data-mode="lab"] #app .load-phase-van .lat-shelf-badge {
+  font-size: clamp(2.75rem, 11vw, 3.5rem);
+}
+
+body[data-mode="glasses"] .load-phase-van .lat-shelf-badge,
+body[data-mode="lab"] #app .load-phase-van .lat-shelf-badge {
+  min-width: 52px;
+  padding: 8px 12px;
+}
+
+body[data-mode="glasses"] .load-phase-van .lat-meta-value,
+body[data-mode="lab"] #app .load-phase-van .lat-meta-value {
+  font-size: 1.25rem;
+}
+
+body[data-mode="glasses"] .load-vandiagram-tile,
+body[data-mode="lab"] #app .load-vandiagram-tile {
+  padding: 20px;
+}
+
+body[data-mode="glasses"] .load-vandiagram-tile .vr-blk,
+body[data-mode="lab"] #app .load-vandiagram-tile .vr-blk {
+  flex: 1 1 0;
+  width: auto;
+  min-width: 36px;
+  max-width: 48px;
+}
+
+body[data-mode="glasses"] .load-vandiagram-tile .vr-lbl,
+body[data-mode="lab"] #app .load-vandiagram-tile .vr-lbl {
+  font-size: 14px;
+  line-height: normal;
 }
 
 /* Compact van diagram inside locker find phase */

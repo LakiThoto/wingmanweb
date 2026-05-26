@@ -1,4 +1,4 @@
-// Settings control (lab + glasses) — pinned on #app chrome layer, bottom-left of frame.
+// Settings control (lab + glasses) — pinned on .screen-stage, bottom-left of the 600×600 frame.
 import { t } from '@/core/strings';
 import { settingsIcon } from '@/ui/icons';
 import { on } from '@/core/events';

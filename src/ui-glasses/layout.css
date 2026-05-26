@@ -748,7 +748,9 @@
     opacity 1.1s cubic-bezier(0.25, 1, 0.5, 1),
     transform 1.1s cubic-bezier(0.25, 1, 0.5, 1),
     max-width 1.1s cubic-bezier(0.25, 1, 0.5, 1),
-    padding 1.1s cubic-bezier(0.25, 1, 0.5, 1);
+    padding 1.1s cubic-bezier(0.25, 1, 0.5, 1),
+    filter 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .btn-primary.btn-ready .ai-text-pill {
@@ -759,19 +761,68 @@
   transform: translateX(0) scale(1);
 }
 
-/* Hover + D-pad focus — identical pill feedback */
-.btn-primary:hover.btn-ready .ai-text-pill,
-.btn-primary:hover.btn-ready .depot-start-pill,
+/* Hover + D-pad / keyboard focus — pill highlight (incl. #btn-pkg-confirmed on zoek) */
+.btn-primary.btn-ready:hover .ai-text-pill,
+.btn-primary.btn-ready:hover .depot-start-pill,
+.btn-primary.btn-ready.focusable:focus .ai-text-pill,
+.btn-primary.btn-ready.focusable:focus .depot-start-pill,
 .btn-primary.btn-ready.focusable:focus-visible .ai-text-pill,
-.btn-primary.btn-ready.focusable:focus-visible .depot-start-pill,
-body[data-mode="glasses"] .btn-primary.btn-ready.focusable:focus .ai-text-pill,
-body[data-mode="glasses"] .btn-primary.btn-ready.focusable:focus .depot-start-pill {
+.btn-primary.btn-ready.focusable:focus-visible .depot-start-pill {
   opacity: 1;
-  filter: brightness(1.1);
-  box-shadow: var(--cta-inset-shadow);
+  filter: brightness(1.14);
+  box-shadow:
+    var(--cta-inset-shadow),
+    0 0 0 2px rgba(255, 255, 255, 0.48);
+  transform: translateX(0) scale(1.03);
 }
 
-.btn-primary:active.btn-ready .ai-text-pill { transform: scale(0.97); }
+.btn-primary.btn-ready:hover > .ai-icon-shape,
+.btn-primary.btn-ready.focusable:focus > .ai-icon-shape,
+.btn-primary.btn-ready.focusable:focus-visible > .ai-icon-shape {
+  transform: scale(1.05);
+}
+
+.btn-primary.btn-ready:hover > .ai-icon-shape .ai-triangle,
+.btn-primary.btn-ready.focusable:focus > .ai-icon-shape .ai-triangle,
+.btn-primary.btn-ready.focusable:focus-visible > .ai-icon-shape .ai-triangle {
+  filter: brightness(1.12);
+}
+
+.depot-cta-row .depot-cta-ai.focusable:hover .ai-icon-shape,
+.depot-cta-row .depot-cta-ai.focusable:focus .ai-icon-shape,
+.depot-cta-row .depot-cta-ai.focusable:focus-visible .ai-icon-shape {
+  transform: scale(1.05);
+}
+
+.depot-cta-row .depot-cta-ai.focusable:hover .ai-triangle,
+.depot-cta-row .depot-cta-ai.focusable:focus .ai-triangle,
+.depot-cta-row .depot-cta-ai.focusable:focus-visible .ai-triangle {
+  filter: brightness(1.12);
+}
+
+.depot-start-btn.btn-ready:hover .depot-start-pill,
+.depot-start-btn.btn-ready.focusable:focus .depot-start-pill,
+.depot-start-btn.btn-ready.focusable:focus-visible .depot-start-pill {
+  filter: brightness(1.14);
+  box-shadow:
+    var(--cta-inset-shadow),
+    0 0 0 2px rgba(255, 255, 255, 0.48);
+  transform: scale(1.03);
+}
+
+/* Pro tier: pill hidden — ring + scale on AI icon */
+[data-exp="pro"] .btn-primary.btn-ready:hover > .ai-icon-shape,
+[data-exp="pro"] .btn-primary.btn-ready.focusable:focus > .ai-icon-shape,
+[data-exp="pro"] .btn-primary.btn-ready.focusable:focus-visible > .ai-icon-shape {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.48);
+  border-radius: 50%;
+  transform: scale(1.08);
+}
+
+.btn-primary:active.btn-ready .ai-text-pill {
+  transform: translateX(0) scale(0.97);
+  filter: brightness(1.05);
+}
 
 .ai-btn-text {
   font-family: var(--ai-btn-font-family);

@@ -80,9 +80,11 @@ body[data-mode="lab"] #app::-webkit-scrollbar-thumb {
 }
 
 #app > .screen-stage-chrome .companion-settings-btn:focus-visible,
-.screen-stage .companion-settings-btn:focus-visible {
+.screen-stage .companion-settings-btn:focus-visible,
+body[data-mode="glasses"] #app > .screen-stage-chrome .companion-settings-btn:focus {
   outline: none;
   box-shadow: var(--focus-ring);
+  border-color: rgba(255, 255, 255, 0.35);
 }
 
 #app > .screen-stage-chrome .companion-settings-btn[hidden] {
