@@ -2,7 +2,6 @@
 
 import { setTier, getTier } from '@/core/tier';
 import { on } from '@/core/events';
-import { getState } from '@/core/state';
 import { t } from '@/core/strings';
 import type { ScreenId } from '@/types';
 import { iconImg, settingsIcon } from '@/ui/icons';
