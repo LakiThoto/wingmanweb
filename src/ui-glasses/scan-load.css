@@ -7,7 +7,7 @@
   width: 100%;
 }
 
-/* Figma 63:453 — scan camera frame 386×128 (transparent = live feed shows through) */
+/* Figma 63:453 — scan frame 386×128 (static; no live camera feed) */
 .load-camera-frame {
   position: relative;
   width: 100%;
@@ -18,7 +18,7 @@
   border: 2px solid rgba(156, 156, 156, 0.5);
   border-radius: 24px;
   overflow: hidden;
-  background: transparent;
+  background: linear-gradient(180deg, rgba(12, 12, 14, 0.95) 0%, rgba(0, 0, 0, 0.98) 100%);
   box-sizing: border-box;
 }
 
@@ -75,7 +75,7 @@
   opacity: 1;
 }
 
-/* Live camera preview — visible through transparent frame while scanning */
+/* Live camera — bevestigen rescan (lab) only; load scan screen has no video element */
 .scan-video-in-frame {
   position: absolute;
   inset: 0;

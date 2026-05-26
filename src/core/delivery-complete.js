@@ -2,7 +2,7 @@
 // advanceAfterDelivery + completeLockerHandoff.
 import { getEffectiveDensityTier } from './tier';
 import { speakByTier, speakTierPhrase } from './audio';
-import { getState, setScreen, markActiveDelivered, allDelivered, skipToNextUndelivered, applyLockerHandoffChoice, allRouteStopsHandled, hasPendingLockerHandoffs, startPendingLockerSession, completePendingLockerForActive, startNextPendingLocker, } from './state';
+import { getState, setScreen, markActiveDelivered, allDelivered, skipToNextUndelivered, applyLockerHandoffChoice, allRouteStopsHandled, hasPendingLockerHandoffs, completePendingLockerForActive, startNextPendingLocker, } from './state';
 import { emit } from './events';
 import { showCompliment } from '@/screens/compliment';
 const COMPLIMENT_BY_METHOD = {
@@ -17,6 +17,7 @@ const RETURN_TIMEOUT_MS = {
     experienced: 3800,
     pro: 2800,
 };
+/** Pause on drive audiobegeleiding bar before PostNL Punt locker navigation. */
 export const LOCKER_ROUTE_BREAK_MS = {
     beginner: 6200,
     experienced: 3600,
@@ -69,6 +70,7 @@ export function chooseLockerHandoffFromNietThuis() {
         beginPendingLockerSession();
     }
 }
+/** Show drive audiobegeleiding UI + audio break, then parcel locker (handled in drive mount). */
 export function beginPendingLockerSession() {
     clearAdvanceTimer();
     setScreen('drive');

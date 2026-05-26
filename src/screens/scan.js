@@ -4,15 +4,12 @@ import { focusScreen, buildPrimaryCta, buildLoadCameraFrameDecor } from './_fram
 import { iconImg, loadVoiceMicPill } from '@/ui/icons';
 import { transition, getState, setScanBuffer, getActiveDelivery } from '@/core/state';
 import { on } from '@/core/events';
-import { startCamera } from '@/input/camera';
-import { acquireCameraStream, bindCameraPreview } from '@/input/photo-capture';
 import { t } from '@/core/strings';
 import { restartScanBeamAnim, startScanStatusReveal, } from '@/core/scan-anim';
 const SCAN_PACKAGE_IMG = '/assets/scan/package-label.png';
-/** Figma 63:453 — scanner frame; live camera + decor; package preview on reveal. */
+/** Figma 63:453 — scanner frame; decor + beam only (no live camera feed). */
 function buildScanFrameMarkup() {
     return `
-    <video id="scan-video" class="scan-video-in-frame" autoplay muted playsinline aria-hidden="true"></video>
     ${buildLoadCameraFrameDecor()}
     <img
       class="load-package-preview"
@@ -24,7 +21,6 @@ function buildScanFrameMarkup() {
 }
 export function mount(container) {
     const state = getState();
-    const { mode } = state;
     const delivery = getActiveDelivery();
     const packageCode = delivery?.id ?? t('scan.package_code');
     const loadedCount = state.deliveries.filter(d => d.loaded).length;
@@ -72,7 +68,6 @@ export function mount(container) {
     const beam = container.querySelector('#scan-beam');
     restartScanBeamAnim(beam);
     const cancelReveal = startScanStatusReveal(previewBlock);
-    let stopCamera = null;
     const cleanupScanEvent = on('scan', ({ code }) => {
         const codeEl = container.querySelector('#scan-code');
         if (codeEl)
@@ -80,23 +75,6 @@ export function mount(container) {
         setScanBuffer(code);
         transition('scan_ok');
     });
-    const videoEl = container.querySelector('#scan-video');
-    if (videoEl) {
-        if (mode === 'lab') {
-            startCamera(videoEl).then(stop => { stopCamera = stop; });
-        }
-        else {
-            acquireCameraStream()
-                .then(async (stream) => {
-                await bindCameraPreview(videoEl, stream);
-                stopCamera = () => {
-                    stream.getTracks().forEach(track => track.stop());
-                    videoEl.srcObject = null;
-                };
-            })
-                .catch(() => { });
-        }
-    }
     function confirmScan() {
         setScanBuffer(delivery?.id ?? packageCode);
         transition('scan_ok');
@@ -109,6 +87,5 @@ export function mount(container) {
     return () => {
         cancelReveal();
         cleanupScanEvent();
-        stopCamera?.();
     };
 }

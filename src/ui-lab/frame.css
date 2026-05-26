@@ -17,13 +17,20 @@ body[data-mode="lab"] #app::-webkit-scrollbar-thumb {
   border-radius: var(--radius-pill);
 }
 
-/* ── Settings button on screen-stage (lab + glasses, bottom-left of frame) ─ */
+/* ── Settings chrome — above screen content, only the button receives clicks ─ */
 
-.screen-stage .companion-settings-btn {
+#app > .screen-stage-chrome {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+
+#app > .screen-stage-chrome .companion-settings-btn {
   position: absolute;
   left: var(--sp-3);
   bottom: var(--sp-3);
-  z-index: 4;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -45,21 +52,25 @@ body[data-mode="lab"] #app::-webkit-scrollbar-thumb {
     transform 0.15s ease;
 }
 
+#app > .screen-stage-chrome .companion-settings-btn:hover,
 .screen-stage .companion-settings-btn:hover {
   background: rgba(28, 28, 28, 0.95);
   border-color: rgba(255, 255, 255, 0.35);
 }
 
+#app > .screen-stage-chrome .companion-settings-btn.is-active,
 .screen-stage .companion-settings-btn.is-active {
   border-color: var(--accent);
   background: rgba(40, 24, 0, 0.92);
   color: var(--accent);
 }
 
+#app > .screen-stage-chrome .companion-settings-btn:active,
 .screen-stage .companion-settings-btn:active {
   transform: scale(0.96);
 }
 
+#app > .screen-stage-chrome .companion-settings-icon,
 .screen-stage .companion-settings-icon {
   display: block;
   width: 24px;
@@ -68,12 +79,13 @@ body[data-mode="lab"] #app::-webkit-scrollbar-thumb {
   pointer-events: none;
 }
 
+#app > .screen-stage-chrome .companion-settings-btn:focus-visible,
 .screen-stage .companion-settings-btn:focus-visible {
   outline: none;
   box-shadow: var(--focus-ring);
 }
 
-.screen-stage .companion-settings-btn[hidden] {
+#app > .screen-stage-chrome .companion-settings-btn[hidden] {
   display: none;
   pointer-events: none;
 }

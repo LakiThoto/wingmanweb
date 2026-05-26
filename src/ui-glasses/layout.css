@@ -759,11 +759,18 @@
   transform: translateX(0) scale(1);
 }
 
-.btn-primary:hover.btn-ready .ai-text-pill {
+/* Hover + D-pad focus — identical pill feedback */
+.btn-primary:hover.btn-ready .ai-text-pill,
+.btn-primary:hover.btn-ready .depot-start-pill,
+.btn-primary.btn-ready.focusable:focus-visible .ai-text-pill,
+.btn-primary.btn-ready.focusable:focus-visible .depot-start-pill,
+body[data-mode="glasses"] .btn-primary.btn-ready.focusable:focus .ai-text-pill,
+body[data-mode="glasses"] .btn-primary.btn-ready.focusable:focus .depot-start-pill {
   opacity: 1;
   filter: brightness(1.1);
   box-shadow: var(--cta-inset-shadow);
 }
+
 .btn-primary:active.btn-ready .ai-text-pill { transform: scale(0.97); }
 
 .ai-btn-text {

@@ -1,13 +1,15 @@
 // Screen: punt — PostNL Punt (4-phase locker hand-in)
 // Figma 1:490 · Copy #screen-locker
 import { focusScreen, buildLoadVanPhase, buildPrimaryCta, buildAddressHero, buildVanDiagram, bindDepotCtaRow, } from './_frame';
+import { confirmThumbHint } from '@/ui/icons';
 import { playPhaseEnter } from '@/core/screen-transition';
-import { iconImg, confirmThumbHint } from '@/ui/icons';
+import { iconImg } from '@/ui/icons';
 import { getActiveDelivery, getState } from '@/core/state';
 import { completeLockerHandoff } from '@/core/delivery-complete';
 import { on } from '@/core/events';
 import { t } from '@/core/strings';
 const LOCKER_PRINT_DWELL_MS = 3000;
+/** Find-in-van — same layout as laden (load-card + primary CTA). Figma zoek 1:1480 ≈ laden 1:804. */
 function buildLockerFindScreen(delivery, state) {
     const row = delivery?.rowInVan ?? 'B';
     const pos = delivery?.positionInRow ?? 1;
@@ -47,6 +49,7 @@ function buildLockerFindScreen(delivery, state) {
   </div>
 </div>`;
 }
+/** Place in locker — Figma 1:1800 outer card + 1:1801 inner tiles + scan CTA. */
 function buildLockerPlaceScreen(delivery) {
     const row = delivery?.rowInVan ?? 'B';
     const pos = delivery?.positionInRow ?? 1;
@@ -95,6 +98,7 @@ function buildLockerPlaceScreen(delivery) {
   <p id="locker-scan-status" class="locker-scan-status cf-hidden" role="status">${t('locker.scan.status')}</p>
 </div>`;
 }
+/** Print / confirm — same layout as bevestigen summary (Figma 1:1717). */
 function buildLockerPrintScreen(delivery) {
     const address = delivery?.address ?? '';
     const code = delivery?.id ?? '';

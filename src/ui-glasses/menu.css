@@ -34,7 +34,7 @@
   visibility: hidden;
 }
 
-.screen-stage.is-menu-open .companion-settings-btn {
+.screen-stage.is-menu-open ~ .screen-stage-chrome .companion-settings-btn {
   pointer-events: none;
   opacity: 0;
 }
@@ -70,6 +70,8 @@
 
 .hand-menu[hidden] {
   display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 .hand-menu-backdrop {

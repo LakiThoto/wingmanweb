@@ -44,6 +44,7 @@ function buildDriveAudioBar(): string {
 }
 
 export function mount(container: HTMLElement): () => void {
+  stopNavigation();
   container.innerHTML = buildDriveAudioBar();
 
   if (isLockerRouteBreakDrive()) {
@@ -61,7 +62,10 @@ export function mount(container: HTMLElement): () => void {
       }
     }, getLockerRouteBreakMs());
     focusScreen(container);
-    return () => clearTimeout(breakTimer);
+    return () => {
+      clearTimeout(breakTimer);
+      stopNavigation();
+    };
   }
 
   const delivery = getActiveDelivery();

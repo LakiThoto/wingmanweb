@@ -28,46 +28,22 @@ function clearNavigationSession() {
 function scheduleFallback(fn, ms) {
     activeFallbackTimers.push(setTimeout(fn, ms));
 }
-/** Request permission via user gesture before route_start (MRBD requirement). */
+/** No-op — drive/walk demo does not request device location (MRBD / prototype). */
 export async function ensureGeoReady() {
-    if (!isGeolocationSupported())
-        return false;
-    try {
-        const fix = await getCurrentFix();
-        logGeoFix(fix, 'Wingman geo (permission OK)');
-        updateWorldMapPosition(fix.latitude, fix.longitude, fix.heading);
-        return true;
-    }
-    catch (err) {
-        console.warn('[Wingman geo] permission or fix failed', err);
-        return false;
-    }
+    return false;
 }
-/** Drive phase: watch until within parking radius (audio handled by drive screen). */
+/** Drive phase: timed advance only (no GPS — audiobegeleiding is audio-only on MRBD). */
 export function startDriveNavigation(opts) {
     clearNavigationSession();
-    const dest = opts.destination;
     let announcedNear = false;
-    const checkFix = (fix) => {
-        logGeoFix(fix, 'Drive');
-        updateWorldMapPosition(fix.latitude, fix.longitude, fix.heading);
-        const dist = distanceMeters(fix, dest);
-        if (!announcedNear && dist <= DRIVE_PARK_RADIUS_M) {
-            announcedNear = true;
-            clearNavigationSession();
-            opts.onNearDestination();
-        }
+    const finish = () => {
+        if (announcedNear)
+            return;
+        announcedNear = true;
+        clearNavigationSession();
+        opts.onNearDestination();
     };
-    if (isGeolocationSupported()) {
-        activeWatchId = watchFix(checkFix, (code, message) => console.warn('[Wingman drive geo]', code, message));
-        void getCurrentFix().then(checkFix).catch(() => { });
-    }
-    scheduleFallback(() => {
-        if (!announcedNear) {
-            announcedNear = true;
-            opts.onNearDestination();
-        }
-    }, DRIVE_FALLBACK_MS);
+    scheduleFallback(finish, DRIVE_FALLBACK_MS);
     return clearNavigationSession;
 }
 /** Walk phase: minimap distance + approaching / arrival audio from GPS. */

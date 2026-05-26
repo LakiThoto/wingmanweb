@@ -3,7 +3,6 @@
 import { focusScreen, buildDepotCtaRow, bindDepotCtaRow } from './_frame';
 import { iconImg } from '@/ui/icons';
 import { transition, getState, allDelivered, setScreen } from '@/core/state';
-import { ensureGeoReady } from '@/core/stop-navigation';
 import { t } from '@/core/strings';
 function formatStopAddress(d) {
     return `${d.address} ${d.postcode} ${d.city}`.trim();
@@ -107,7 +106,6 @@ export function mount(container) {
             });
         });
         const startRoute = () => {
-            void ensureGeoReady();
             transition('route_start');
         };
         container.querySelectorAll('.stop-item').forEach(btn => {

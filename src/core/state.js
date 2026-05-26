@@ -118,9 +118,11 @@ export function markActiveDelivered() {
 export function hasPendingLockerHandoffs() {
     return _state.deliveries.some(d => d.pendingLockerHandoff && !d.delivered);
 }
+/** Drive screen shows audiobegeleiding break before PostNL Punt locker flow. */
 export function isLockerRouteBreakDrive() {
     return allRouteStopsHandled() && hasPendingLockerHandoffs();
 }
+/** Every stop is afgehandeld (thuis/bezorgd of doorgeschoven naar PostNL Punt). */
 export function allRouteStopsHandled() {
     return (_state.deliveries.length > 0 &&
         _state.deliveries.every(d => d.delivered || d.pendingLockerHandoff));
@@ -132,13 +134,15 @@ export function startPendingLockerSession() {
     const idx = _state.pendingLockerIdxs.find(i => {
         const d = _state.deliveries[i];
         return d && d.pendingLockerHandoff && !d.delivered;
-    }) ?? _state.deliveries.findIndex(d => d.pendingLockerHandoff && !d.delivered);
+    }) ??
+        _state.deliveries.findIndex(d => d.pendingLockerHandoff && !d.delivered);
     if (idx === -1)
         return;
     const from = _state.screen;
     _state = { ..._state, activeDeliveryIdx: idx, screen: 'punt' };
     emit('state_change', { from, to: 'punt' });
 }
+/** Mark active locker package done; returns true if more packages await locker handoff. */
 export function completePendingLockerForActive() {
     const idx = _state.activeDeliveryIdx;
     const deliveries = _state.deliveries.map((d, i) => i === idx ? { ...d, delivered: true, pendingLockerHandoff: false } : d);
@@ -150,12 +154,14 @@ export function startNextPendingLocker() {
     const idx = _state.pendingLockerIdxs.find(i => {
         const d = _state.deliveries[i];
         return d && d.pendingLockerHandoff && !d.delivered;
-    }) ?? _state.deliveries.findIndex(d => d.pendingLockerHandoff && !d.delivered);
+    }) ??
+        _state.deliveries.findIndex(d => d.pendingLockerHandoff && !d.delivered);
     if (idx === -1)
         return false;
     _state = { ..._state, activeDeliveryIdx: idx };
     return true;
 }
+/** Niet thuis → PostNL Punt: queue for end-of-route locker, or start locker now if route is done. */
 export function applyLockerHandoffChoice() {
     if (_state.screen !== 'niet-thuis')
         return 'failed';

@@ -1,18 +1,28 @@
-// Settings control (lab + glasses) — pinned on .screen-stage, bottom-left of the 600×600 frame.
+// Settings control (lab + glasses) — pinned on #app chrome layer, bottom-left of frame.
 import { t } from '@/core/strings';
 import { settingsIcon } from '@/ui/icons';
 import { on } from '@/core/events';
 import { openHandMenu, isHandMenuOpen, closeHandMenu, canOpenHandMenu, } from '@/ui/hand-menu';
 const SETTINGS_BTN_ID = 'companion-settings';
-function getScreenStage() {
-    return document.querySelector('#app .screen-stage');
+const CHROME_CLASS = 'screen-stage-chrome';
+function getAppRoot() {
+    return document.getElementById('app');
 }
-function attachToStage(btn) {
-    const stage = getScreenStage();
-    if (!stage)
-        return;
-    if (btn.parentElement !== stage)
-        stage.appendChild(btn);
+function ensureChromeLayer(btn) {
+    const app = getAppRoot();
+    if (!app)
+        return null;
+    let chrome = app.querySelector(`.${CHROME_CLASS}`);
+    if (!chrome) {
+        chrome = document.createElement('div');
+        chrome.className = CHROME_CLASS;
+        chrome.setAttribute('aria-hidden', 'true');
+        app.appendChild(chrome);
+    }
+    if (btn.parentElement !== chrome)
+        chrome.appendChild(btn);
+    app.appendChild(chrome);
+    return chrome;
 }
 function syncExpanded(btn) {
     const open = isHandMenuOpen();
@@ -40,7 +50,9 @@ export function mountCompanion() {
     btn.setAttribute('aria-expanded', 'false');
     btn.setAttribute('aria-haspopup', 'dialog');
     btn.innerHTML = settingsIcon('companion-settings-icon', 24);
-    btn.addEventListener('click', () => {
+    const toggleMenu = (e) => {
+        e?.stopPropagation();
+        e?.preventDefault();
         if (!canOpenHandMenu())
             return;
         if (isHandMenuOpen())
@@ -48,11 +60,12 @@ export function mountCompanion() {
         else
             openHandMenu();
         syncExpanded(btn);
-    });
-    attachToStage(btn);
+    };
+    btn.addEventListener('click', toggleMenu);
+    ensureChromeLayer(btn);
     syncAvailability(btn);
     on('state_change', () => {
-        attachToStage(btn);
+        ensureChromeLayer(btn);
         syncAvailability(btn);
     });
     document.addEventListener('wingman:hand_menu', () => syncExpanded(btn));

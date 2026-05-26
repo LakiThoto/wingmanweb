@@ -11,15 +11,27 @@ import {
 } from '@/ui/hand-menu';
 
 const SETTINGS_BTN_ID = 'companion-settings';
+const CHROME_CLASS = 'screen-stage-chrome';
 
-function getScreenStage(): HTMLElement | null {
-  return document.querySelector('#app .screen-stage');
+function getAppRoot(): HTMLElement | null {
+  return document.getElementById('app');
 }
 
-function attachToStage(btn: HTMLButtonElement): void {
-  const stage = getScreenStage();
-  if (!stage) return;
-  if (btn.parentElement !== stage) stage.appendChild(btn);
+function ensureChromeLayer(btn: HTMLButtonElement): HTMLElement | null {
+  const app = getAppRoot();
+  if (!app) return null;
+
+  let chrome = app.querySelector<HTMLElement>(`.${CHROME_CLASS}`);
+  if (!chrome) {
+    chrome = document.createElement('div');
+    chrome.className = CHROME_CLASS;
+    chrome.setAttribute('aria-hidden', 'true');
+    app.appendChild(chrome);
+  }
+
+  if (btn.parentElement !== chrome) chrome.appendChild(btn);
+  app.appendChild(chrome);
+  return chrome;
 }
 
 function syncExpanded(btn: HTMLButtonElement): void {
@@ -49,18 +61,22 @@ export function mountCompanion(): void {
   btn.setAttribute('aria-haspopup', 'dialog');
   btn.innerHTML = settingsIcon('companion-settings-icon', 24);
 
-  btn.addEventListener('click', () => {
+  const toggleMenu = (e?: Event) => {
+    e?.stopPropagation();
+    e?.preventDefault();
     if (!canOpenHandMenu()) return;
     if (isHandMenuOpen()) closeHandMenu();
     else openHandMenu();
     syncExpanded(btn);
-  });
+  };
 
-  attachToStage(btn);
+  btn.addEventListener('click', toggleMenu);
+
+  ensureChromeLayer(btn);
   syncAvailability(btn);
 
   on('state_change', () => {
-    attachToStage(btn);
+    ensureChromeLayer(btn);
     syncAvailability(btn);
   });
   document.addEventListener('wingman:hand_menu', () => syncExpanded(btn));

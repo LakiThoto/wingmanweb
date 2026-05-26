@@ -14,6 +14,7 @@ body[data-mode="lab"] {
   --glasses-card-max-h: calc(var(--glasses-viewport) - var(--glasses-cta-block-h));
   --glasses-route-list-max: 156px;
   --glasses-menu-max-h: calc(var(--glasses-viewport) - 2 * var(--edge));
+  --glasses-settings-gutter: 56px;
 }
 
 /* Glasses + lab: fixed 600×600 frame */
@@ -59,8 +60,8 @@ body[data-mode="lab"] #app .screen-stage {
   overflow: visible;
 }
 
-body[data-mode="glasses"] .screen-stage .companion-settings-btn,
-body[data-mode="lab"] #app .screen-stage .companion-settings-btn {
+body[data-mode="glasses"] #app > .screen-stage-chrome .companion-settings-btn,
+body[data-mode="lab"] #app > .screen-stage-chrome .companion-settings-btn {
   left: var(--sp-3);
   bottom: var(--sp-3);
 }
@@ -74,7 +75,7 @@ body[data-mode="lab"] #app .screen-mount {
   left: auto;
   width: var(--glasses-stack-w);
   max-width: var(--glasses-stack-w);
-  max-height: var(--glasses-stack-max-h);
+  max-height: calc(var(--glasses-stack-max-h) - var(--glasses-settings-gutter));
   min-width: 0;
   min-height: 0;
   margin: 0 auto;
@@ -87,6 +88,13 @@ body[data-mode="lab"] #app .screen-mount {
   flex-shrink: 1;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  /* Let clicks reach stage chrome (settings btn) outside stack bounds */
+  pointer-events: none;
+}
+
+body[data-mode="glasses"] .screen-mount > *,
+body[data-mode="lab"] #app .screen-mount > * {
+  pointer-events: auto;
 }
 
 body[data-mode="glasses"] .screen-mount::-webkit-scrollbar,

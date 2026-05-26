@@ -43,11 +43,12 @@ function setStageMenuOpen(open: boolean): void {
   getScreenStage()?.classList.toggle('is-menu-open', open);
 }
 
-/** Settings menu is only available on the start (kenteken) screen. */
+/** Screen where the menu was first designed; kept for docs / deep links. */
 export const MENU_SCREEN: ScreenId = 'start';
 
+/** Settings available on every screen (lab + glasses). */
 export function canOpenHandMenu(): boolean {
-  return getState().screen === MENU_SCREEN;
+  return true;
 }
 
 export function isHandMenuCustomViewOpen(): boolean {
@@ -417,8 +418,7 @@ export function initHandMenu(): void {
     if (canOpenHandMenu()) openHandMenu();
   });
 
-  on('state_change', ({ to }) => {
+  on('state_change', () => {
     attachHandMenuToStage();
-    if (to !== MENU_SCREEN && isOpen) closeHandMenu();
   });
 }
