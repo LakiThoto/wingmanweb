@@ -270,6 +270,10 @@ body[data-mode="lab"] #app .screen {
 }
 
 /* Keyboard / D-pad only — no orange ring after mouse click */
+.focusable:focus:not(:focus-visible) {
+  box-shadow: none;
+}
+
 .focusable:focus-visible {
   box-shadow: var(--focus-ring);
 }
@@ -288,7 +292,8 @@ body[data-mode="lab"] #app .screen {
 
 /* Primary + recipient CTAs use their own pill/button styling; skip the global orange ring */
 .btn-primary.focusable:focus-visible,
-.rc-btn.focusable:focus-visible {
+.rc-btn.focusable:focus-visible,
+.depot-cta-ai.focusable:focus-visible {
   box-shadow: none;
   outline: none;
 }

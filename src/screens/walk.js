@@ -37,14 +37,65 @@ export function mount(container) {
 <div class="walk-hud-root" role="region" aria-label="${t('walk.hud.chip')}">
   <div class="walk-hud-panel">
     <div class="walk-map-figma" role="img" aria-label="${t('walk.map.label')}">
-      <img
-        class="walk-map-scene"
-        src="/assets/walk-hud/walk-map-group46.svg"
-        width="385"
-        height="253"
-        alt=""
-        decoding="async"
-      />
+      <div class="walk-map-scene" aria-hidden="true">
+        <img
+          class="walk-map-layer walk-map-layer--roads"
+          src="/assets/walk-hud/walk-map-roads-new.svg"
+          alt=""
+          decoding="async"
+        />
+        <div class="walk-map-overlay">
+          <img
+            class="walk-map-layer walk-map-layer--route"
+            src="/assets/walk-hud/walk-map-route.svg"
+            alt=""
+            decoding="async"
+          />
+          <div class="walk-map-truck">
+            <img
+              class="walk-map-truck-part walk-map-truck-part--1"
+              src="/assets/walk-hud/walk-map-truck-1.svg"
+              alt=""
+              decoding="async"
+            />
+            <img
+              class="walk-map-truck-part walk-map-truck-part--2"
+              src="/assets/walk-hud/walk-map-truck-2.svg"
+              alt=""
+              decoding="async"
+            />
+            <img
+              class="walk-map-truck-part walk-map-truck-part--3"
+              src="/assets/walk-hud/walk-map-truck-3.svg"
+              alt=""
+              decoding="async"
+            />
+            <img
+              class="walk-map-truck-part walk-map-truck-part--4"
+              src="/assets/walk-hud/walk-map-truck-4.svg"
+              alt=""
+              decoding="async"
+            />
+            <img
+              class="walk-map-truck-part walk-map-truck-part--5"
+              src="/assets/walk-hud/walk-map-truck-5.svg"
+              alt=""
+              decoding="async"
+            />
+          </div>
+          <img
+            class="walk-map-layer walk-map-layer--pin"
+            src="/assets/walk-hud/walk-map-pin.svg"
+            width="24"
+            height="31"
+            alt=""
+            decoding="async"
+          />
+          <div class="walk-map-layer walk-map-layer--heading">
+            <img src="/assets/walk-hud/walk-map-heading.svg" width="60" height="60" alt="" decoding="async" />
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="walk-hud-cards">

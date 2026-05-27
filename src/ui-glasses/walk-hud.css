@@ -154,7 +154,7 @@
   color: #fff;
 }
 
-/* Map frame 1319:12865 — 385×180, clip 253px art */
+/* Map frame — Figma 140:484 Group 52, 385×180 clip of 253px art */
 .walk-map-figma {
   position: relative;
   width: 385px;
@@ -163,19 +163,137 @@
   flex-shrink: 0;
   overflow: hidden;
   box-sizing: border-box;
+  background: #000;
 }
 
 .walk-map-scene {
-  display: block;
   position: absolute;
   top: 0;
   left: 50%;
   width: 385px;
   height: 253px;
-  max-width: none;
   transform: translateX(-50%);
-  object-fit: fill;
   pointer-events: none;
+}
+
+.walk-map-layer {
+  position: absolute;
+  display: block;
+  max-width: none;
+  pointer-events: none;
+}
+
+/* 140:462 — road network (full 385×253 scene) */
+.walk-map-layer--roads {
+  top: -2px;
+  left: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  object-fit: fill;
+}
+
+/* 140:464 Group 51 — icon overlay bounds from Figma */
+.walk-map-overlay {
+  position: absolute;
+  left: 138px;
+  top: 8px;
+  width: 137.5px;
+  height: 182.384px;
+  pointer-events: none;
+}
+
+.walk-map-overlay .walk-map-layer,
+.walk-map-truck,
+.walk-map-truck-part {
+  position: absolute;
+  display: block;
+  max-width: none;
+  pointer-events: none;
+}
+
+/* 140:465 — route (coords relative to overlay) */
+.walk-map-layer--route {
+  left: 68.56px;
+  top: 52px;
+  width: 68.945px;
+  height: 113px;
+  object-fit: fill;
+}
+
+/* 140:466 — truck group (frame coords → overlay-relative pixels) */
+.walk-map-truck {
+  left: 0;
+  top: 148px;
+  width: 50.26px;
+  height: 34.38px;
+}
+
+.walk-map-truck-part {
+  object-fit: fill;
+}
+
+.walk-map-truck-part--1 {
+  left: 0;
+  top: 5px;
+  width: 17.5px;
+  height: 24.1px;
+}
+
+.walk-map-truck-part--2 {
+  left: 2.6px;
+  top: 21px;
+  width: 13.3px;
+  height: 13.3px;
+}
+
+.walk-map-truck-part--3 {
+  left: 15.9px;
+  top: 0;
+  width: 34.4px;
+  height: 29.1px;
+}
+
+.walk-map-truck-part--4 {
+  left: 31.7px;
+  top: 21px;
+  width: 13.3px;
+  height: 13.3px;
+}
+
+.walk-map-truck-part--5 {
+  left: 14.5px;
+  top: 26.4px;
+  width: 4px;
+  height: 2.7px;
+}
+
+/* 140:479 — destination pin (Figma 238×8, 33×42.55 → scaled to fit route) */
+.walk-map-layer--pin {
+  left: 100px;
+  top: 0;
+  width: 24px;
+  height: 31px;
+  object-fit: contain;
+  object-position: center top;
+}
+
+/* 140:480 — heading marker */
+.walk-map-layer--heading {
+  left: 32.84px;
+  top: 61.84px;
+  width: 84.17px;
+  height: 84.17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(52.27deg);
+}
+
+.walk-map-layer--heading img {
+  display: block;
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
 }
 
 /* Card shell 1319:12888 — padding 32, inner column gap 24 */

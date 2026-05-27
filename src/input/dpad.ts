@@ -31,9 +31,27 @@ function focusAt(el: HTMLElement): void {
   el.focus({ preventScroll: false });
 }
 
+function isMainCta(el: HTMLElement): boolean {
+  if (el.classList.contains('depot-start-btn')) return true;
+  if (el.classList.contains('btn-primary') && !el.classList.contains('depot-cta-ai')) return true;
+  return false;
+}
+
 function focusFirst(): void {
+  const bottomBar = getBottomBarFocusables();
+  if (bottomBar.length) {
+    const main = bottomBar.find(isMainCta);
+    focusAt(main ?? bottomBar[bottomBar.length - 1]!);
+    return;
+  }
+
   const all = getFocusables();
-  if (all.length) focusAt(all[0]);
+  const main = all.find(isMainCta);
+  if (main) {
+    focusAt(main);
+    return;
+  }
+  if (all.length) focusAt(all[0]!);
 }
 
 function isVisibleFocusLayer(layer: HTMLElement): boolean {

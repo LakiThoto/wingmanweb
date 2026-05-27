@@ -26,8 +26,26 @@ function getFocused() {
 function focusAt(el) {
     el.focus({ preventScroll: false });
 }
+function isMainCta(el) {
+    if (el.classList.contains('depot-start-btn'))
+        return true;
+    if (el.classList.contains('btn-primary') && !el.classList.contains('depot-cta-ai'))
+        return true;
+    return false;
+}
 function focusFirst() {
+    const bottomBar = getBottomBarFocusables();
+    if (bottomBar.length) {
+        const main = bottomBar.find(isMainCta);
+        focusAt(main ?? bottomBar[bottomBar.length - 1]);
+        return;
+    }
     const all = getFocusables();
+    const main = all.find(isMainCta);
+    if (main) {
+        focusAt(main);
+        return;
+    }
     if (all.length)
         focusAt(all[0]);
 }

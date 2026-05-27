@@ -771,8 +771,6 @@
 /* Hover + D-pad / keyboard focus — pill + icon (incl. #btn-pkg-confirmed on zoek) */
 .btn-primary.btn-ready:hover .ai-text-pill,
 .btn-primary.btn-ready:hover .depot-start-pill,
-.btn-primary.btn-ready.focusable:focus .ai-text-pill,
-.btn-primary.btn-ready.focusable:focus .depot-start-pill,
 .btn-primary.btn-ready.focusable:focus-visible .ai-text-pill,
 .btn-primary.btn-ready.focusable:focus-visible .depot-start-pill {
   opacity: 1;
@@ -787,7 +785,6 @@
 }
 
 .btn-primary.btn-ready:hover > .ai-icon-shape,
-.btn-primary.btn-ready.focusable:focus > .ai-icon-shape,
 .btn-primary.btn-ready.focusable:focus-visible > .ai-icon-shape {
   outline: none;
   border: none;
@@ -796,25 +793,21 @@
 }
 
 .btn-primary.btn-ready:hover > .ai-icon-shape .ai-triangle,
-.btn-primary.btn-ready.focusable:focus > .ai-icon-shape .ai-triangle,
 .btn-primary.btn-ready.focusable:focus-visible > .ai-icon-shape .ai-triangle {
   filter: brightness(1.2);
 }
 
 .depot-cta-row .depot-cta-ai.focusable:hover .ai-icon-shape,
-.depot-cta-row .depot-cta-ai.focusable:focus .ai-icon-shape,
 .depot-cta-row .depot-cta-ai.focusable:focus-visible .ai-icon-shape {
   transform: scale(1.05);
 }
 
 .depot-cta-row .depot-cta-ai.focusable:hover .ai-triangle,
-.depot-cta-row .depot-cta-ai.focusable:focus .ai-triangle,
 .depot-cta-row .depot-cta-ai.focusable:focus-visible .ai-triangle {
   filter: brightness(1.12);
 }
 
 .depot-start-btn.btn-ready:hover .depot-start-pill,
-.depot-start-btn.btn-ready.focusable:focus .depot-start-pill,
 .depot-start-btn.btn-ready.focusable:focus-visible .depot-start-pill {
   filter: brightness(1.2);
   box-shadow:
@@ -826,7 +819,6 @@
 
 /* Pro tier: pill hidden — slightly stronger icon scale (no ring; matches pill hover) */
 [data-exp="pro"] .btn-primary.btn-ready:hover > .ai-icon-shape,
-[data-exp="pro"] .btn-primary.btn-ready.focusable:focus > .ai-icon-shape,
 [data-exp="pro"] .btn-primary.btn-ready.focusable:focus-visible > .ai-icon-shape {
   box-shadow: none;
   transform: scale(1.04);
