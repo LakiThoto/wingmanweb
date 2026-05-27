@@ -12,7 +12,7 @@
   --orange-border: rgba(243, 108, 33, 0.50);
 
   /* ── Surfaces (WingmanCopy glass) ────────────────────────────────────── */
-  --bg:            #181820;
+  --bg:            #000;
   --card-bg:       #1e1e2a;
   --surface-card:  linear-gradient(to bottom, rgba(217, 217, 217, 0.12), rgba(0, 0, 0, 0.12));
   --surface-tile:  linear-gradient(to bottom, rgba(255, 255, 255, 0.30), rgba(217, 217, 217, 0.30));
@@ -250,6 +250,16 @@ body[data-mode="lab"] {
   display: grid;
   place-items: center;
   min-height: 100dvh;
+  background: #000;
+}
+
+html:has(body[data-mode="lab"]),
+body[data-mode="lab"] #app,
+body[data-mode="lab"] #app .screen-stage,
+body[data-mode="lab"] #app .screen-mount,
+body[data-mode="lab"] #app .screen-stack,
+body[data-mode="lab"] #app .screen {
+  background: #000;
 }
 
 /* Lab #app frame — glasses-layout.css */
