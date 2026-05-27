@@ -34,6 +34,7 @@ import { initHandMenu } from '@/ui/hand-menu';
 import { initGestures } from '@/input/gestures';
 import { initVolumeGesture } from '@/input/volume-gesture';
 import { applyBootParams, logGlassesPreflight } from '@/core/glasses-preflight';
+import { applyMrbdDocument } from '@/core/mrbd';
 import { runScreenTransition } from '@/core/screen-transition';
 import { initWorldMap, syncWorldMapForScreen } from '@/ui/world-map';
 
@@ -126,6 +127,7 @@ async function boot(): Promise<void> {
   removeLegacyComplimentBanner();
 
   const mode = detectMode();
+  applyMrbdDocument(mode);
   document.body.dataset.mode = mode;
 
   // Load deliveries

@@ -56,16 +56,26 @@ body[data-mode="glasses"] .screen-stage {
   box-sizing: border-box;
 }
 
-body[data-mode="glasses"] .screen-stage,
+body[data-mode="glasses"] .screen-stage {
+  overflow: visible;
+  background: #000;
+}
+
 body[data-mode="lab"] #app .screen-stage {
   overflow: visible;
   background: transparent;
 }
 
-/* No dimmed overlay behind cards — stage is layout-only on MRBD */
+/* No dimmed overlay behind cards — MRBD chroma key uses pure #000 */
 body[data-mode="glasses"] .screen-stage .screen-scrim,
+body[data-mode="glasses"] .screen-stage.is-visible .screen-scrim {
+  background: #000;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  opacity: 0;
+}
+
 body[data-mode="lab"] #app .screen-stage .screen-scrim,
-body[data-mode="glasses"] .screen-stage.is-visible .screen-scrim,
 body[data-mode="lab"] #app .screen-stage.is-visible .screen-scrim {
   background: transparent;
   backdrop-filter: none;

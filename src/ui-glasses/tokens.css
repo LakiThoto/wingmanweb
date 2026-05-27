@@ -171,9 +171,29 @@
 
 /* Meta glasses: lighter blur + system font (no CDN dependency on lens) */
 body[data-mode="glasses"] {
+  --bg: #000;
   --font: system-ui, -apple-system, 'Segoe UI', sans-serif;
   --glass-blur: 18px;
   --tile-blur: 8px;
+}
+
+/* MRBD chroma key — pure #000 is filtered out (transparent on Ray-Ban display) */
+html:has(body[data-mode="glasses"]),
+html.mrbd,
+body[data-mode="glasses"] #app,
+body[data-mode="glasses"] .screen-stage,
+body[data-mode="glasses"] .screen-mount,
+body[data-mode="glasses"] .screen-stack,
+body[data-mode="glasses"] .screen,
+body[data-mode="glasses"] .hand-menu,
+body[data-mode="glasses"] .hand-menu-backdrop,
+body[data-mode="glasses"] .world-map-layer {
+  background: #000;
+}
+
+body[data-mode="glasses"] .hand-menu-backdrop {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 /* MRBD: max 2 blur layers — only the outer screen-card keeps backdrop-filter */
