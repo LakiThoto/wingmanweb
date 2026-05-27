@@ -10,7 +10,8 @@ const BOTTOM_CTA_LAYER_SEL =
 
 function isFocusable(el: Element): el is HTMLElement {
   if (!(el instanceof HTMLElement)) return false;
-  if (el.hidden || el.tabIndex < 0 || el.disabled) return false;
+  if (el.hidden || el.tabIndex < 0) return false;
+  if (el instanceof HTMLButtonElement && el.disabled) return false;
   if (el.closest('[hidden], .cf-hidden')) return false;
   return true;
 }

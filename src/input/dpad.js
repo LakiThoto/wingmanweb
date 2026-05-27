@@ -8,7 +8,9 @@ const BOTTOM_CTA_LAYER_SEL = '.screen-mount .cta-layer, .screen-mount .rc-cta-la
 function isFocusable(el) {
     if (!(el instanceof HTMLElement))
         return false;
-    if (el.hidden || el.tabIndex < 0 || el.disabled)
+    if (el.hidden || el.tabIndex < 0)
+        return false;
+    if (el instanceof HTMLButtonElement && el.disabled)
         return false;
     if (el.closest('[hidden], .cf-hidden'))
         return false;
