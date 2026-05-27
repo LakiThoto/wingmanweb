@@ -3,9 +3,7 @@
 //
 // Focus groups: elements inside [data-focus-axis="horizontal"] cycle with ←/→.
 // Vertical traversal (↑/↓) jumps between .focusable elements in DOM order.
-// Bottom bar: settings (bottom-left) ← → screen CTAs in left-to-right order.
-
-const SETTINGS_BTN_ID = 'companion-settings';
+// Bottom bar: screen CTAs in left-to-right order.
 
 const BOTTOM_CTA_LAYER_SEL =
   '.screen-mount .cta-layer, .screen-mount .rc-cta-layer, .screen-mount .cf-cta-layer, .screen-mount .locker-cta-layer';
@@ -37,23 +35,14 @@ function focusFirst(): void {
   if (all.length) focusAt(all[0]);
 }
 
-function getSettingsButton(): HTMLElement | null {
-  const el = document.getElementById(SETTINGS_BTN_ID);
-  if (!(el instanceof HTMLElement)) return null;
-  if (el.hidden || el.tabIndex < 0) return null;
-  return el;
-}
-
 function isVisibleFocusLayer(layer: HTMLElement): boolean {
   if (layer.hidden || layer.classList.contains('cf-hidden')) return false;
   return true;
 }
 
-/** Left-to-right strip: settings, then visible bottom CTAs (Figma bottom row). */
+/** Left-to-right strip of visible bottom CTAs (Figma bottom row). */
 function getBottomBarFocusables(): HTMLElement[] {
   const ring: HTMLElement[] = [];
-  const settings = getSettingsButton();
-  if (settings) ring.push(settings);
 
   document.querySelectorAll<HTMLElement>(BOTTOM_CTA_LAYER_SEL).forEach(layer => {
     if (!isVisibleFocusLayer(layer)) return;
@@ -74,11 +63,6 @@ function tryMoveBottomBar(direction: 'prev' | 'next'): boolean {
   if (!ring.length) return false;
 
   const focused = getFocused();
-  const settings = getSettingsButton();
-  if (settings && focused?.id === 'plate-fill-btn' && direction === 'prev') {
-    focusAt(settings);
-    return true;
-  }
   const idx = focused ? ring.indexOf(focused) : -1;
 
   if (idx !== -1) {
@@ -90,47 +74,15 @@ function tryMoveBottomBar(direction: 'prev' | 'next'): boolean {
     return true;
   }
 
-  if (!settings || !focused) return false;
-
-  if (direction === 'next' && focused === settings) {
-    const firstCta = ring.find(el => el !== settings);
-    if (firstCta) {
-      focusAt(firstCta);
-      return true;
-    }
-    const plate = document.getElementById('plate-fill-btn');
-    if (plate instanceof HTMLElement && isFocusable(plate)) {
-      focusAt(plate);
-      return true;
-    }
-  }
-
-  if (direction === 'prev') {
+  if (direction === 'prev' && focused) {
     const group = focused.closest<HTMLElement>('[data-focus-axis="horizontal"]');
     if (group && isBottomHorizontalGroup(group)) {
       const siblings = getFocusables(group);
       const sidx = siblings.indexOf(focused);
-      if (sidx === 0) {
-        focusAt(settings);
+      if (sidx === 0 && ring.length) {
+        focusAt(ring[ring.length - 1]!);
         return true;
       }
-    }
-
-    const screenCtAs = ring.filter(el => el !== settings);
-    if (screenCtAs.includes(focused)) {
-      const last = screenCtAs[screenCtAs.length - 1];
-      if (focused === last) {
-        focusAt(settings);
-        return true;
-      }
-    }
-
-    if (
-      focused.matches('.depot-start-btn, .btn-primary, .cf-confirm-btn, .depot-cta-ai') &&
-      focused.closest(BOTTOM_CTA_LAYER_SEL + ', .depot-cta-row')
-    ) {
-      focusAt(settings);
-      return true;
     }
   }
 

@@ -9,7 +9,7 @@ const MOCK_DELIVERIES = [
         postcode: '1821 BS',
         city: 'Alkmaar',
         rowInVan: 'B',
-        positionInRow: 1,
+        positionInRow: 12,
         window: { from: '10:00', to: '10:30' },
     },
 ];
@@ -21,7 +21,7 @@ const TWO_DELIVERIES = [
         postcode: '1811 AL',
         city: 'Alkmaar',
         rowInVan: 'A',
-        positionInRow: 3,
+        positionInRow: 13,
         window: { from: '10:45', to: '11:15' },
     },
 ];

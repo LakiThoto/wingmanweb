@@ -92,11 +92,6 @@ export function mount(container: HTMLElement): () => void {
     <div class="route-stop-list">
       ${stopItems}
     </div>
-
-    <p class="route-voice-hint beginner-only">
-      <img src="/assets/route/thumb-up.png" width="27" height="32" alt="" class="route-thumb" aria-hidden="true" />
-      <span><span class="route-voice-dim">${t('route.voice_prefix')}</span><span class="route-voice-em">${t('route.voice_em')}</span></span>
-    </p>
   </div>
 
   ${cta}

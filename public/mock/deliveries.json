@@ -5,7 +5,7 @@
     "postcode": "1821 BS",
     "city": "Alkmaar",
     "rowInVan": "B",
-    "positionInRow": 1,
+    "positionInRow": 12,
     "window": { "from": "10:00", "to": "10:30" },
     "latitude": 52.6342,
     "longitude": 4.7486
@@ -16,7 +16,7 @@
     "postcode": "1811 AL",
     "city": "Alkmaar",
     "rowInVan": "A",
-    "positionInRow": 3,
+    "positionInRow": 13,
     "window": { "from": "10:45", "to": "11:15" },
     "latitude": 52.6318,
     "longitude": 4.7521
@@ -27,7 +27,7 @@
     "postcode": "1821 BS",
     "city": "Alkmaar",
     "rowInVan": "C",
-    "positionInRow": 2,
+    "positionInRow": 13,
     "window": { "from": "11:30", "to": "12:00" },
     "latitude": 52.6331,
     "longitude": 4.7462,

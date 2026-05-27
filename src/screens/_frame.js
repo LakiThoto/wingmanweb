@@ -97,14 +97,24 @@ export function renderScreen(opts) {
   </div>
 </div>`.trim();
 }
+/** Map shelf position (1–40) to one of 6 van-cargo blocks (Figma laden: 12/40 → block 3). */
+export function vanDiagramSlotIndex(positionInRow, slotsPerRow = 6, positionsPerRow = 40) {
+    const p = Math.max(1, Math.min(positionsPerRow, positionInRow));
+    if (p <= slotsPerRow)
+        return p;
+    if (p > 12)
+        return Math.min(slotsPerRow, Math.ceil(p / 2.5));
+    return Math.min(slotsPerRow, Math.ceil(p / 4));
+}
 /** Wingman Copy van-map — 6 slots per row, green active slot in load mode. */
 export function buildVanDiagram(activeRow, activePos, opts = {}) {
-    const { label = 'Plaatsing in bus', posLabel = `${activePos} / 40 ${activeRow}`, slotsPerRow = 6, loadMode = true, wrapped = true, showHeader = !wrapped, } = opts;
+    const { label = 'Plaatsing in bus', posLabel = `${activePos} / 40 ${activeRow}`, slotsPerRow = 6, positionsPerRow = 40, loadMode = true, wrapped = true, showHeader = !wrapped, } = opts;
+    const diagramSlot = vanDiagramSlotIndex(activePos, slotsPerRow, positionsPerRow);
     const rowsHtml = ['A', 'B', 'C']
         .map(row => {
         const isActiveRow = row === activeRow;
         const blocks = Array.from({ length: slotsPerRow }, (_, i) => {
-            const isActive = isActiveRow && i + 1 === activePos;
+            const isActive = isActiveRow && i + 1 === diagramSlot;
             return `<div class="vr-blk${isActive ? ' vr-active' : ''}"></div>`;
         }).join('');
         return `

@@ -256,9 +256,11 @@ body[data-mode="lab"] {
   outline: none;
 }
 
-/* Primary CTAs use their own pill styling; skip the global ring */
-.btn-primary.focusable:focus-visible {
+/* Primary + recipient CTAs use their own pill/button styling; skip the global orange ring */
+.btn-primary.focusable:focus-visible,
+.rc-btn.focusable:focus-visible {
   box-shadow: none;
+  outline: none;
 }
 
 .visually-hidden {

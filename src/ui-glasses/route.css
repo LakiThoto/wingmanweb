@@ -23,6 +23,14 @@
     rgba(0, 0, 0, 0.1)
   );
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.route-screen-stack .route-card .screen-chip,
+.route-screen-stack .route-card .route-tab-bar {
+  flex-shrink: 0;
 }
 
 /* Tab bar — Figma 1:712 (~68px total: 5.5 + 57 + 5.5 padding) */
@@ -30,13 +38,11 @@
   align-items: center;
 }
 
-.route-stop-list {
-  max-height: min(38vh, 260px);
-}
-
-body[data-mode="glasses"] .route-stop-list,
-body[data-mode="lab"] #app .route-stop-list {
-  max-height: var(--glasses-route-list-max);
+.route-screen-stack .route-stop-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: min(52vh, 380px);
+  overflow-y: auto;
 }
 
 .stop-item-outer {
@@ -115,36 +121,6 @@ body[data-mode="lab"] #app .route-stop-list {
 .stop-item-window img {
   width: 25px;
   height: 24px;
-}
-
-.route-voice-hint {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 0;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 28px;
-  letter-spacing: 0.45px;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.route-voice-hint .route-thumb {
-  width: 27px;
-  height: 32px;
-  flex-shrink: 0;
-  opacity: 0.65;
-  transform: scaleY(-1) rotate(180deg);
-}
-
-.route-voice-hint .route-voice-dim {
-  color: rgba(255, 255, 255, 0.65);
-  font-weight: 600;
-}
-
-.route-voice-hint .route-voice-em {
-  color: #fff;
-  font-weight: 600;
 }
 
 .route-screen-stack .route-depot-cta.depot-cta-row {

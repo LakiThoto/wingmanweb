@@ -34,11 +34,6 @@
   visibility: hidden;
 }
 
-.screen-stage.is-menu-open ~ .screen-stage-chrome .companion-settings-btn {
-  pointer-events: none;
-  opacity: 0;
-}
-
 .screen-stage > .hand-menu > .menu-stack {
   position: relative;
   z-index: 1;

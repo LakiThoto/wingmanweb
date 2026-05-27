@@ -38,7 +38,7 @@ export const STRINGS = {
     'scan.hint_glasses': 'Druk op Enter om te bevestigen',
     'scan.hint_lab': 'Houd barcode voor camera',
     'scan.status.label': 'Status:',
-    'scan.voice.hint': 'Plaats pakket in de bus',
+    'scan.voice.hint': 'Scan pakket',
     // ── scan-error ────────────────────────────────────────────────────────
     'scan_error.title': 'Scannen',
     'scan_error.message': 'Probeer opnieuw',
@@ -59,8 +59,6 @@ export const STRINGS = {
     'route.tab_todo': 'Te doen',
     'route.tab_invan': 'In de bus',
     'route.tab_done': 'Gedaan',
-    'route.voice_prefix': 'Duim omhoog of zeg ',
-    'route.voice_em': '"start route"',
     'btn.route_start': 'Start bezorging',
     'btn.continue': 'Doorgaan',
     'btn.arrive.deliver': 'Lever pakket af',

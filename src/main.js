@@ -139,11 +139,9 @@ async function boot() {
     initWorldMap();
     syncWorldMapForScreen(getState().screen);
     document.body.dataset.screen = getState().screen;
-    // Initial screen (creates .screen-stage before menu + settings mount)
+    // Initial screen (creates .screen-stage before hand menu)
     mountScreen(getState().screen, app);
     initHandMenu();
-    const { mountCompanion } = await import('@/ui-lab/companion');
-    mountCompanion();
     // Subscribe to FSM state changes
     on('state_change', ({ to }) => {
         document.body.dataset.screen = to;
