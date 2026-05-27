@@ -493,6 +493,14 @@
   flex-shrink: 0;
 }
 
+.walk-hud-amount-item:first-child img {
+  transform: rotate(90deg);
+}
+
+.walk-hud-amount-item:last-child img {
+  transform: rotate(-90deg);
+}
+
 .walk-hud-amount-val {
   font-size: 24px;
   font-weight: 600;

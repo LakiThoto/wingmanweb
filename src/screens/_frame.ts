@@ -317,9 +317,7 @@ export function buildAddressHero(opts: HeroOptions): string {
 
 /** Figma 63:453 — scan camera frame barcode stripes (decorative). */
 export function buildLoadCameraFrameDecor(): string {
-  return `<div class="load-camera-frame-bars" aria-hidden="true">
-    <p class="load-camera-frame-bars__track">▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌</p>
-  </div>`;
+  return `<div class="load-camera-frame-bars" aria-hidden="true"></div>`;
 }
 
 export function focusScreen(root?: ParentNode): void {

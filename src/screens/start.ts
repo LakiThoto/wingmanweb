@@ -84,9 +84,21 @@ export function mount(container: HTMLElement): () => void {
   const plateBtn = container.querySelector<HTMLButtonElement>('#plate-fill-btn')!;
   const plateDisplay = container.querySelector<HTMLElement>('#plate-display')!;
 
+  function focusStartCta(): void {
+    requestAnimationFrame(() => {
+      const mount = container.closest('.screen-mount');
+      if (mount instanceof HTMLElement) {
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        mount.scrollTo({ top: mount.scrollHeight, behavior: reduced ? 'auto' : 'smooth' });
+      }
+      btnStart.focus({ preventScroll: false });
+    });
+  }
+
   function revealStartCta(): void {
     btnStart.hidden = false;
     runCtaEntranceAnimations(container);
+    focusStartCta();
   }
 
   function syncPlateUi(plate: string): void {
@@ -113,13 +125,19 @@ export function mount(container: HTMLElement): () => void {
   plateBtn.addEventListener('click', () => {
     if (!plateBtn.classList.contains('is-filled')) {
       fillDemoPlate();
+    } else {
+      focusStartCta();
     }
   });
 
   plateBtn.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      if (!plateBtn.classList.contains('is-filled')) fillDemoPlate();
+      if (!plateBtn.classList.contains('is-filled')) {
+        fillDemoPlate();
+      } else {
+        focusStartCta();
+      }
     }
   });
 
