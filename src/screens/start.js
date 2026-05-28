@@ -3,13 +3,14 @@
 // Tap-to-fill plate (no keyboard) — works on Meta Ray-Ban Display.
 import { focusScreen } from './_frame';
 import { runCtaEntranceAnimations } from '@/core/cta-animate';
-import { weatherBadge, loadVoiceMicPill } from '@/ui/icons';
+import { weatherBadge, loadVoiceMicPill, settingsIcon } from '@/ui/icons';
 import { transition, setLicensePlate, getState } from '@/core/state';
 import { DEMO_PLATE } from '@/core/glasses-preflight';
 import { formatDutchPlate, parsePlateFromSpeech } from '@/core/plate';
 import { on } from '@/core/events';
 import { getTier } from '@/core/tier';
 import { t } from '@/core/strings';
+import { openHandMenu } from '@/ui/hand-menu';
 function startButtonLabel() {
     return getTier() === 'pro' ? t('btn.start_short') : t('btn.start_bezorging');
 }
@@ -54,6 +55,16 @@ export function mount(container) {
   </div>
 
   <div class="cta-layer depot-cta-row">
+    <button
+      type="button"
+      class="focusable start-settings-btn"
+      id="btn-start-settings"
+      tabindex="0"
+      aria-label="${t('start.settings_title').replace(/"/g, '&quot;')}"
+      ${hasValidPlate() ? ' hidden' : ''}
+    >
+      ${settingsIcon('start-settings-icon', 24)}
+    </button>
     <div class="depot-cta-ai" aria-hidden="true">
       <div class="ai-icon-shape">
         <img src="/assets/ai-icon.png" class="ai-triangle" alt="" width="52" height="52" decoding="async" />
@@ -74,6 +85,7 @@ export function mount(container) {
   </div>
 </div>`;
     const btnStart = container.querySelector('#btn-start');
+    const btnSettings = container.querySelector('#btn-start-settings');
     const plateBtn = container.querySelector('#plate-fill-btn');
     const plateDisplay = container.querySelector('#plate-display');
     function focusStartCta() {
@@ -87,6 +99,7 @@ export function mount(container) {
         });
     }
     function revealStartCta() {
+        btnSettings.hidden = true;
         btnStart.hidden = false;
         runCtaEntranceAnimations(container);
         focusStartCta();
@@ -122,12 +135,15 @@ export function mount(container) {
     plateBtn.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            if (!plateBtn.classList.contains('is-filled'))
+            if (!plateBtn.classList.contains('is-filled')) {
                 fillDemoPlate();
-            else
+            }
+            else {
                 focusStartCta();
+            }
         }
     });
+    btnSettings.addEventListener('click', openHandMenu);
     btnStart.addEventListener('click', submit);
     const offVoice = on('voice', ({ transcript }) => {
         if (getState().screen !== 'start')

@@ -4,13 +4,14 @@
 
 import { focusScreen } from './_frame';
 import { runCtaEntranceAnimations } from '@/core/cta-animate';
-import { weatherBadge, loadVoiceMicPill } from '@/ui/icons';
+import { weatherBadge, loadVoiceMicPill, settingsIcon } from '@/ui/icons';
 import { transition, setLicensePlate, getState } from '@/core/state';
 import { DEMO_PLATE } from '@/core/glasses-preflight';
 import { formatDutchPlate, parsePlateFromSpeech } from '@/core/plate';
 import { on } from '@/core/events';
 import { getTier } from '@/core/tier';
 import { t } from '@/core/strings';
+import { openHandMenu } from '@/ui/hand-menu';
 
 function startButtonLabel(): string {
   return getTier() === 'pro' ? t('btn.start_short') : t('btn.start_bezorging');
@@ -60,6 +61,16 @@ export function mount(container: HTMLElement): () => void {
   </div>
 
   <div class="cta-layer depot-cta-row">
+    <button
+      type="button"
+      class="focusable start-settings-btn"
+      id="btn-start-settings"
+      tabindex="0"
+      aria-label="${t('start.settings_title').replace(/"/g, '&quot;')}"
+      ${hasValidPlate() ? ' hidden' : ''}
+    >
+      ${settingsIcon('start-settings-icon', 24)}
+    </button>
     <div class="depot-cta-ai" aria-hidden="true">
       <div class="ai-icon-shape">
         <img src="/assets/ai-icon.png" class="ai-triangle" alt="" width="52" height="52" decoding="async" />
@@ -81,6 +92,7 @@ export function mount(container: HTMLElement): () => void {
 </div>`;
 
   const btnStart = container.querySelector<HTMLButtonElement>('#btn-start')!;
+  const btnSettings = container.querySelector<HTMLButtonElement>('#btn-start-settings')!;
   const plateBtn = container.querySelector<HTMLButtonElement>('#plate-fill-btn')!;
   const plateDisplay = container.querySelector<HTMLElement>('#plate-display')!;
 
@@ -96,6 +108,7 @@ export function mount(container: HTMLElement): () => void {
   }
 
   function revealStartCta(): void {
+    btnSettings.hidden = true;
     btnStart.hidden = false;
     runCtaEntranceAnimations(container);
     focusStartCta();
@@ -141,6 +154,7 @@ export function mount(container: HTMLElement): () => void {
     }
   });
 
+  btnSettings.addEventListener('click', openHandMenu);
   btnStart.addEventListener('click', submit);
 
   const offVoice = on('voice', ({ transcript }) => {
