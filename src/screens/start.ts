@@ -39,6 +39,7 @@ function buildPlateFillButton(plate: string): string {
 export function mount(container: HTMLElement): () => void {
   const isGlasses = getState().mode === 'glasses';
   const initialPlate = getState().licensePlate;
+  const hasPlate = hasValidPlate();
 
   container.innerHTML = `
 <div class="screen-stack screen-stack--cta-gap">
@@ -61,16 +62,16 @@ export function mount(container: HTMLElement): () => void {
   </div>
 
   <div class="cta-layer depot-cta-row">
+    ${hasPlate ? '' : `
     <button
       type="button"
       class="focusable start-settings-btn"
       id="btn-start-settings"
       tabindex="0"
       aria-label="${t('start.settings_title').replace(/"/g, '&quot;')}"
-      ${hasValidPlate() ? ' hidden' : ''}
     >
       ${settingsIcon('start-settings-icon', 24)}
-    </button>
+    </button>`}
     <div class="depot-cta-ai" aria-hidden="true">
       <div class="ai-icon-shape">
         <img src="/assets/ai-icon.png" class="ai-triangle" alt="" width="52" height="52" decoding="async" />
@@ -82,7 +83,7 @@ export function mount(container: HTMLElement): () => void {
       id="btn-start"
       tabindex="0"
       aria-label="${startButtonLabel().replace(/"/g, '&quot;')}"
-      ${hasValidPlate() ? '' : ' hidden'}
+      ${hasPlate ? '' : ' hidden'}
     >
       <div class="ai-text-pill depot-start-pill">
         <span class="ai-btn-text">${startButtonLabel()}</span>
@@ -92,7 +93,7 @@ export function mount(container: HTMLElement): () => void {
 </div>`;
 
   const btnStart = container.querySelector<HTMLButtonElement>('#btn-start')!;
-  const btnSettings = container.querySelector<HTMLButtonElement>('#btn-start-settings')!;
+  const btnSettings = container.querySelector<HTMLButtonElement>('#btn-start-settings');
   const plateBtn = container.querySelector<HTMLButtonElement>('#plate-fill-btn')!;
   const plateDisplay = container.querySelector<HTMLElement>('#plate-display')!;
 
@@ -108,7 +109,7 @@ export function mount(container: HTMLElement): () => void {
   }
 
   function revealStartCta(): void {
-    btnSettings.hidden = true;
+    btnSettings?.remove();
     btnStart.hidden = false;
     runCtaEntranceAnimations(container);
     focusStartCta();
@@ -154,7 +155,7 @@ export function mount(container: HTMLElement): () => void {
     }
   });
 
-  btnSettings.addEventListener('click', openHandMenu);
+  btnSettings?.addEventListener('click', openHandMenu);
   btnStart.addEventListener('click', submit);
 
   const offVoice = on('voice', ({ transcript }) => {

@@ -175,23 +175,35 @@
     color 0.18s ease;
 }
 
-.menu-circle-tile:hover .menu-circle-btn {
+.menu-circle-tile.focusable:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.menu-circle-tile:hover .menu-circle-btn,
+.menu-circle-tile.focusable:focus-visible .menu-circle-btn,
+.menu-circle-tile.menu-circle-active .menu-circle-btn {
   background: rgba(255, 255, 255, 0.42);
   border-color: rgba(200, 200, 200, 0.65);
+}
+
+.menu-circle-tile.focusable:focus-visible .menu-circle-btn,
+.menu-circle-tile.menu-circle-active .menu-circle-btn {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 0 0 2px rgba(255, 255, 255, 0.42);
 }
 
 .menu-circle-tile:active .menu-circle-btn {
   transform: scale(0.94);
 }
 
-.menu-circle-tile.menu-circle-active .menu-circle-btn {
-  background: rgba(255, 255, 255, 0.6);
-  border-color: rgba(156, 156, 156, 0.5);
-  color: #fff;
-}
-
 .menu-circle-tile.menu-circle-active .menu-circle-icon {
   filter: brightness(0) saturate(100%);
+}
+
+.menu-circle-tile.menu-circle-active .menu-circle-label {
+  font-weight: 700;
 }
 
 .menu-circle-icon {

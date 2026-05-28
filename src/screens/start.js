@@ -34,6 +34,7 @@ function buildPlateFillButton(plate) {
 export function mount(container) {
     const isGlasses = getState().mode === 'glasses';
     const initialPlate = getState().licensePlate;
+    const hasPlate = hasValidPlate();
     container.innerHTML = `
 <div class="screen-stack screen-stack--cta-gap">
   <div class="screen-card">
@@ -55,16 +56,16 @@ export function mount(container) {
   </div>
 
   <div class="cta-layer depot-cta-row">
+    ${hasPlate ? '' : `
     <button
       type="button"
       class="focusable start-settings-btn"
       id="btn-start-settings"
       tabindex="0"
       aria-label="${t('start.settings_title').replace(/"/g, '&quot;')}"
-      ${hasValidPlate() ? ' hidden' : ''}
     >
       ${settingsIcon('start-settings-icon', 24)}
-    </button>
+    </button>`}
     <div class="depot-cta-ai" aria-hidden="true">
       <div class="ai-icon-shape">
         <img src="/assets/ai-icon.png" class="ai-triangle" alt="" width="52" height="52" decoding="async" />
@@ -76,7 +77,7 @@ export function mount(container) {
       id="btn-start"
       tabindex="0"
       aria-label="${startButtonLabel().replace(/"/g, '&quot;')}"
-      ${hasValidPlate() ? '' : ' hidden'}
+      ${hasPlate ? '' : ' hidden'}
     >
       <div class="ai-text-pill depot-start-pill">
         <span class="ai-btn-text">${startButtonLabel()}</span>
@@ -99,7 +100,7 @@ export function mount(container) {
         });
     }
     function revealStartCta() {
-        btnSettings.hidden = true;
+        btnSettings?.remove();
         btnStart.hidden = false;
         runCtaEntranceAnimations(container);
         focusStartCta();
@@ -143,7 +144,7 @@ export function mount(container) {
             }
         }
     });
-    btnSettings.addEventListener('click', openHandMenu);
+    btnSettings?.addEventListener('click', openHandMenu);
     btnStart.addEventListener('click', submit);
     const offVoice = on('voice', ({ transcript }) => {
         if (getState().screen !== 'start')
