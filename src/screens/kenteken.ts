@@ -2,9 +2,10 @@
 // Figma: B 1:608 · E 1:2061 · P 1:3821
 // §7.2: Shows plate, dock, scan counter. P: button label "Start" vs "Start laden".
 
-import { focusScreen, buildPrimaryCta } from './_frame';
+import { focusScreen, buildDepotCtaRow, bindDepotCtaRow } from './_frame';
 import { loadVoiceMicPill } from '@/ui/icons';
 import { transition, getState } from '@/core/state';
+import { getTier } from '@/core/tier';
 import { t } from '@/core/strings';
 
 export function mount(container: HTMLElement): () => void {
@@ -29,13 +30,10 @@ export function mount(container: HTMLElement): () => void {
     </div>
   </div>
 
-  <div class="cta-layer">
-    ${buildPrimaryCta(state.tier === 'pro' ? t('btn.start_laden_short') : t('btn.start_laden'), { id: 'btn-start-laden' })}
-  </div>
+  ${buildDepotCtaRow(getTier() === 'pro' ? t('btn.start_laden_short') : t('btn.start_laden'), { id: 'btn-start-laden' })}
 </div>`;
 
-  const btn = container.querySelector<HTMLButtonElement>('#btn-start-laden')!;
-  btn.addEventListener('click', () => transition('start_laden'));
+  bindDepotCtaRow(container, () => transition('start_laden'), { mainSelector: '#btn-start-laden' });
 
   focusScreen();
 

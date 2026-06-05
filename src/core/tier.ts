@@ -1,5 +1,6 @@
 import type { Tier } from '@/types';
 import { emit } from './events';
+import { setStateTier } from './state';
 import {
   getCustomSettings,
   supportToDensityTier,
@@ -8,6 +9,7 @@ import {
 } from './custom-settings';
 
 export function setTier(tier: Tier): void {
+  setStateTier(tier);
   document.body.dataset.exp = tier;
   if (tier === 'custom') {
     const { support } = getCustomSettings();

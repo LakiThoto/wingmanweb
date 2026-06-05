@@ -1,6 +1,6 @@
 // Screen: laden — placement in van
-// Figma: B 1:804 · E 1:2407 · P absent (Pro auto-advances, so this screen is never shown)
-// §7.4: Pro skips placement screen (handled in FSM guard in main.ts).
+// Figma: B 1:804 · E 1:2407 · P 1:4119
+// Pro keeps the minimal placed confirmation instead of auto-skipping the screen.
 
 import { focusScreen, buildPrimaryCta, buildLoadVanPhase } from './_frame';
 import { transition, getActiveDelivery, getState, markActiveLoaded, allLoaded } from '@/core/state';

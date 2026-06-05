@@ -4,6 +4,7 @@
 import { focusScreen, buildDepotCtaRow, bindDepotCtaRow } from './_frame';
 import { iconImg } from '@/ui/icons';
 import { transition, getState, allDelivered, setScreen } from '@/core/state';
+import { getTier } from '@/core/tier';
 import { t } from '@/core/strings';
 import type { Delivery } from '@/types';
 
@@ -62,9 +63,10 @@ export function mount(container: HTMLElement): () => void {
       </div>`;
     }).join('') || `<p class="screen-empty-msg">Geen stops</p>`;
 
+    const routeStartLabel = getTier() === 'pro' ? t('btn.start_short') : t('btn.route_start');
     const cta = allDelivered()
       ? `<p class="route-complete-msg">Route voltooid!</p>`
-      : buildDepotCtaRow(t('btn.route_start'), { id: 'btn-route-start', rowClass: 'route-depot-cta' });
+      : buildDepotCtaRow(routeStartLabel, { id: 'btn-route-start', rowClass: 'route-depot-cta' });
 
     container.innerHTML = `
 <div class="screen-stack screen-stack--cta-gap route-screen-stack">

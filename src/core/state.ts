@@ -83,6 +83,10 @@ export function initState(mode: Mode, tier: Tier, deliveries: Delivery[]): void 
   };
 }
 
+export function setStateTier(tier: Tier): void {
+  _state = { ..._state, tier };
+}
+
 export function setLicensePlate(plate: string): void {
   _state = { ..._state, licensePlate: plate };
 }

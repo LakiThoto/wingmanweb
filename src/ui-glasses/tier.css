@@ -13,7 +13,7 @@ body[data-exp="custom"][data-exp-density="pro"] .pro-hide { display: none !impor
 /* Custom tier — density from support slider */
 body[data-exp="custom"][data-exp-density="beginner"] .screen-card  { gap: 18px; }
 body[data-exp="custom"][data-exp-density="experienced"] .screen-card { gap: 10px; }
-body[data-exp="custom"][data-exp-density="pro"] .screen-card       { gap: 8px; }
+body[data-exp="custom"][data-exp-density="pro"] .screen-card       { gap: 24px; }
 body[data-exp="custom"][data-exp-density="experienced"] .voice-hint { opacity: 0.5; }
 body[data-exp="custom"][data-exp-density="pro"] .voice-hint,
 body[data-exp="custom"][data-exp-density="pro"] .choice-tile-sub,
@@ -22,7 +22,7 @@ body[data-exp="custom"][data-exp-density="pro"] .alt-tile-sub { display: none !i
 /* ── Card inner gap per tier (WingmanCopy L5052–5083) ───────────────────── */
 body[data-exp="beginner"] .screen-card  { gap: 18px; }
 body[data-exp="experienced"] .screen-card { gap: 10px; }
-body[data-exp="pro"] .screen-card       { gap: 8px; }
+body[data-exp="pro"] .screen-card       { gap: 24px; }
 
 body[data-exp="beginner"] .alt-tile,
 body[data-exp="beginner"] .choice-tile { padding: 15px 14px; }
@@ -33,6 +33,15 @@ body[data-exp="experienced"] .choice-tile-sub,
 body[data-exp="experienced"] .alt-tile-sub     { opacity: 0.5; }
 
 /* ── Pro: minimal chrome ─────────────────────────────────────────────────── */
+body[data-exp="pro"],
+body[data-exp="custom"][data-exp-density="pro"] {
+  --ai-btn-font-size: 24px;
+  --ai-btn-font-weight: 600;
+  --ai-btn-letter-spacing: 0;
+  --card-inner-gap: 24px;
+  --gap-card-cta: 32px;
+}
+
 body[data-exp="pro"] .alt-tile,
 body[data-exp="pro"] .choice-tile       { padding: 13px 12px; }
 body[data-exp="pro"] .choice-tile-sub,
@@ -41,6 +50,29 @@ body[data-exp="pro"] .bus-diagram-label,
 body[data-exp="pro"] .van-map-label { display: none !important; }
 body[data-exp="pro"] .punt-navigeer-btn { display: none !important; }
 body[data-exp="pro"] .card-title        { font-size: var(--fs-xl); }
+
+body[data-exp="pro"] :is(
+  .load-voice-row,
+  .rc-voice-hint,
+  .nth-voice-hint,
+  .buren-voice-hint,
+  .later-voice-hint,
+  .sp-voice-hint,
+  .locker-notice,
+  .menu-gesture-hint
+),
+body[data-exp="custom"][data-exp-density="pro"] :is(
+  .load-voice-row,
+  .rc-voice-hint,
+  .nth-voice-hint,
+  .buren-voice-hint,
+  .later-voice-hint,
+  .sp-voice-hint,
+  .locker-notice,
+  .menu-gesture-hint
+) {
+  display: none !important;
+}
 
 /* ── CTA tier behaviour (WingmanCopy) ────────────────────────────────────── */
 

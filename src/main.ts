@@ -25,7 +25,7 @@ import '@/ui-glasses/walk-hud.css';
 import '@/ui-lab/frame.css';
 
 import type { Mode, ScreenId, Delivery } from '@/types';
-import { initState, getState, transition, markActiveLoaded, allLoaded } from '@/core/state';
+import { initState, getState } from '@/core/state';
 import { setTier } from '@/core/tier';
 import { on } from '@/core/events';
 import { initDpad } from '@/input/dpad';
@@ -98,13 +98,6 @@ function mountScreen(id: ScreenId, app: HTMLElement): void {
     currentUnmount?.();
     currentUnmount = null;
     mountEl.innerHTML = '';
-
-    const state = getState();
-    if (id === 'laden' && state.tier === 'pro') {
-      markActiveLoaded();
-      requestAnimationFrame(() => transition(allLoaded() ? 'all_loaded' : 'pkg_placed'));
-      return null;
-    }
 
     const mountFn = SCREEN_MOUNTS[id];
     if (!mountFn) {

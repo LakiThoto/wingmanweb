@@ -166,6 +166,11 @@
   background: #000;
 }
 
+body[data-exp="pro"] .walk-map-figma,
+body[data-exp="custom"][data-exp-density="pro"] .walk-map-figma {
+  display: none;
+}
+
 .walk-map-scene {
   position: absolute;
   top: 0;
